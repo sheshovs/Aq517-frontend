@@ -1,14 +1,12 @@
-import Navbar from '@/common/components/Navbar'
 import { Grid } from '@mui/material'
+import Header from './components/Header'
+import RoomSection from './components/RoomSection'
 
 const Home = (): JSX.Element => {
   return (
-    <Grid container>
-      <Grid container justifyContent="center" height={700}>
-        <Grid container maxWidth={1200}>
-          <Navbar />
-        </Grid>
-      </Grid>
+    <Grid container justifyContent="center">
+      <Header />
+      <RoomSection />
     </Grid>
   )
 }

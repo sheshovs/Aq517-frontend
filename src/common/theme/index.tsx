@@ -1,16 +1,19 @@
+import { CssBaseline } from '@mui/material'
 import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles'
+import palette from './palette'
+import typography from './typography'
 
 export default function ThemeConfig({ children }: { children: JSX.Element }): JSX.Element {
   const themeOptions = {
-    typography: {
-      fontFamily: [`Roboto`, `"Helvetica Neue"`, `Arial`, `sans-serif`].join(`,`),
-    },
+    typography,
+    palette,
   }
 
   const theme = createTheme(themeOptions)
 
   return (
     <StyledEngineProvider injectFirst>
+      <CssBaseline />
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </StyledEngineProvider>
   )
