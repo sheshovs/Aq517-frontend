@@ -4,17 +4,17 @@ import React from 'react'
 
 const Header = (): JSX.Element => {
   const {
-    palette: { main },
+    palette: { main, primary },
   } = useTheme()
   return (
     <Grid
       container
       justifyContent="center"
       height={700}
-      paddingY={4}
+      padding={4}
       sx={{
         color: `white`,
-        background: `linear-gradient(180deg, #1C1C1C -16.43%, #A81E27 104.64%);`,
+        background: `linear-gradient(180deg, ${main.blackBackground} -16.43%, ${primary.main} 104.64%);`,
       }}
     >
       <Grid container maxWidth={1000}>
@@ -49,7 +49,7 @@ const Header = (): JSX.Element => {
         </Grid>
         <Grid item md={6}>
           <Skeleton
-            sx={{ width: 600, height: 350, bgcolor: `#ffffff33`, borderRadius: 2 }}
+            sx={{ maxWidth: 600, height: 350, bgcolor: `#ffffff33`, borderRadius: 2 }}
             animation="wave"
             variant="rectangular"
           />

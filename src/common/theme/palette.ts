@@ -5,6 +5,8 @@ declare module '@mui/material/styles' {
   interface Main {
     black: string
     white: string
+    blackBackground: string
+    whiteBackground: string
   }
   interface Palette {
     primary: PaletteColor
@@ -18,13 +20,15 @@ declare module '@mui/material/styles' {
 }
 //cambiar los colores de acuerdo a la pagina
 const primary = {
-  dark: `#138e89`,
-  main: `#1cb0a7`,
-  light: `#35ccc0`,
+  dark: `#6c1319`,
+  main: `#A81E27`,
+  light: `#d92632`,
 }
 const main = {
   black: `#000000`,
   white: `#FFFFFF`,
+  blackBackground: `#1C1C1C`,
+  whiteBackground: `#E6E6E6`,
 }
 
 const palette = {
