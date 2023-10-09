@@ -1,6 +1,10 @@
 import { Grid, useTheme } from '@mui/material'
 import Header from './components/Header'
 import RoomSection from './components/RoomSection'
+import CTA from './components/CTA'
+import Footer from './components/Footer'
+import AboutSection from './components/AboutSection'
+import ReserveSection from './components/ReserveSection'
 
 const Home = (): JSX.Element => {
   const {
@@ -10,6 +14,10 @@ const Home = (): JSX.Element => {
     <Grid container item md={12} justifyContent="center" bgcolor={main.whiteBackground}>
       <Header />
       <RoomSection />
+      <CTA />
+      <AboutSection />
+      <ReserveSection />
+      <Footer />
     </Grid>
   )
 }

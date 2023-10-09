@@ -1,4 +1,4 @@
-import { Grid, Typography, useTheme } from '@mui/material'
+import { Grid, IconButton, Typography, useTheme } from '@mui/material'
 import { Icon } from '.'
 
 const Navbar = (): JSX.Element => {
@@ -7,7 +7,15 @@ const Navbar = (): JSX.Element => {
   } = useTheme()
   return (
     <Grid container height={80}>
-      <Grid container position="relative" justifyContent="space-between" alignItems="center">
+      <Grid item md />
+      <Grid
+        item
+        md={9}
+        display="flex"
+        position="relative"
+        justifyContent="space-between"
+        alignItems="center"
+      >
         <Typography textTransform="uppercase">Inicio</Typography>
         <Typography textTransform="uppercase">Salas</Typography>
         <Typography
@@ -23,9 +31,21 @@ const Navbar = (): JSX.Element => {
         </Typography>
         <Typography textTransform="uppercase">Nosotros</Typography>
         <Typography textTransform="uppercase">Reservar</Typography>
-        <Grid position="absolute" right="-150px">
-          <Icon icon="shoppingCart" />
-        </Grid>
+      </Grid>
+      <Grid item md display="flex" justifyContent="flex-end" alignItems="center">
+        <IconButton
+          sx={{
+            padding: `4px`,
+            borderRadius: `4px`,
+          }}
+        >
+          <Icon
+            icon="shoppingCart"
+            sx={{
+              color: main.white,
+            }}
+          />
+        </IconButton>
       </Grid>
     </Grid>
   )

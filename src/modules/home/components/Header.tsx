@@ -4,7 +4,7 @@ import React from 'react'
 
 const Header = (): JSX.Element => {
   const {
-    palette: { main, primary },
+    palette: { main, primary, black },
   } = useTheme()
   return (
     <Grid
@@ -14,18 +14,18 @@ const Header = (): JSX.Element => {
       padding={4}
       sx={{
         color: `white`,
-        background: `linear-gradient(180deg, ${main.blackBackground} -16.43%, ${primary.main} 104.64%);`,
+        background: `linear-gradient(180deg, ${black.main} -16.43%, ${primary.main} 104.64%);`,
       }}
     >
-      <Grid container maxWidth={1000}>
+      <Container>
         <Navbar />
-      </Grid>
+      </Container>
 
       <Container height="350px" justifyContent="space-between" alignItems="center">
-        <Grid item md={6}>
+        <Grid item md={5.5}>
           <Grid container marginBottom={3.125}>
             <Typography variant="h1" textTransform="uppercase" marginBottom={1}>
-              lacus vel facilisis volutpat est velit egestas ornare
+              lacus vel volutpat est velit egestas ornare
             </Typography>
             <Typography variant="subtitle1" maxWidth={410}>
               Velit egestas dui id ornare arcu odio ut sem nulla pharetra diam sit amet nisl
@@ -41,6 +41,7 @@ const Header = (): JSX.Element => {
               color: main.white,
               ':hover': {
                 borderColor: main.white,
+                backgroundColor: `${main.whiteBackground}33`,
               },
             }}
           >

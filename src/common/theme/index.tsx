@@ -7,6 +7,16 @@ export default function ThemeConfig({ children }: { children: JSX.Element }): JS
   const themeOptions = {
     typography,
     palette,
+    components: {
+      MuiTypography: {
+        defaultProps: {
+          variantMapping: {
+            titleFooter: `p`,
+            text: `p`,
+          },
+        },
+      },
+    },
   }
 
   const theme = createTheme(themeOptions)
