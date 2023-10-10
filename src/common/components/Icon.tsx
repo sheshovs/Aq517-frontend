@@ -3,6 +3,9 @@ import {
   AddShoppingCartRounded,
   ArrowBackRounded,
   ArrowForwardRounded,
+  CloseRounded,
+  MusicNoteRounded,
+  SelfImprovementRounded,
   ShoppingCartRounded,
 } from '@mui/icons-material'
 export const icons = {
@@ -10,6 +13,9 @@ export const icons = {
   addShoppingCart: AddShoppingCartRounded,
   arrowBack: ArrowBackRounded,
   arrowForward: ArrowForwardRounded,
+  close: CloseRounded,
+  musicNote: MusicNoteRounded,
+  yoga: SelfImprovementRounded,
 }
 interface IconProps extends SvgIconProps {
   icon: keyof typeof icons

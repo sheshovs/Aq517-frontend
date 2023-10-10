@@ -1,6 +1,6 @@
 import { Container } from '@/common/components'
 import { Grid, IconButton, Typography, useTheme } from '@mui/material'
-import { FaInstagram, FaTiktok, FaWhatsapp } from 'react-icons/fa'
+import { FaInstagram, FaTiktok, FaWhatsapp, FaFacebookF } from 'react-icons/fa'
 import React from 'react'
 
 const Footer = (): JSX.Element => {
@@ -61,6 +61,29 @@ const Footer = (): JSX.Element => {
                   padding: `4px`,
                   borderRadius: `4px`,
                   color: main.white,
+                  transition: `all .3s ease`,
+                  '& .MuiTouchRipple-root .MuiTouchRipple-child': {
+                    borderRadius: `4px`,
+                  },
+                  '&:hover': {
+                    backgroundColor: `${main.whiteBackground}33`,
+                  },
+                }}
+              >
+                <FaFacebookF />
+              </IconButton>
+              <IconButton
+                sx={{
+                  padding: `4px`,
+                  borderRadius: `4px`,
+                  color: main.white,
+                  transition: `all .3s ease`,
+                  '& .MuiTouchRipple-root .MuiTouchRipple-child': {
+                    borderRadius: `4px`,
+                  },
+                  '&:hover': {
+                    backgroundColor: `${main.whiteBackground}33`,
+                  },
                 }}
               >
                 <FaInstagram />
@@ -70,7 +93,13 @@ const Footer = (): JSX.Element => {
                   padding: `4px`,
                   borderRadius: `4px`,
                   color: main.white,
-                  fontSize: `1.3rem`,
+                  transition: `all .3s ease`,
+                  '& .MuiTouchRipple-root .MuiTouchRipple-child': {
+                    borderRadius: `4px`,
+                  },
+                  '&:hover': {
+                    backgroundColor: `${main.whiteBackground}33`,
+                  },
                 }}
               >
                 <FaTiktok />
@@ -80,6 +109,13 @@ const Footer = (): JSX.Element => {
                   padding: `4px`,
                   borderRadius: `4px`,
                   color: main.white,
+                  transition: `all .3s ease`,
+                  '& .MuiTouchRipple-root .MuiTouchRipple-child': {
+                    borderRadius: `4px`,
+                  },
+                  '&:hover': {
+                    backgroundColor: `${main.whiteBackground}33`,
+                  },
                 }}
               >
                 <FaWhatsapp />

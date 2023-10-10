@@ -34,7 +34,7 @@ const RoomSection = (): JSX.Element => {
               sx={{
                 position: `absolute`,
                 borderRadius: 2,
-                bgcolor: `#fff`,
+                bgcolor: main.white,
                 clipPath: `polygon(100% 0, 100% 0, 0 100%, 0 100%, 0 0);;`,
                 transition: `all .5s ease`,
                 zIndex: 1,
@@ -63,7 +63,7 @@ const RoomSection = (): JSX.Element => {
                   }}
                 >
                   <Typography variant="h1" textTransform="uppercase">
-                    Sala de música
+                    Aqviles
                   </Typography>
                   <Typography variant="subtitle2">
                     Velit egestas dui id ornare arcu odio ut sem nulla pharetra diam sit amet nisl
@@ -78,7 +78,7 @@ const RoomSection = (): JSX.Element => {
               sx={{
                 position: `absolute`,
                 borderRadius: 2,
-                bgcolor: `#fff`,
+                bgcolor: main.white,
                 clipPath: `polygon(100% 0, 100% 100%, 0 100%, 0 100%, 100% 0);`,
                 transition: `all .5s ease`,
                 zIndex: 1,
@@ -108,7 +108,7 @@ const RoomSection = (): JSX.Element => {
                   }}
                 >
                   <Typography variant="h1" textTransform="uppercase">
-                    Sala de danza
+                    La joya
                   </Typography>
                   <Typography variant="subtitle2">
                     Velit egestas dui id ornare arcu odio ut sem nulla pharetra diam sit amet nisl

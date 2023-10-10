@@ -1,10 +1,12 @@
-import { Grid, IconButton, Typography, useTheme } from '@mui/material'
+import { Badge, Grid, IconButton, Typography, useTheme } from '@mui/material'
 import { Icon } from '.'
+import { useCart } from '../context/CartContext'
 
 const Navbar = (): JSX.Element => {
   const {
     palette: { main },
   } = useTheme()
+  const { cartItems, handleDrawer } = useCart()
   return (
     <Grid container height={80}>
       <Grid item md />
@@ -33,19 +35,30 @@ const Navbar = (): JSX.Element => {
         <Typography textTransform="uppercase">Reservar</Typography>
       </Grid>
       <Grid item md display="flex" justifyContent="flex-end" alignItems="center">
-        <IconButton
-          sx={{
-            padding: `4px`,
-            borderRadius: `4px`,
-          }}
-        >
-          <Icon
-            icon="shoppingCart"
+        <Badge badgeContent={cartItems.length} color="primary">
+          <IconButton
             sx={{
-              color: main.white,
+              padding: `4px`,
+              borderRadius: `4px`,
+              transition: `all .3s ease`,
+              '&:hover': {
+                backgroundColor: `${main.whiteBackground}33`,
+              },
+              '& .MuiTouchRipple-root .MuiTouchRipple-child': {
+                borderRadius: `4px`,
+                backgroundColor: main.whiteBackground,
+              },
             }}
-          />
-        </IconButton>
+            onClick={() => handleDrawer(true)}
+          >
+            <Icon
+              icon="shoppingCart"
+              sx={{
+                color: main.white,
+              }}
+            />
+          </IconButton>
+        </Badge>
       </Grid>
     </Grid>
   )

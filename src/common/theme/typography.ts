@@ -53,6 +53,7 @@ const typography = (): Record<string, unknown> => ({
   subtitle1: {
     fontSize: pxToRem(14),
     fontWeight: 400,
+    lineHeight: 'normal',
   },
   subtitle2: {
     fontSize: pxToRem(14),
