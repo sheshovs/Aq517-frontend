@@ -6,7 +6,8 @@ const Navbar = (): JSX.Element => {
   const {
     palette: { main },
   } = useTheme()
-  const { cartItems, handleDrawer } = useCart()
+  const { cartState, handleDrawer } = useCart()
+  const { cartItems } = cartState
   return (
     <Grid container height={80}>
       <Grid item md />

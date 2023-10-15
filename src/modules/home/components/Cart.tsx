@@ -1,25 +1,49 @@
+/* eslint-disable camelcase */
 import { Icon } from '@/common/components'
 import CartSection from '@/common/components/CartSection'
 import { useCart } from '@/common/context/CartContext'
+import { Order } from '@/common/types/order'
 import { RoomPrices, RoomTypes } from '@/common/types/room'
-import { Button, Grid, IconButton, Typography, useTheme } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+import { Grid, IconButton, Typography, useTheme } from '@mui/material'
 import React, { useMemo } from 'react'
+import MercadoPagoIcon from '@/assets/mercado-pago-logo.png'
 
 const Cart = (): JSX.Element => {
   const {
     palette: { main, black, primary },
   } = useTheme()
-  const { cartItems, handleDrawer } = useCart()
+  const { cartState, handleDrawer, onPayButtonClick } = useCart()
+  const { cartItems, isLoading } = cartState
 
-  const { musicItems, danceItems } = useMemo(() => {
+  const { musicItems, danceItems, orderData } = useMemo(() => {
     const musicItems = cartItems
       .filter((item) => item.room === `music`)
       .sort((a, b) => a.hour.diff(b.hour))
     const danceItems = cartItems
       .filter((item) => item.room === `dance`)
       .sort((a, b) => a.hour.diff(b.hour))
-    return { musicItems, danceItems }
+
+    const orderData: Order = {
+      items: [
+        ...musicItems.map(() => ({
+          title: `Sala Aqviles`,
+          quantity: 1,
+          unit_price: RoomPrices.MUSIC,
+          currency_id: `CLP`,
+        })),
+        ...danceItems.map(() => ({
+          title: `Sala La Joya`,
+          quantity: 1,
+          unit_price: RoomPrices.DANCE,
+          currency_id: `CLP`,
+        })),
+      ],
+    }
+
+    return { musicItems, danceItems, orderData }
   }, [cartItems])
+
   return (
     <Grid width={448} height="100%" paddingY={2.625} paddingLeft={3.625} paddingRight={2}>
       <Grid container height="100%" flexDirection="column" justifyContent="space-between">
@@ -83,16 +107,31 @@ const Cart = (): JSX.Element => {
             </Grid>
           )}
           <Grid container>
-            <Button
-              disabled={musicItems.length === 0 && danceItems.length === 0}
+            <LoadingButton
               fullWidth
+              disabled={musicItems.length === 0 && danceItems.length === 0}
+              loading={isLoading}
               variant="contained"
               sx={{
                 height: `50px`,
+                textTransform: `none`,
+                bgcolor: `#019ee3`,
+                '&:hover': {
+                  bgcolor: `#007eb5`,
+                },
+                '&.Mui-disabled': {
+                  bgcolor: `#019ee3 !important`,
+                },
+              }}
+              onClick={() => {
+                onPayButtonClick(orderData)
               }}
             >
-              Pagar
-            </Button>
+              <img src={MercadoPagoIcon} height={18} />
+              <Typography marginLeft={1.5} fontWeight={500}>
+                Pagar con Mercado Pago
+              </Typography>
+            </LoadingButton>
           </Grid>
         </Grid>
       </Grid>

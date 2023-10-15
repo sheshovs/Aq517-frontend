@@ -12,9 +12,12 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mercadopago/sdk-react": "^0.0.15",
     "@mui/icons-material": "^5.14.9",
+    "@mui/lab": "^5.0.0-alpha.148",
     "@mui/material": "^5.14.10",
     "@mui/x-date-pickers": "^6.16.1",
+    "axios": "^1.5.1",
     "dayjs": "^1.11.10",
     "notistack": "^3.0.1",
     "prettier": "^3.0.3",

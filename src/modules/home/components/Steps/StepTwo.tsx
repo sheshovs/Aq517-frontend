@@ -36,7 +36,8 @@ const StepTwo = ({
     palette: { main, primary, black },
   } = useTheme()
   const { enqueueSnackbar } = useSnackbar()
-  const { cartItems, addToCart } = useCart()
+  const { cartState, addToCart } = useCart()
+  const { cartItems } = cartState
   const { selectedDate, room, hoursSelected } = state
   return (
     <>

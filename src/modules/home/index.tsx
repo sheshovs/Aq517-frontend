@@ -12,8 +12,10 @@ const Home = (): JSX.Element => {
   const {
     palette: { main },
   } = useTheme()
-  const { openDrawer, handleDrawer } = useCart()
-
+  const {
+    cartState: { openDrawer },
+    handleDrawer,
+  } = useCart()
   return (
     <>
       <Drawer anchor="right" open={openDrawer} onClose={() => handleDrawer(false)}>
