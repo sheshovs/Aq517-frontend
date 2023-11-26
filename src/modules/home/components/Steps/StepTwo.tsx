@@ -7,6 +7,8 @@ import { useSnackbar } from 'notistack'
 import CustomButton from '@/common/components/Button'
 import { Dayjs } from 'dayjs'
 import { ReserveInitialState } from '../../hooks/useReserve'
+import { useEventsQuery } from '@/common/querys/useEventQuery'
+import { useMemo } from 'react'
 
 interface StepTwoProps {
   state: ReserveInitialState
@@ -39,6 +41,19 @@ const StepTwo = ({
   const { cartState, addToCart } = useCart()
   const { cartItems } = cartState
   const { selectedDate, room, hoursSelected } = state
+
+  const { data: events } = useEventsQuery({
+    date: selectedDate?.format(`YYYY-MM-DD`) || ``,
+    options: { enabled: !!selectedDate },
+  })
+
+  const disabledHours = useMemo(() => {
+    if (!events?.data) return []
+    const hours = events.data.map((event) => event.startTime)
+    return hours
+  }, [events?.data])
+
+  console.log(events)
   return (
     <>
       <Grid container item md={10} gap={12.5} justifyContent="space-between" marginBottom={8}>
@@ -115,7 +130,9 @@ const StepTwo = ({
                         key={i}
                         text={hour.format(`HH:mm`)}
                         onClick={() => onClickHour(hour)}
-                        disabled={isDisabled !== -1}
+                        disabled={
+                          isDisabled !== -1 || disabledHours.includes(hour.format(`HH:mm:ss`))
+                        }
                         variant={isSelected ? `contained` : `outlined`}
                       />
                     )

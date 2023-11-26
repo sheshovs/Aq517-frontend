@@ -16,7 +16,7 @@ const Cart = (): JSX.Element => {
   const { cartState, handleDrawer, onPayButtonClick } = useCart()
   const { cartItems, isLoading } = cartState
 
-  const { musicItems, danceItems, orderData } = useMemo(() => {
+  const { musicItems, danceItems, orderData, totalPrice } = useMemo(() => {
     const musicItems = cartItems
       .filter((item) => item.room === `music`)
       .sort((a, b) => a.hour.diff(b.hour))
@@ -41,7 +41,12 @@ const Cart = (): JSX.Element => {
       ],
     }
 
-    return { musicItems, danceItems, orderData }
+    const totalPrice = (
+      musicItems.length * RoomPrices.MUSIC +
+      danceItems.length * RoomPrices.DANCE
+    ).toLocaleString(`es-CL`)
+
+    return { musicItems, danceItems, orderData, totalPrice }
   }, [cartItems])
 
   return (
@@ -98,11 +103,7 @@ const Cart = (): JSX.Element => {
                 Total:
               </Typography>
               <Typography variant="h2" color={black.dark}>
-                $
-                {(
-                  musicItems.length * RoomPrices.MUSIC +
-                  danceItems.length * RoomPrices.DANCE
-                ).toLocaleString(`es-CL`)}
+                ${totalPrice}
               </Typography>
             </Grid>
           )}
@@ -118,9 +119,6 @@ const Cart = (): JSX.Element => {
                 bgcolor: `#019ee3`,
                 '&:hover': {
                   bgcolor: `#007eb5`,
-                },
-                '&.Mui-disabled': {
-                  bgcolor: `#019ee3 !important`,
                 },
               }}
               onClick={() => {

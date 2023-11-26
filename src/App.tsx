@@ -3,25 +3,39 @@ import ThemeConfig from './common/theme'
 import Home from './modules/home'
 import { CartProvider } from './common/context/CartContext'
 import { SnackbarProvider } from 'notistack'
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: true,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchInterval: false,
+    },
+  },
+})
 
 const App = (): JSX.Element => {
   return (
-    <SnackbarProvider
-      anchorOrigin={{
-        vertical: `top`,
-        horizontal: `right`,
-      }}
-    >
-      <ThemeConfig>
-        <CartProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home />} />
-            </Routes>
-          </BrowserRouter>
-        </CartProvider>
-      </ThemeConfig>
-    </SnackbarProvider>
+    <QueryClientProvider client={queryClient}>
+      <SnackbarProvider
+        anchorOrigin={{
+          vertical: `top`,
+          horizontal: `right`,
+        }}
+      >
+        <ThemeConfig>
+          <CartProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Home />} />
+              </Routes>
+            </BrowserRouter>
+          </CartProvider>
+        </ThemeConfig>
+      </SnackbarProvider>
+    </QueryClientProvider>
   )
 }
 
