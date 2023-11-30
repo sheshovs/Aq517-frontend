@@ -5,11 +5,13 @@ import API from '../api'
 
 export const useEventsQuery = ({
   date,
+  room,
   options = {},
 }: {
   date: string
+  room: string
   options?: QueryOptions<{ data: EventResponse[] }>
 }): UseQueryResult<{ data: EventResponse[] }, unknown> =>
-  useQuery(API_QUERY_KEYS.getAllEvents(date), () => API.event.getByDate(date), {
+  useQuery(API_QUERY_KEYS.getAllEvents(date, room), () => API.event.getByFilters(date, room), {
     ...options,
   })

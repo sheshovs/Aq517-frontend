@@ -1,9 +1,14 @@
 export enum RoomTypes {
-  MUSIC = `music`,
-  DANCE = `dance`,
+  MUSIC = `MUSIC`,
+  DANCE = `DANCE`,
 }
 
 export const RoomPrices = {
   MUSIC: 8000,
   DANCE: 8000,
+}
+
+export const RoomNames: Record<string, string> = {
+  MUSIC: `Aqviles`,
+  DANCE: `La Joya`,
 }

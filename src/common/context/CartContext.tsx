@@ -1,22 +1,27 @@
-import { Dayjs } from 'dayjs'
-import { useSnackbar } from 'notistack'
-import { createContext, useContext, useState } from 'react'
+import dayjs from 'dayjs'
+import { createContext, useContext, useState, useEffect } from 'react'
 import API from '../api'
 import { Order } from '../types/order'
+import { EventResponse } from '../types'
+import { UseMutateFunction, useMutation, useQueryClient } from 'react-query'
+import axios, { AxiosResponse } from 'axios'
+import { API_QUERY_KEYS } from '../querys/keys'
+import { useSnackbar } from 'notistack'
 
 interface CartContextProps {
   openDrawer: boolean
-  cartItems: { hour: Dayjs; room: string }[]
+  cartItems: EventResponse[]
   isLoading: boolean
 }
 
 interface ContextProps {
   cartState: CartContextProps
   setCartState: React.Dispatch<React.SetStateAction<CartContextProps>>
-  addToCart: (hoursSelected: { hour: Dayjs; room: string }[]) => void
-  deleteFromCart: (hour: { hour: Dayjs; room: string }) => void
+  addToCart: (events: EventResponse[]) => void
+  deleteFromCart: (event: EventResponse) => void
   handleDrawer: (value: boolean) => void
   onPayButtonClick: (orderData: Order) => Promise<void>
+  deleteEvent: UseMutateFunction<AxiosResponse<any, any>, unknown, EventResponse, unknown>
 }
 
 const CartContext = createContext({} as ContextProps)
@@ -28,20 +33,65 @@ const initialState = {
 }
 
 const CartProvider = ({ children }: { children: JSX.Element }): JSX.Element => {
+  const { enqueueSnackbar } = useSnackbar()
+  const queryParams = new URLSearchParams(window.location.search)
+  const preferenceId = queryParams.get(`preference_id`)
+  const status = queryParams.get(`status`)
+  const paymentId = queryParams.get(`payment_id`)
+
+  useEffect(() => {
+    if (status === `approved` && paymentId && preferenceId) {
+      updateEvent(preferenceId)
+    }
+  }, [status, paymentId, preferenceId])
+
+  const { mutate: updateEvent } = useMutation(
+    (preferenceId: string) => API.updateItems(preferenceId),
+    {
+      onSuccess: (data) => {
+        if (data.data.message) {
+          enqueueSnackbar(data.data.message, { variant: `success` })
+        }
+      },
+      onError: (error) => {
+        if (axios.isAxiosError(error)) {
+          enqueueSnackbar(error.response?.data.message, {
+            variant: `error`,
+          })
+        }
+      },
+    },
+  )
+
   const [cartState, setCartState] = useState<CartContextProps>(initialState)
   const { cartItems } = cartState
 
-  const { enqueueSnackbar } = useSnackbar()
+  const queryClient = useQueryClient()
 
-  const addToCart = (hoursSelected: { hour: Dayjs; room: string }[]): void => {
-    setCartState({ ...cartState, cartItems: [...cartItems, ...hoursSelected], openDrawer: true })
-    enqueueSnackbar(`Se agregaron horas correctamente`, {
-      variant: `success`,
+  const { mutate: deleteEvent } = useMutation(
+    (event: EventResponse) => API.event.delete(event.uuid),
+    {
+      onSuccess: (_, event) => {
+        const selectedDate = dayjs(event.date).format(`YYYY-MM-DD`) || ``
+        const room = event.room || ``
+        queryClient.invalidateQueries(API_QUERY_KEYS.getAllEvents(selectedDate, room))
+        deleteFromCart(event)
+      },
+    },
+  )
+
+  const addToCart = (events: EventResponse[]): void => {
+    const sortedEvents = [...cartItems, ...events].sort((a, b) => {
+      const dateA = dayjs(`${dayjs(a.date).format(`YYYY-MM-DD`)} ${a.startTime}`)
+      const dateB = dayjs(`${dayjs(b.date).format(`YYYY-MM-DD`)} ${b.startTime}`)
+
+      return dateA.diff(dateB)
     })
+    setCartState({ ...cartState, cartItems: sortedEvents, openDrawer: true })
   }
 
-  const deleteFromCart = (hour: { hour: Dayjs; room: string }): void => {
-    const newCartItems = cartItems.filter((item) => item !== hour)
+  const deleteFromCart = (event: EventResponse): void => {
+    const newCartItems = cartItems.filter((item) => item.uuid !== event.uuid)
     setCartState({ ...cartState, cartItems: newCartItems })
   }
 
@@ -60,14 +110,21 @@ const CartProvider = ({ children }: { children: JSX.Element }): JSX.Element => {
         setCartState({ ...cartState, isLoading: false })
       }
     } catch (error) {
-      console.log(error)
       setCartState({ ...cartState, isLoading: false })
     }
   }
 
   return (
     <CartContext.Provider
-      value={{ cartState, setCartState, addToCart, deleteFromCart, handleDrawer, onPayButtonClick }}
+      value={{
+        cartState,
+        setCartState,
+        addToCart,
+        deleteFromCart,
+        handleDrawer,
+        onPayButtonClick,
+        deleteEvent,
+      }}
     >
       {children}
     </CartContext.Provider>

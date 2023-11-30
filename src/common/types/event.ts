@@ -1,3 +1,4 @@
+import { RoomTypes } from './room'
 export interface Event {
   title: string
   date: string
@@ -6,6 +7,14 @@ export interface Event {
   email: string
   phone: string
   attendant: string
+  room: RoomTypes
+}
+
+export interface EventResponse extends Event {
+  uuid: string
+  status: EventStatuses
+  createdAt: string
+  expirationDate: string
 }
 
 export interface EventResponse extends Event {

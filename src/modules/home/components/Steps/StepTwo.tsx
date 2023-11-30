@@ -1,5 +1,4 @@
 import { Icon } from '@/common/components'
-import { useCart } from '@/common/context/CartContext'
 import { Button, Grid, Typography, useTheme } from '@mui/material'
 import { DateCalendar, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -9,20 +8,22 @@ import { Dayjs } from 'dayjs'
 import { ReserveInitialState } from '../../hooks/useReserve'
 import { useEventsQuery } from '@/common/querys/useEventQuery'
 import { useMemo } from 'react'
+import { RoomTypes } from '@/common/types'
 
 interface StepTwoProps {
   state: ReserveInitialState
   hours: Dayjs[]
   setStep: (step: number) => void
   setSelectedDate: (selectedDate: Dayjs | null) => void
-  setRoom: (room: string) => void
+  setRoom: (room: RoomTypes) => void
   setHoursSelected: (
     hoursSelected: {
       hour: Dayjs
-      room: string
+      room: RoomTypes
     }[],
   ) => void
   onClickHour: (hour: Dayjs) => void
+  onAddToCart: () => void
 }
 
 const StepTwo = ({
@@ -33,17 +34,17 @@ const StepTwo = ({
   setRoom,
   setHoursSelected,
   onClickHour,
+  onAddToCart,
 }: StepTwoProps): JSX.Element => {
   const {
     palette: { main, primary, black },
   } = useTheme()
   const { enqueueSnackbar } = useSnackbar()
-  const { cartState, addToCart } = useCart()
-  const { cartItems } = cartState
   const { selectedDate, room, hoursSelected } = state
 
   const { data: events } = useEventsQuery({
     date: selectedDate?.format(`YYYY-MM-DD`) || ``,
+    room: room || ``,
     options: { enabled: !!selectedDate },
   })
 
@@ -53,7 +54,6 @@ const StepTwo = ({
     return hours
   }, [events?.data])
 
-  console.log(events)
   return (
     <>
       <Grid container item md={10} gap={12.5} justifyContent="space-between" marginBottom={8}>
@@ -98,13 +98,13 @@ const StepTwo = ({
 
               <Grid container item md gap={2.5}>
                 <CustomButton
-                  variant={room === `music` ? `contained` : `outlined`}
-                  onClick={() => setRoom(`music`)}
+                  variant={room === RoomTypes.MUSIC ? `contained` : `outlined`}
+                  onClick={() => setRoom(RoomTypes.MUSIC)}
                   text="Aqviles"
                 />
                 <CustomButton
-                  variant={room === `dance` ? `contained` : `outlined`}
-                  onClick={() => setRoom(`dance`)}
+                  variant={room === RoomTypes.DANCE ? `contained` : `outlined`}
+                  onClick={() => setRoom(RoomTypes.DANCE)}
                   text="Joya"
                 />
               </Grid>
@@ -121,18 +121,12 @@ const StepTwo = ({
                       (item) => item.hour.isSame(hour) && item.room === room,
                     )
                     const isSelected = index !== -1
-
-                    const isDisabled = cartItems.findIndex(
-                      (item) => item.hour.isSame(hour) && item.room === room,
-                    )
                     return (
                       <CustomButton
                         key={i}
                         text={hour.format(`HH:mm`)}
                         onClick={() => onClickHour(hour)}
-                        disabled={
-                          isDisabled !== -1 || disabledHours.includes(hour.format(`HH:mm:ss`))
-                        }
+                        disabled={disabledHours.includes(hour.format(`HH:mm:ss`))}
                         variant={isSelected ? `contained` : `outlined`}
                       />
                     )
@@ -185,7 +179,7 @@ const StepTwo = ({
               enqueueSnackbar(`Debes seleccionar al menos una hora`, { variant: `error` })
               return
             }
-            addToCart(hoursSelected)
+            onAddToCart()
             setHoursSelected([])
           }}
           sx={{

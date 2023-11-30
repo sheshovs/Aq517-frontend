@@ -1,15 +1,13 @@
 import { Divider, Grid, IconButton, Typography, useTheme } from '@mui/material'
 import React from 'react'
 import { Icon } from '.'
-import { Dayjs } from 'dayjs'
 import { useCart } from '../context/CartContext'
 import { RoomPrices, RoomTypes } from '../types/room'
+import { EventResponse } from '../types'
+import dayjs from 'dayjs'
 
 interface CartSectionProps {
-  items: {
-    hour: Dayjs
-    room: string
-  }[]
+  items: EventResponse[]
   type: RoomTypes
 }
 
@@ -17,7 +15,7 @@ const CartSection = ({ items, type }: CartSectionProps): JSX.Element => {
   const {
     palette: { main, black },
   } = useTheme()
-  const { deleteFromCart } = useCart()
+  const { deleteEvent } = useCart()
   return (
     <Grid container alignItems="flex-start" gap={2.5}>
       <Grid container>
@@ -59,16 +57,16 @@ const CartSection = ({ items, type }: CartSectionProps): JSX.Element => {
                     alignItems="center"
                   >
                     <Typography variant="subtitle1">
-                      {item.hour.format(`dddd DD - HH:mm`)}
+                      {`${dayjs(item.date).format(`dddd DD`)} - ${item.startTime.slice(0, -3)}`}
                     </Typography>
                     <IconButton
-                      onClick={() => deleteFromCart(item)}
                       sx={{
                         padding: 0,
                         borderRadius: `4px`,
                       }}
                     >
                       <Icon
+                        onClick={() => deleteEvent(item)}
                         icon="close"
                         sx={{
                           fontSize: `1.125rem`,

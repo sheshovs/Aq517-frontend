@@ -4,6 +4,7 @@ import Home from './modules/home'
 import { CartProvider } from './common/context/CartContext'
 import { SnackbarProvider } from 'notistack'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { socket } from './config/io'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,6 +17,10 @@ const queryClient = new QueryClient({
   },
 })
 
+socket.on(`connect`, () => {
+  console.log(`Socket connected`)
+})
+
 const App = (): JSX.Element => {
   return (
     <QueryClientProvider client={queryClient}>
@@ -24,6 +29,7 @@ const App = (): JSX.Element => {
           vertical: `top`,
           horizontal: `right`,
         }}
+        maxSnack={1}
       >
         <ThemeConfig>
           <CartProvider>

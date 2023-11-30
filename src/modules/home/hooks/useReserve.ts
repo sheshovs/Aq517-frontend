@@ -1,8 +1,15 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import dayjs from '../../../common/settings/dayjs'
 import { Dayjs } from 'dayjs'
 import { emailRegex, numberRegex } from '@/common/utils/regex'
 import { useSnackbar } from 'notistack'
+import { Event, EventResponse, RoomNames, RoomTypes } from '@/common/types'
+import { useMutation, useQueryClient } from 'react-query'
+import API from '@/common/api'
+import { useCart } from '@/common/context/CartContext'
+import { API_QUERY_KEYS } from '@/common/querys/keys'
+import axios from 'axios'
+import { socket } from '@/config/io'
 
 export interface ReserveInitialState {
   userInfo: {
@@ -12,8 +19,8 @@ export interface ReserveInitialState {
   }
   step: number
   selectedDate: Dayjs | null
-  room: string
-  hoursSelected: { hour: Dayjs; room: string }[]
+  room: RoomTypes
+  hoursSelected: { hour: Dayjs; room: RoomTypes }[]
 }
 
 const initialState = {
@@ -24,12 +31,13 @@ const initialState = {
   },
   step: 1,
   selectedDate: dayjs(),
-  room: `music`,
+  room: RoomTypes.MUSIC,
   hoursSelected: [],
 }
 const useReserve = () => {
   const [state, setState] = useState<ReserveInitialState>(initialState)
   const { enqueueSnackbar } = useSnackbar()
+  const { cartState, addToCart, setCartState } = useCart()
 
   const {
     selectedDate,
@@ -50,6 +58,46 @@ const useReserve = () => {
     }
     return hours
   }, [selectedDate])
+
+  const queryClient = useQueryClient()
+
+  useEffect(() => {
+    socket.on(`deleteEvent`, (eventUuidsToDelete: string[]) => {
+      const { cartItems } = cartState
+      const eventsFiltered = cartItems.filter((item) => !eventUuidsToDelete.includes(item.uuid))
+      setCartState({ ...cartState, cartItems: eventsFiltered })
+      queryClient.invalidateQueries(
+        API_QUERY_KEYS.getAllEvents(selectedDate?.format(`YYYY-MM-DD`) || ``, state.room),
+      )
+    })
+
+    return () => {
+      socket.off(`deleteEvent`)
+    }
+  }, [socket])
+
+  const { mutate: createEvents } = useMutation((payload: Event[]) => API.event.block(payload), {
+    onSuccess: (res) => {
+      const events: EventResponse[] = res.data.events
+      const date = selectedDate?.format(`YYYY-MM-DD`) || ``
+      const room = state.room
+      queryClient.invalidateQueries(API_QUERY_KEYS.getAllEvents(date, room))
+      addToCart(events)
+      enqueueSnackbar(`Se agregaron horas correctamente`, {
+        variant: `success`,
+      })
+    },
+    onError: (error) => {
+      queryClient.invalidateQueries(
+        API_QUERY_KEYS.getAllEvents(selectedDate?.format(`YYYY-MM-DD`) || ``, state.room),
+      )
+      if (axios.isAxiosError(error)) {
+        enqueueSnackbar(error.response?.data.message, {
+          variant: `error`,
+        })
+      }
+    },
+  })
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target
@@ -91,11 +139,11 @@ const useReserve = () => {
     setState({ ...state, selectedDate })
   }
 
-  const setRoom = (room: string): void => {
+  const setRoom = (room: RoomTypes): void => {
     setState({ ...state, room })
   }
 
-  const setHoursSelected = (hoursSelected: { hour: Dayjs; room: string }[]): void => {
+  const setHoursSelected = (hoursSelected: { hour: Dayjs; room: RoomTypes }[]): void => {
     setState({ ...state, hoursSelected })
   }
 
@@ -121,6 +169,23 @@ const useReserve = () => {
     }
   }
 
+  const onAddToCart = (): void => {
+    const payload: Event[] = state.hoursSelected.map((item) => {
+      const title = RoomNames[item.room]
+      return {
+        title: `Sala ${title}`,
+        date: item.hour.format(`YYYY-MM-DD`),
+        startTime: item.hour.format(`HH:mm:ss`),
+        endTime: item.hour.add(1, `hour`).format(`HH:mm:ss`),
+        email,
+        phone: `+569${phone}`,
+        attendant: name,
+        room: item.room,
+      }
+    })
+    createEvents(payload)
+  }
+
   return {
     state,
     hours,
@@ -130,6 +195,7 @@ const useReserve = () => {
     setRoom,
     setHoursSelected,
     onClickHour,
+    onAddToCart,
   }
 }
 

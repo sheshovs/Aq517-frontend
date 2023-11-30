@@ -8,7 +8,10 @@
   "rules": {
     //General rules
     "object-curly-newline": "off",
-    "semi": ["error", "never"],
+    "semi": [
+      "error",
+      "never"
+    ],
     "max-len": [
       "error",
       100,
@@ -24,7 +27,10 @@
     "prefer-destructuring": "off",
     "no-useless-concat": "error",
     "no-negated-condition": 0,
-    "quotes": ["error", "backtick"],
+    "quotes": [
+      "error",
+      "backtick"
+    ],
     "no-multi-spaces": 2,
     "no-multiple-empty-lines": [
       "error",
@@ -46,7 +52,9 @@
         "skipBlankLines": true
       }
     ],
-    "prettier/prettier": ["warn"],
+    "prettier/prettier": [
+      "warn"
+    ],
     "no-unused-vars": [
       "error",
       {
@@ -63,14 +71,23 @@
   },
   "overrides": [
     {
-      "files": ["**/*.ts", "**/*.tsx", "**/*.test.js"], 
+      "files": [
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.test.js"
+      ],
       "parser": "@typescript-eslint/parser",
       "extends": [
         "plugin:@typescript-eslint/recommended" // TypeScript rules
       ],
-      "plugins": ["@typescript-eslint"],
+      "plugins": [
+        "@typescript-eslint"
+      ],
       "rules": {
-        "@typescript-eslint/no-unused-vars": ["error"],
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/no-unused-vars": [
+          "error"
+        ],
         "@typescript-eslint/explicit-function-return-type": [
           "warn",
           {

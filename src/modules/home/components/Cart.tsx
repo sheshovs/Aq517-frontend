@@ -8,6 +8,7 @@ import { LoadingButton } from '@mui/lab'
 import { Grid, IconButton, Typography, useTheme } from '@mui/material'
 import React, { useMemo } from 'react'
 import MercadoPagoIcon from '@/assets/mercado-pago-logo.png'
+import dayjs from 'dayjs'
 
 const Cart = (): JSX.Element => {
   const {
@@ -18,21 +19,23 @@ const Cart = (): JSX.Element => {
 
   const { musicItems, danceItems, orderData, totalPrice } = useMemo(() => {
     const musicItems = cartItems
-      .filter((item) => item.room === `music`)
-      .sort((a, b) => a.hour.diff(b.hour))
+      .filter((item) => item.room === RoomTypes.MUSIC)
+      .sort((a, b) => dayjs(a.startTime).diff(dayjs(b.startTime)))
     const danceItems = cartItems
-      .filter((item) => item.room === `dance`)
-      .sort((a, b) => a.hour.diff(b.hour))
+      .filter((item) => item.room === RoomTypes.DANCE)
+      .sort((a, b) => dayjs(a.startTime).diff(dayjs(b.startTime)))
 
     const orderData: Order = {
       items: [
-        ...musicItems.map(() => ({
+        ...musicItems.map((item) => ({
+          id: item.uuid,
           title: `Sala Aqviles`,
           quantity: 1,
           unit_price: RoomPrices.MUSIC,
           currency_id: `CLP`,
         })),
-        ...danceItems.map(() => ({
+        ...danceItems.map((item) => ({
+          id: item.uuid,
           title: `Sala La Joya`,
           quantity: 1,
           unit_price: RoomPrices.DANCE,
