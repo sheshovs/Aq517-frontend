@@ -135,7 +135,7 @@ const RoomModal = ({ roomInformation, open, onClose }: RoomModalProps): JSX.Elem
         </Grid>
         <Grid container item xs={12} md={5} flexDirection="column" gap={2} height="100%">
           <Typography variant="h2">Sala {roomInformation?.title}</Typography>
-          <Typography>{ReactHtmlParser(roomInformation?.description)}</Typography>
+          <Typography>{ReactHtmlParser(roomInformation?.description || ``)}</Typography>
           <Grid container alignSelf="flex-end" justifyContent="flex-end">
             <Link href="#reserve">
               <Button
