@@ -28,9 +28,9 @@ declare module '@mui/material/styles' {
 }
 //cambiar los colores de acuerdo a la pagina
 const primary = {
-  dark: `#6c1319`,
-  main: `#A81E27`,
-  light: `#d92632`,
+  dark: `#8A4FFFF5`,
+  main: `#7d00e7`,
+  light: `#E86DFFF5`,
 }
 
 const black = {

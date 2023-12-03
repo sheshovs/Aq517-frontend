@@ -53,9 +53,15 @@ const Cart = (): JSX.Element => {
   }, [cartItems])
 
   return (
-    <Grid width={448} height="100%" paddingY={2.625} paddingLeft={3.625} paddingRight={2}>
+    <Grid
+      width={{ xs: `100%`, sm: 448 }}
+      height="100%"
+      paddingY={2.625}
+      paddingLeft={3.625}
+      paddingRight={2}
+    >
       <Grid container height="100%" flexDirection="column" justifyContent="space-between">
-        <Grid container gap={3.75}>
+        <Grid container gap={{ lg: 3.75, xs: 2 }}>
           <Grid container justifyContent="space-between" alignItems="center" paddingRight={1.625}>
             <Typography variant="h1">Articulos</Typography>
             <IconButton

@@ -56,8 +56,16 @@ const StepTwo = ({
 
   return (
     <>
-      <Grid container item md={10} gap={12.5} justifyContent="space-between" marginBottom={8}>
-        <Grid>
+      <Grid
+        container
+        item
+        lg={10}
+        xs={12}
+        gap={{ xs: 6, lg: 10.5 }}
+        justifyContent="space-between"
+        marginBottom={8}
+      >
+        <Grid container xs={12} md>
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
             <DateCalendar
               defaultValue={selectedDate}
@@ -88,15 +96,15 @@ const StepTwo = ({
             />
           </LocalizationProvider>
         </Grid>
-        <Grid container item md flexDirection="column" justifyContent="space-between">
-          <Grid container item md flexDirection="column" gap={1.25}>
+        <Grid container item xs={12} md justifyContent="space-between">
+          <Grid container item xs={12} flexDirection="column" gap={1.25}>
             <Typography variant="h4">{selectedDate?.format(`dddd DD [de] MMMM`)}</Typography>
             <Grid container paddingY={1.25} gap={2.5}>
               <Typography variant="h5" width="60px">
                 Sala:
               </Typography>
 
-              <Grid container item md gap={2.5}>
+              <Grid container item xs gap={{ lg: 2.5, xs: 2 }}>
                 <CustomButton
                   variant={room === RoomTypes.MUSIC ? `contained` : `outlined`}
                   onClick={() => setRoom(RoomTypes.MUSIC)}
@@ -114,8 +122,8 @@ const StepTwo = ({
                 Horas:
               </Typography>
 
-              <Grid container item md gap={1.25}>
-                <Grid container gap={2.5}>
+              <Grid container item xs gap={1.25}>
+                <Grid container gap={{ lg: 2.5, xs: 2 }}>
                   {hours.map((hour, i) => {
                     const index = hoursSelected.findIndex(
                       (item) => item.hour.isSame(hour) && item.room === room,
@@ -142,7 +150,7 @@ const StepTwo = ({
               </Grid>
             </Grid>
           </Grid>
-          <Grid container paddingY={1.25} gap={2.5} alignItems="center">
+          <Grid container item xs={12} paddingY={1.25} gap={2.5} alignItems="center">
             <Typography variant="h5" width="60px">
               Valor:
             </Typography>
@@ -153,7 +161,21 @@ const StepTwo = ({
           </Grid>
         </Grid>
       </Grid>
-      <Grid container item md={10} justifyContent="center" gap={2}>
+      <Grid
+        container
+        item
+        xs={12}
+        justifyContent="center"
+        gap={2}
+        alignItems={{
+          xs: `center`,
+          sm: `center`,
+        }}
+        flexDirection={{
+          xs: `column-reverse`,
+          sm: `row`,
+        }}
+      >
         <Button
           startIcon={<Icon icon="arrowBack" />}
           onClick={() => setStep(1)}

@@ -5,6 +5,7 @@ import { CartProvider } from './common/context/CartContext'
 import { SnackbarProvider } from 'notistack'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { socket } from './config/io'
+import './global.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {

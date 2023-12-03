@@ -19,7 +19,15 @@ const StepOne = ({ userInfo, handleChange, setStep }: StepOneProps): JSX.Element
   const { name, email, phone } = userInfo
   return (
     <>
-      <Grid container item md={10} justifyContent="space-between" marginBottom={8}>
+      <Grid
+        container
+        item
+        md={10}
+        xs={12}
+        justifyContent={{ xs: `center`, lg: `space-between` }}
+        marginBottom={8}
+        gap={4}
+      >
         <Grid container flexDirection="column" gap={2.5} alignItems="center" maxWidth={482}>
           <Typography variant="text">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ut congue odio. Donec
