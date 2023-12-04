@@ -6,10 +6,13 @@ import {
   ArrowForwardIosRounded,
   ArrowForwardRounded,
   CloseRounded,
+  LogoutRounded,
   MenuRounded,
   MusicNoteRounded,
   SelfImprovementRounded,
   ShoppingCartRounded,
+  VisibilityOffRounded,
+  VisibilityRounded,
 } from '@mui/icons-material'
 export const icons = {
   shoppingCart: ShoppingCartRounded,
@@ -22,6 +25,9 @@ export const icons = {
   backArrow: ArrowBackIosRounded,
   nextArrow: ArrowForwardIosRounded,
   menuExpand: MenuRounded,
+  showPassword: VisibilityRounded,
+  hidePassword: VisibilityOffRounded,
+  logout: LogoutRounded,
 }
 interface IconProps extends SvgIconProps {
   icon: keyof typeof icons

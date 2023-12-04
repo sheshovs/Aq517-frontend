@@ -25,6 +25,12 @@ const Cart = (): JSX.Element => {
       .filter((item) => item.room === RoomTypes.DANCE)
       .sort((a, b) => dayjs(a.startTime).diff(dayjs(b.startTime)))
 
+    const userData = {
+      attendant: musicItems[0]?.attendant || danceItems[0]?.attendant || ``,
+      email: musicItems[0]?.email || danceItems[0]?.email || ``,
+      phone: musicItems[0]?.phone || danceItems[0]?.phone || ``,
+    }
+
     const orderData: Order = {
       items: [
         ...musicItems.map((item) => ({
@@ -42,6 +48,7 @@ const Cart = (): JSX.Element => {
           currency_id: `CLP`,
         })),
       ],
+      ...userData,
     }
 
     const totalPrice = (

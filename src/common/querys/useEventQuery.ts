@@ -15,3 +15,14 @@ export const useEventsQuery = ({
   useQuery(API_QUERY_KEYS.getAllEvents(date, room), () => API.event.getByFilters(date, room), {
     ...options,
   })
+
+export const useEventMonthQuery = ({
+  month,
+  options = {},
+}: {
+  month: string
+  options?: QueryOptions<{ data: EventResponse[] }>
+}): UseQueryResult<{ data: EventResponse[] }, unknown> =>
+  useQuery(API_QUERY_KEYS.getAllEventsByMonth(month), () => API.event.getAllByMonth(month), {
+    ...options,
+  })

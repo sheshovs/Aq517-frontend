@@ -6,6 +6,9 @@ import { SnackbarProvider } from 'notistack'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { socket } from './config/io'
 import './global.css'
+import Login from './modules/login'
+import { AuthProvider } from './common/context/AuthContext'
+import Dashboard from './modules/dashboard'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,13 +36,17 @@ const App = (): JSX.Element => {
         maxSnack={1}
       >
         <ThemeConfig>
-          <CartProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Home />} />
-              </Routes>
-            </BrowserRouter>
-          </CartProvider>
+          <AuthProvider>
+            <CartProvider>
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                </Routes>
+              </BrowserRouter>
+            </CartProvider>
+          </AuthProvider>
         </ThemeConfig>
       </SnackbarProvider>
     </QueryClientProvider>

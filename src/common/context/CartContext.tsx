@@ -40,13 +40,56 @@ const CartProvider = ({ children }: { children: JSX.Element }): JSX.Element => {
   const paymentId = queryParams.get(`payment_id`)
 
   useEffect(() => {
+    if (!status && !paymentId && !preferenceId) {
+      return
+    }
     if (status === `approved` && paymentId && preferenceId) {
-      updateEvent(preferenceId)
+      updateEventOnSuccess({ preferenceId, status, paymentId })
+      return
+    }
+    if (status === `in_process` && paymentId && preferenceId) {
+      updateEventOnSuccess({ preferenceId, status, paymentId })
+      return
+    }
+    if (status === `rejected` && preferenceId) {
+      deleteEventOnFailure({ preferenceId, status })
+      return
+    }
+    if (status === `null` && preferenceId) {
+      deleteEventOnFailure({ preferenceId, status })
+      return
     }
   }, [status, paymentId, preferenceId])
 
-  const { mutate: updateEvent } = useMutation(
-    (preferenceId: string) => API.updateItems(preferenceId),
+  const { mutate: updateEventOnSuccess } = useMutation(
+    ({
+      preferenceId,
+      status,
+      paymentId,
+    }: {
+      preferenceId: string
+      status: string
+      paymentId?: string
+    }) => API.updateItems(preferenceId, status, paymentId),
+    {
+      onSuccess: (data) => {
+        if (data.data.message) {
+          enqueueSnackbar(data.data.message, { variant: `success` })
+        }
+      },
+      onError: (error) => {
+        if (axios.isAxiosError(error)) {
+          enqueueSnackbar(error.response?.data.message, {
+            variant: `error`,
+          })
+        }
+      },
+    },
+  )
+
+  const { mutate: deleteEventOnFailure } = useMutation(
+    ({ preferenceId, status }: { preferenceId: string; status: string }) =>
+      API.deleteItems(preferenceId, status),
     {
       onSuccess: (data) => {
         if (data.data.message) {

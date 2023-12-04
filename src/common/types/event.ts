@@ -17,11 +17,9 @@ export interface EventResponse extends Event {
   expirationDate: string
 }
 
-export interface EventResponse extends Event {
-  uuid: string
-  status: EventStatuses
-  createdAt: string
-  expirationDate: string
+export interface EventCalendar extends Event {
+  start: Date
+  end: Date
 }
 
 export enum EventStatuses {
