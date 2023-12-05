@@ -18,6 +18,8 @@
 .rbc-event,
 .rbc-day-slot .rbc-background-event {
   padding: 0;
+  background-color: transparent !important;
+  border-radius: 0;
 }
 
 .rbc-day-slot .rbc-event,

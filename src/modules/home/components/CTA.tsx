@@ -27,10 +27,11 @@ const CTA = (): JSX.Element => {
           backdropFilter: `blur( 15px )`,
         }}
       >
-        <Container gap={{ xs: 1, lg: 10 }} justifyContent="center" alignItems="center">
+        <Container gap={{ xs: 4, lg: 10 }} justifyContent="center" alignItems="center">
           <Typography variant="h2" textTransform="uppercase" textAlign="center">
-            lacus vel facilisis volutpat est velit egestas
+            ¡Sala Aqviles Disponible!
           </Typography>
+
           <Link href="#reserve">
             <Button
               variant="outlined"

@@ -23,11 +23,13 @@ const RoomInformation: Record<string, RoomInformation> = {
     </ul>
     `,
   },
-  joya: {
-    title: `La Joya`,
-    description: `Sala destinada para quienes practican las artes escénicas tales como danza árabe, fusión, contemporánea, pilates, zumba, etc. También es un espacio para talleres de teatro o actuación. Además puede ser utilizada para artes marciales. <br />
-    Cuenta con espejo pegado a pared y un parlante con bluetooth. `,
-  },
+  // joya: {
+  //   title: `La Joya`,
+  // description: `Sala destinada para quienes practican las artes escénicas tales
+  // como danza árabe, fusión, contemporánea, pilates, zumba, etc. También es un espacio
+  // para talleres de teatro o actuación. Además puede ser utilizada para artes marciales. <br />
+  //   Cuenta con espejo pegado a pared y un parlante con bluetooth. `,
+  // },
 }
 
 const RoomSection = (): JSX.Element => {
@@ -72,10 +74,10 @@ const RoomSection = (): JSX.Element => {
                   position: `absolute`,
                   borderRadius: 2,
                   bgcolor: main.white,
-                  clipPath: {
-                    xs: `polygon(100% 0, 100% 45%, 0 55%, 0 55%, 0 0);`,
-                    sm: `polygon(100% 0, 100% 0, 0 100%, 0 100%, 0 0);`,
-                  },
+                  // clipPath: {
+                  //   xs: `polygon(100% 0, 100% 45%, 0 55%, 0 55%, 0 0);`,
+                  //   sm: `polygon(100% 0, 100% 0, 0 100%, 0 100%, 0 0);`,
+                  // },
                   transition: `all .5s ease`,
                   zIndex: 1,
                   '&:hover': {
@@ -114,7 +116,7 @@ const RoomSection = (): JSX.Element => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid
+              {/* <Grid
                 container
                 height={457}
                 sx={{
@@ -164,7 +166,7 @@ const RoomSection = (): JSX.Element => {
                     </Typography>
                   </Grid>
                 </Grid>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Grid>
         </Grid>

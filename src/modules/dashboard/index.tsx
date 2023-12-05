@@ -55,6 +55,7 @@ const Dashboard = (): JSX.Element => {
         paddingX={4}
         justifyContent="flex-end"
         position="fixed"
+        zIndex={1000}
       >
         <Button
           onClick={logOut}
@@ -75,11 +76,18 @@ const Dashboard = (): JSX.Element => {
           Salir
         </Button>
       </Grid>
-      <Grid container padding={4} paddingTop={10} justifyContent="space-between">
+      <Grid
+        container
+        padding={4}
+        paddingTop={10}
+        justifyContent="space-between"
+        gap={{ xs: 2, lg: 0 }}
+      >
         <Grid
           container
           item
-          xs={4.5}
+          lg={4.5}
+          xs={12}
           bgcolor="main.white"
           borderRadius={2}
           padding={4}
@@ -87,7 +95,14 @@ const Dashboard = (): JSX.Element => {
           gap={3}
         >
           <Typography variant="h2">Órdenes</Typography>
-          <Grid container gap={2}>
+          <Grid
+            container
+            gap={2}
+            sx={{
+              overflowY: `auto`,
+              maxHeight: `calc(100vh - 300px)`,
+            }}
+          >
             {orders.map((order) => (
               <OrderItem key={order.uuid} order={order} />
             ))}
@@ -96,7 +111,8 @@ const Dashboard = (): JSX.Element => {
         <Grid
           container
           item
-          xs={7}
+          lg={7}
+          xs={12}
           bgcolor="main.white"
           borderRadius={2}
           padding={4}

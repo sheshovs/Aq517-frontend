@@ -1,5 +1,4 @@
 import { Button, Grid, InputAdornment, TextField, Typography, useTheme } from '@mui/material'
-import GoogleCalendarLogo from '../../../../assets/google-calendar.webp'
 import { Icon } from '@/common/components'
 
 interface StepOneProps {
@@ -30,19 +29,18 @@ const StepOne = ({ userInfo, handleChange, setStep }: StepOneProps): JSX.Element
       >
         <Grid container flexDirection="column" gap={2.5} alignItems="center" maxWidth={482}>
           <Typography variant="text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ut congue odio. Donec
-            tincidunt interdum lorem tempor maximus. Donec ac dolor in nibh dapibus pulvinar. In hac
-            habitasse platea dictumst. Vivamus ac dolor vel libero aliquet dapibus.
+            AQ517 tiene una sala de ensayo disponible, la que cuenta con implementos necesarios para
+            músicos y bandas. Amplia, equipada y a pasos de Metro Santa Isabel.
           </Typography>
           <Typography variant="text">
-            Vestibulum nec ex non tortor hendrerit accumsan. Curabitur placerat porta nulla, eu
-            volutpat mi sagittis vitae.
+            Puedes reservar las horas que quieras en esta plataforma, pagando a través de Mercado
+            Pago el valor de $8.000 (ocho mil pesos) por hora.
           </Typography>
-          <img src={GoogleCalendarLogo} width={70} />
           <Typography variant="text">
-            Maecenas mattis, urna tempus varius efficitur, mauris tortor iaculis sem, sit amet
-            eleifend ex mauris aliquam elit. Curabitur in augue quis erat finibus posuere.
+            Lee nuestros Términos y Condiciones antes de reservar. Al concretar tu reserva, habrás
+            accedido a seguir nuestras normas y políticas.
           </Typography>
+          <Typography variant="text">¡Te esperamos!</Typography>
         </Grid>
         <Grid container flexDirection="column" gap={1.25} maxWidth={350}>
           <Grid container>

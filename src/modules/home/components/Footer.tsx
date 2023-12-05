@@ -34,7 +34,7 @@ const Footer = (): JSX.Element => {
         <Grid
           container
           item
-          md={6}
+          md={4}
           xs={12}
           justifyContent={{
             xs: `center`,
@@ -63,39 +63,36 @@ const Footer = (): JSX.Element => {
                 src={LOGO_AQVILES}
                 alt="Logo Aqviles"
                 style={{
-                  height: 150,
+                  height: 100,
                   borderRadius: 100,
                 }}
               />
             </Link>
             <Typography variant="subtitle2">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vitae dignissim nibh.
-              Praesent rhoncus dui et lacus faucibus maximus. Nullam a ligula nec dolor auctor
-              blandit. Praesent rhoncus dui et lacus faucibus maximus. Nullam a ligula nec dolor
-              auctor blandit.
+              Aqviles Records es una productora independiente radicada en Santiago de Chile, nacida
+              de una banda musical del mismo nombre. El espacio AQ517, con su sala de ensayo, es el
+              primer proyecto de Aqviles Records, el que busca apoyar y potenciar a los talentos
+              artísticos.
             </Typography>
           </Grid>
         </Grid>
+
         <Grid
           container
           item
-          md={4}
+          md={6}
           xs={12}
-          flexDirection={{
-            xs: `column`,
-            sm: `row`,
-          }}
           justifyContent={{
             xs: `center`,
             sm: `space-around`,
           }}
         >
-          <Grid flexDirection="column" marginBottom={4}>
+          <Grid container item flexDirection="column" marginBottom={3} sm={5} xs={12}>
             <Typography
               variant="titleFooter"
               textTransform="uppercase"
               color={black.lightFooter}
-              marginBottom={3.25}
+              marginBottom={2}
               textAlign={{
                 xs: `center`,
                 sm: `left`,
@@ -116,83 +113,105 @@ const Footer = (): JSX.Element => {
               <Link href="#reserve" sx={linkStyle}>
                 <Typography variant="footer">Reservar</Typography>
               </Link>
+              <Link href="/login" sx={linkStyle}>
+                <Typography variant="footer">Iniciar sesión</Typography>
+              </Link>
             </Grid>
           </Grid>
-          <Grid justifyContent="center">
-            <Typography
-              variant="titleFooter"
-              textTransform="uppercase"
-              color={black.lightFooter}
-              marginBottom={3.25}
-              textAlign="center"
-            >
-              Redes sociales
-            </Typography>
-            <Grid container alignItems="center" gap={2.5} justifyContent="center">
-              <IconButton
-                sx={{
-                  padding: `4px`,
-                  borderRadius: `4px`,
-                  color: main.white,
-                  transition: `all .3s ease`,
-                  '& .MuiTouchRipple-root .MuiTouchRipple-child': {
-                    borderRadius: `4px`,
-                  },
-                  '&:hover': {
-                    backgroundColor: `${main.whiteBackground}33`,
-                  },
-                }}
+          <Grid container item sm={5} xs={12} gap={3} alignItems="flex-start">
+            <Grid container justifyContent="center">
+              <Typography
+                variant="titleFooter"
+                textTransform="uppercase"
+                color={black.lightFooter}
+                marginBottom={2}
+                textAlign="center"
               >
-                <FaFacebookF />
-              </IconButton>
-              <IconButton
-                sx={{
-                  padding: `4px`,
-                  borderRadius: `4px`,
-                  color: main.white,
-                  transition: `all .3s ease`,
-                  '& .MuiTouchRipple-root .MuiTouchRipple-child': {
+                Redes sociales
+              </Typography>
+              <Grid container alignItems="center" gap={2.5} justifyContent="center">
+                <IconButton
+                  sx={{
+                    padding: `4px`,
                     borderRadius: `4px`,
-                  },
-                  '&:hover': {
-                    backgroundColor: `${main.whiteBackground}33`,
-                  },
-                }}
-              >
-                <FaInstagram />
-              </IconButton>
-              <IconButton
-                sx={{
-                  padding: `4px`,
-                  borderRadius: `4px`,
-                  color: main.white,
-                  transition: `all .3s ease`,
-                  '& .MuiTouchRipple-root .MuiTouchRipple-child': {
+                    color: main.white,
+                    transition: `all .3s ease`,
+                    '& .MuiTouchRipple-root .MuiTouchRipple-child': {
+                      borderRadius: `4px`,
+                    },
+                    '&:hover': {
+                      backgroundColor: `${main.whiteBackground}33`,
+                    },
+                  }}
+                >
+                  <FaFacebookF />
+                </IconButton>
+                <IconButton
+                  sx={{
+                    padding: `4px`,
                     borderRadius: `4px`,
-                  },
-                  '&:hover': {
-                    backgroundColor: `${main.whiteBackground}33`,
-                  },
-                }}
-              >
-                <FaTiktok />
-              </IconButton>
-              <IconButton
-                sx={{
-                  padding: `4px`,
-                  borderRadius: `4px`,
-                  color: main.white,
-                  transition: `all .3s ease`,
-                  '& .MuiTouchRipple-root .MuiTouchRipple-child': {
+                    color: main.white,
+                    transition: `all .3s ease`,
+                    '& .MuiTouchRipple-root .MuiTouchRipple-child': {
+                      borderRadius: `4px`,
+                    },
+                    '&:hover': {
+                      backgroundColor: `${main.whiteBackground}33`,
+                    },
+                  }}
+                >
+                  <FaInstagram />
+                </IconButton>
+                <IconButton
+                  sx={{
+                    padding: `4px`,
                     borderRadius: `4px`,
-                  },
-                  '&:hover': {
-                    backgroundColor: `${main.whiteBackground}33`,
-                  },
-                }}
+                    color: main.white,
+                    transition: `all .3s ease`,
+                    '& .MuiTouchRipple-root .MuiTouchRipple-child': {
+                      borderRadius: `4px`,
+                    },
+                    '&:hover': {
+                      backgroundColor: `${main.whiteBackground}33`,
+                    },
+                  }}
+                >
+                  <FaTiktok />
+                </IconButton>
+                <IconButton
+                  sx={{
+                    padding: `4px`,
+                    borderRadius: `4px`,
+                    color: main.white,
+                    transition: `all .3s ease`,
+                    '& .MuiTouchRipple-root .MuiTouchRipple-child': {
+                      borderRadius: `4px`,
+                    },
+                    '&:hover': {
+                      backgroundColor: `${main.whiteBackground}33`,
+                    },
+                  }}
+                >
+                  <FaWhatsapp />
+                </IconButton>
+              </Grid>
+            </Grid>
+
+            <Grid container justifyContent="center">
+              <Typography
+                variant="titleFooter"
+                textTransform="uppercase"
+                color={black.lightFooter}
+                marginBottom={2}
+                textAlign="center"
               >
-                <FaWhatsapp />
-              </IconButton>
+                Dirección
+              </Typography>
+              <Grid container alignItems="center" gap={2.5} justifyContent="center">
+                <Typography variant="footer" textAlign="center">
+                  Seminario 517, Providencia, a pasos del metro Santa Isabel.
+                </Typography>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

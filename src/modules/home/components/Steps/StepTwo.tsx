@@ -110,11 +110,11 @@ const StepTwo = ({
                   onClick={() => setRoom(RoomTypes.MUSIC)}
                   text="Aqviles"
                 />
-                <CustomButton
+                {/* <CustomButton
                   variant={room === RoomTypes.DANCE ? `contained` : `outlined`}
                   onClick={() => setRoom(RoomTypes.DANCE)}
                   text="Joya"
-                />
+                /> */}
               </Grid>
             </Grid>
             <Grid container paddingY={1.25} gap={2.5}>
