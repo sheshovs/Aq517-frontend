@@ -1,14 +1,5 @@
 import { Container, Navbar } from '@/common/components'
-import {
-  Button,
-  Grid,
-  Link,
-  Skeleton,
-  Theme,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material'
+import { Button, Grid, Link, Theme, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
 
 const Header = (): JSX.Element => {
@@ -48,15 +39,20 @@ const Header = (): JSX.Element => {
         <Container
           marginTop={mobileWidth ? 20 : 0}
           height="350px"
-          justifyContent="space-between"
+          justifyContent="center"
           alignItems="center"
         >
-          <Grid item md={5.5}>
-            <Grid container marginBottom={3.125}>
-              <Typography variant="h1" textTransform="uppercase" marginBottom={1}>
+          <Grid container item md={8} xs={12} justifyContent="center">
+            <Grid container marginBottom={3.125} justifyContent="center">
+              <Typography
+                variant="h1"
+                textTransform="uppercase"
+                marginBottom={1}
+                textAlign="center"
+              >
                 TODO ARTISTA NECESITA UN ESPACIO PARA CREAR. AQ517 PUEDE SER EL TUYO!
               </Typography>
-              <Typography variant="subtitle1" maxWidth={410}>
+              <Typography variant="subtitle1" maxWidth={410} textAlign="center">
                 Conoce nuestra sala de ensayo para músicos y bandas. Úsala como quieras.
               </Typography>
             </Grid>
@@ -77,13 +73,6 @@ const Header = (): JSX.Element => {
                 RESERVAR
               </Button>
             </Link>
-          </Grid>
-          <Grid item md={6}>
-            <Skeleton
-              sx={{ maxWidth: 600, height: 350, bgcolor: `#ffffff33`, borderRadius: 2 }}
-              animation="wave"
-              variant="rectangular"
-            />
           </Grid>
         </Container>
       </Grid>
