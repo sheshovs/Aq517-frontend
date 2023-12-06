@@ -1,16 +1,46 @@
-import { Button, Grid, IconButton, Link, Modal, Skeleton, Typography } from '@mui/material'
+import {
+  Button,
+  Grid,
+  IconButton,
+  Link,
+  Modal,
+  PaletteColor,
+  Skeleton,
+  Theme,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material'
 import React from 'react'
 import Icon from './Icon'
 import { RoomInformation } from '@/modules/home/components/RoomSection'
 import ReactHtmlParser from 'react-html-parser'
+import styled from 'styled-components'
+
+const Image = styled.img<{ selectedPhotoIndex?: number; index?: number; primary: PaletteColor }>`
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: ${({ selectedPhotoIndex, index, primary }) =>
+    selectedPhotoIndex === index ? `2px solid ${primary.main}` : `2px solid transparent`};
+  &:hover {
+    border: 2px solid ${({ primary }) => primary.main};
+  }
+`
 
 interface RoomModalProps {
   roomInformation: RoomInformation | null
+  roomPhotos: string[]
   open: boolean
   onClose: () => void
 }
 
-const RoomModal = ({ roomInformation, open, onClose }: RoomModalProps): JSX.Element => {
+const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProps): JSX.Element => {
+  const {
+    palette: { primary },
+  } = useTheme()
+  const mobileWidth = useMediaQuery((theme: Theme) => theme.breakpoints.down(`md`))
+  const [selectedPhotoIndex, setSelectedIndexPhoto] = React.useState(0)
   return (
     <Modal
       open={open}
@@ -56,34 +86,63 @@ const RoomModal = ({ roomInformation, open, onClose }: RoomModalProps): JSX.Elem
         </IconButton>
         <Grid container item xs={12} md={7} flexDirection="column" gap={2}>
           <Grid container alignItems="center" gap={0.5}>
-            <IconButton
-              sx={{
-                paddingY: 2,
-                paddingX: 0.5,
-                borderRadius: 2,
-              }}
-            >
-              <Icon icon="backArrow" />
-            </IconButton>
-            <Grid container xs>
-              <Skeleton
-                animation="wave"
-                variant="rounded"
-                height={400}
+            {!mobileWidth ? (
+              <IconButton
+                disabled={selectedPhotoIndex === 0}
                 sx={{
-                  width: `100%`,
+                  paddingY: 2,
+                  paddingX: 0.5,
+                  borderRadius: 2,
                 }}
-              />
+                onClick={
+                  selectedPhotoIndex === 0
+                    ? () => null
+                    : () => setSelectedIndexPhoto(selectedPhotoIndex - 1)
+                }
+              >
+                <Icon icon="backArrow" />
+              </IconButton>
+            ) : null}
+
+            <Grid container xs>
+              {roomPhotos?.[selectedPhotoIndex] ? (
+                <img
+                  src={roomPhotos?.[selectedPhotoIndex]}
+                  width="100%"
+                  height="100%"
+                  loading="lazy"
+                  style={{
+                    borderRadius: `4px`,
+                  }}
+                />
+              ) : (
+                <Skeleton
+                  animation="wave"
+                  variant="rounded"
+                  height={400}
+                  sx={{
+                    width: `100%`,
+                  }}
+                />
+              )}
             </Grid>
-            <IconButton
-              sx={{
-                paddingY: 2,
-                paddingX: 0.5,
-                borderRadius: 2,
-              }}
-            >
-              <Icon icon="nextArrow" />
-            </IconButton>
+            {!mobileWidth ? (
+              <IconButton
+                disabled={selectedPhotoIndex === roomPhotos?.length - 1}
+                sx={{
+                  paddingY: 2,
+                  paddingX: 0.5,
+                  borderRadius: 2,
+                }}
+                onClick={
+                  selectedPhotoIndex === roomPhotos?.length - 1
+                    ? () => null
+                    : () => setSelectedIndexPhoto(selectedPhotoIndex + 1)
+                }
+              >
+                <Icon icon="nextArrow" />
+              </IconButton>
+            ) : null}
           </Grid>
           <Grid
             container
@@ -96,41 +155,19 @@ const RoomModal = ({ roomInformation, open, onClose }: RoomModalProps): JSX.Elem
               overflowX: `auto`,
             }}
           >
-            <Skeleton
-              animation="wave"
-              variant="rounded"
-              width={100}
-              height={80}
-              sx={{ minWidth: 100 }}
-            />
-            <Skeleton
-              animation="wave"
-              variant="rounded"
-              width={100}
-              height={80}
-              sx={{ minWidth: 100 }}
-            />
-            <Skeleton
-              animation="wave"
-              variant="rounded"
-              width={100}
-              height={80}
-              sx={{ minWidth: 100 }}
-            />
-            <Skeleton
-              animation="wave"
-              variant="rounded"
-              width={100}
-              height={80}
-              sx={{ minWidth: 100 }}
-            />
-            <Skeleton
-              animation="wave"
-              variant="rounded"
-              width={100}
-              height={80}
-              sx={{ minWidth: 100 }}
-            />
+            {roomPhotos?.map((photo, index) => (
+              <Image
+                key={index}
+                src={photo}
+                width={100}
+                height={80}
+                loading="lazy"
+                selectedPhotoIndex={selectedPhotoIndex}
+                index={index}
+                primary={primary}
+                onClick={() => setSelectedIndexPhoto(index)}
+              />
+            ))}
           </Grid>
         </Grid>
         <Grid container item xs={12} md={5} flexDirection="column" gap={2} height="100%">

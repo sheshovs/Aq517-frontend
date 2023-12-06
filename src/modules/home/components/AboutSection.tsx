@@ -51,6 +51,7 @@ const AboutSection = (): JSX.Element => {
             <img
               src={FOTO_AQVILES}
               alt="Aqviles"
+              loading="lazy"
               style={{
                 borderRadius: `8px`,
                 width: `auto`,
@@ -84,6 +85,7 @@ const AboutSection = (): JSX.Element => {
             <img
               src={FOTO_AQVILES2}
               alt="Aqviles"
+              loading="lazy"
               style={{
                 borderRadius: `8px`,
                 width: `auto`,

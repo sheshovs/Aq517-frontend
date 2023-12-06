@@ -1,6 +1,11 @@
 import { Container } from '@/common/components'
 import RoomModal from '@/common/components/RoomModal'
 import { Grid, Typography, useTheme } from '@mui/material'
+import SALA_AQVILES_1 from '@/assets/SalaAqviles.webp'
+import SALA_AQVILES_2 from '@/assets/SalaAqviles2.webp'
+import SALA_AQVILES_3 from '@/assets/SalaAqviles3.webp'
+import SALA_AQVILES_4 from '@/assets/SalaAqviles4.webp'
+import SALA_AQVILES_5 from '@/assets/SalaAqviles5.webp'
 import React from 'react'
 
 export interface RoomInformation {
@@ -32,6 +37,10 @@ const RoomInformation: Record<string, RoomInformation> = {
   // },
 }
 
+const RoomPhotos: Record<string, string[]> = {
+  aqviles: [SALA_AQVILES_1, SALA_AQVILES_2, SALA_AQVILES_3, SALA_AQVILES_4, SALA_AQVILES_5],
+}
+
 const RoomSection = (): JSX.Element => {
   const {
     palette: { primary, main },
@@ -46,7 +55,12 @@ const RoomSection = (): JSX.Element => {
 
   return (
     <>
-      <RoomModal roomInformation={RoomInformation[room]} open={room !== ``} onClose={handleClose} />
+      <RoomModal
+        roomInformation={RoomInformation[room]}
+        open={room !== ``}
+        onClose={handleClose}
+        roomPhotos={RoomPhotos[room]}
+      />
       <Container id="room" paddingTop={6.25} paddingBottom={12} paddingX={4}>
         <Grid container justifyContent="center" gap={3.75}>
           <Typography
@@ -73,7 +87,9 @@ const RoomSection = (): JSX.Element => {
                 sx={{
                   position: `absolute`,
                   borderRadius: 2,
-                  bgcolor: main.white,
+                  backgroundImage: `url(${SALA_AQVILES_5})`,
+                  backgroundSize: `cover`,
+                  backgroundPosition: `center`,
                   // clipPath: {
                   //   xs: `polygon(100% 0, 100% 45%, 0 55%, 0 55%, 0 0);`,
                   //   sm: `polygon(100% 0, 100% 0, 0 100%, 0 100%, 0 0);`,
@@ -94,9 +110,9 @@ const RoomSection = (): JSX.Element => {
                   sx={{
                     borderRadius: 2,
                     background: {
-                      xs: `linear-gradient(175deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.05) 45%);`,
-                      sm: `linear-gradient(145deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.05) 45%);`,
-                      md: `linear-gradient(160deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.05) 45%);`,
+                      xs: `linear-gradient(175deg, rgba(0,0,0,.7) 20%, rgba(0,0,0,.05) 45%);`,
+                      sm: `linear-gradient(145deg, rgba(0,0,0,.7) 20%, rgba(0,0,0,.05) 45%);`,
+                      md: `linear-gradient(160deg, rgba(0,0,0,.7) 20%, rgba(0,0,0,.05) 45%);`,
                     },
                   }}
                 >
