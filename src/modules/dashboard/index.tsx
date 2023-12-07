@@ -13,7 +13,10 @@ import { EventCalendar } from '@/common/types'
 const Dashboard = (): JSX.Element => {
   const { logOut } = useAuth()
   const { data: orderQuery } = useOrdersQuery({})
-  const month = dayjs().format(`YYYY-MM`)
+  const [state, setState] = React.useState({
+    month: dayjs().format(`YYYY-MM`),
+  })
+  const { month } = state
   const { data: eventsQuery } = useEventMonthQuery({
     month: month,
     options: {
@@ -121,7 +124,7 @@ const Dashboard = (): JSX.Element => {
         >
           <Typography variant="h2">Calendario</Typography>
           <Grid container>
-            <DashboardCalendar events={events} />
+            <DashboardCalendar events={events} setState={setState} />
           </Grid>
         </Grid>
       </Grid>

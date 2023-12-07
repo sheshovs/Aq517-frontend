@@ -3,6 +3,7 @@ import { Grid, IconButton, Link, Typography, useTheme } from '@mui/material'
 import { FaInstagram, FaTiktok, FaWhatsapp, FaFacebookF } from 'react-icons/fa'
 import LOGO_AQVILES from '../../../assets/logoAR.png'
 import React from 'react'
+import dayjs from 'dayjs'
 
 const Footer = (): JSX.Element => {
   const {
@@ -224,7 +225,7 @@ const Footer = (): JSX.Element => {
         height={60}
       >
         <Typography variant="footer" fontWeight={600} textAlign="center">
-          2023 Aqviles Records. Todos los derechos reservados.
+          {dayjs().format(`YYYY`)} Aqviles Records. Todos los derechos reservados.
         </Typography>
       </Grid>
     </Grid>

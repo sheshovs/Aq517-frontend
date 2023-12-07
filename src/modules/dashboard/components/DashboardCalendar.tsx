@@ -136,6 +136,11 @@ interface CalendarToolbarProps {
   view: `day` | `week` | `month`
   setView: (view: `day` | `week` | `month`) => void
   mobileWidth: boolean
+  setState: React.Dispatch<
+    React.SetStateAction<{
+      month: string
+    }>
+  >
 }
 
 const CalendarToolbar = ({
@@ -143,16 +148,43 @@ const CalendarToolbar = ({
   view,
   setView,
   mobileWidth,
+  setState,
 }: CalendarToolbarProps): JSX.Element => {
   const goToBack = (): void => {
+    if (view === `month`) {
+      const month = dayjs(toolbar.date).subtract(1, `month`).format(`YYYY-MM`)
+      setState({ month })
+    }
+    if (view === `week`) {
+      const month = dayjs(toolbar.date).subtract(1, `week`).format(`YYYY-MM`)
+      setState({ month })
+    }
+    if (view === `day`) {
+      const month = dayjs(toolbar.date).subtract(1, `day`).format(`YYYY-MM`)
+      setState({ month })
+    }
     toolbar.onNavigate(`PREV`)
   }
 
   const goToNext = (): void => {
+    if (view === `month`) {
+      const month = dayjs(toolbar.date).add(1, `month`).format(`YYYY-MM`)
+      setState({ month })
+    }
+    if (view === `week`) {
+      const month = dayjs(toolbar.date).add(1, `week`).format(`YYYY-MM`)
+      setState({ month })
+    }
+    if (view === `day`) {
+      const month = dayjs(toolbar.date).add(1, `day`).format(`YYYY-MM`)
+      setState({ month })
+    }
     toolbar.onNavigate(`NEXT`)
   }
 
   const goToCurrent = (): void => {
+    const month = dayjs().format(`YYYY-MM`)
+    setState({ month })
     toolbar.onNavigate(`TODAY`)
   }
 
@@ -245,6 +277,11 @@ const localizer = dayjsLocalizer(dayjs)
 
 interface DashboardCalendarProps {
   events: EventCalendar[]
+  setState: React.Dispatch<
+    React.SetStateAction<{
+      month: string
+    }>
+  >
 }
 
 const messages = {
@@ -263,7 +300,7 @@ const messages = {
   showMore: (total: number) => `+ ${total} eventos`,
 }
 
-const DashboardCalendar = ({ events }: DashboardCalendarProps): JSX.Element => {
+const DashboardCalendar = ({ events, setState }: DashboardCalendarProps): JSX.Element => {
   const {
     palette: { black },
   } = useTheme()
@@ -309,6 +346,7 @@ const DashboardCalendar = ({ events }: DashboardCalendarProps): JSX.Element => {
             view={view}
             setView={setView}
             mobileWidth={mobileWidth}
+            setState={setState}
           />
         ),
       }}
