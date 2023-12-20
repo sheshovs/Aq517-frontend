@@ -57,9 +57,7 @@ const CartSection = ({ items, type }: CartSectionProps): JSX.Element => {
                     alignItems="center"
                   >
                     <Typography variant="subtitle1">
-                      {`${dayjs(item.date)
-                        .tz(`America/Santiago`)
-                        .format(`dddd DD`)} - ${item.startTime.slice(0, -3)}`}
+                      {`${dayjs(item.date).format(`dddd DD`)} - ${item.startTime.slice(0, -3)}`}
                     </Typography>
                     <IconButton
                       sx={{

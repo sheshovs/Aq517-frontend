@@ -174,7 +174,7 @@ const useReserve = () => {
       const title = RoomNames[item.room]
       return {
         title: `Sala ${title}`,
-        date: item.hour.format(`YYYY-MM-DD`),
+        date: item.hour.format(),
         startTime: item.hour.format(`HH:mm:ss`),
         endTime: item.hour.add(1, `hour`).format(`HH:mm:ss`),
         email,

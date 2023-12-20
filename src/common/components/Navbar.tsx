@@ -10,8 +10,9 @@ const Navbar = (): JSX.Element => {
   const { cartState, handleDrawer } = useCart()
   const { cartItems } = cartState
   const linkStyle = {
-    width: `100px`,
+    width: `150px`,
     textDecoration: `none`,
+    textAlign: `center`,
     color: main.white,
     paddingX: 2.5,
     paddingY: 1.25,
