@@ -45,7 +45,7 @@ const useReserve = () => {
   } = state
 
   const startTime = `10:00`
-  const endTime = `20:00`
+  const endTime = `21:00`
 
   const hours = useMemo(() => {
     let start = dayjs(`${selectedDate?.format(`YYYY-MM-DD`)} ${startTime}`)

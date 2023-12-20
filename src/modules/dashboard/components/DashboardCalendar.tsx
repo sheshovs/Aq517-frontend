@@ -84,9 +84,8 @@ const ComponentEvent = ({
                   <Typography variant="subtitle1" fontWeight={600}>
                     Sala:
                   </Typography>
-                  <Typography variant="subtitle1">{`${
-                    RoomNames[selectedEvent?.room || ``]
-                  }`}</Typography>
+                  <Typography variant="subtitle1">{`${RoomNames[selectedEvent?.room || ``]
+                    }`}</Typography>
                 </Grid>
                 <Grid container gap={1}>
                   <Typography variant="subtitle1" fontWeight={600}>
@@ -306,7 +305,7 @@ const DashboardCalendar = ({ events, setState }: DashboardCalendarProps): JSX.El
   } = useTheme()
   const mobileWidth = useMediaQuery((theme: Theme) => theme.breakpoints.down(`md`))
   const minHour = dayjs().hour(10).minute(0).toDate()
-  const maxHour = dayjs().hour(21).minute(0).toDate()
+  const maxHour = dayjs().hour(22).minute(0).toDate()
 
   const [selectedEvent, setSelectedEvent] = React.useState<EventCalendar | null>(null)
   const [view, setView] = React.useState<`day` | `week` | `month`>(mobileWidth ? `day` : `week`)

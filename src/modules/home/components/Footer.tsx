@@ -17,6 +17,10 @@ const Footer = (): JSX.Element => {
       sm: `left`,
     },
   }
+  const linkStyleIcon = {
+    color: main.white,
+    height: `24px`,
+  }
   return (
     <Grid
       container
@@ -145,7 +149,14 @@ const Footer = (): JSX.Element => {
                     },
                   }}
                 >
-                  <FaFacebookF />
+                  <a
+                    href="https://web.facebook.com/aqvilesrecords"
+                    style={linkStyleIcon}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaFacebookF />
+                  </a>
                 </IconButton>
                 <IconButton
                   sx={{
@@ -161,7 +172,14 @@ const Footer = (): JSX.Element => {
                     },
                   }}
                 >
-                  <FaInstagram />
+                  <a
+                    href="https://www.instagram.com/aqviles_records"
+                    style={linkStyleIcon}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaInstagram />
+                  </a>
                 </IconButton>
                 <IconButton
                   sx={{
@@ -177,7 +195,14 @@ const Footer = (): JSX.Element => {
                     },
                   }}
                 >
-                  <FaTiktok />
+                  <a
+                    href="https://www.tiktok.com/@aqviles.records"
+                    style={linkStyleIcon}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaTiktok />
+                  </a>
                 </IconButton>
                 <IconButton
                   sx={{
@@ -193,7 +218,14 @@ const Footer = (): JSX.Element => {
                     },
                   }}
                 >
-                  <FaWhatsapp />
+                  <a
+                    href="https://wa.me/56962190141"
+                    style={linkStyleIcon}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaWhatsapp />
+                  </a>
                 </IconButton>
               </Grid>
             </Grid>

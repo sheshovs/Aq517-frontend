@@ -125,7 +125,7 @@ const RoomSection = (): JSX.Element => {
                       color: main.white,
                     }}
                   >
-                    <Typography variant="h1">Aqviles</Typography>
+                    <Typography variant="h1">Sala Aqviles</Typography>
                     <Typography variant="subtitle2">
                       Sala destinada para bandas y solistas
                     </Typography>
@@ -175,7 +175,7 @@ const RoomSection = (): JSX.Element => {
                       color: main.white,
                     }}
                   >
-                    <Typography variant="h1">La Joya</Typography>
+                    <Typography variant="h1">Sala La Joya</Typography>
                     <Typography variant="subtitle2">
                       Sala destinada para quienes practican las artes escénicas tales como danza
                       árabe, fusión, contemporánea, pilates, zumba, etc.

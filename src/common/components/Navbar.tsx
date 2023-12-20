@@ -48,7 +48,7 @@ const Navbar = (): JSX.Element => {
           <img
             src={LOGO_AQVILES}
             alt="Logo Aqviles Records"
-            height={75}
+            height={90}
             style={{
               borderRadius: 100,
             }}
