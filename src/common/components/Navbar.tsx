@@ -10,6 +10,7 @@ const Navbar = (): JSX.Element => {
   const { cartState, handleDrawer } = useCart()
   const { cartItems } = cartState
   const linkStyle = {
+    width: `100px`,
     textDecoration: `none`,
     color: main.white,
     paddingX: 2.5,
@@ -27,7 +28,7 @@ const Navbar = (): JSX.Element => {
     },
   }
   return (
-    <Grid container height={80}>
+    <Grid container height={80} justifyContent="center">
       <Grid item xs />
       <Grid
         item
