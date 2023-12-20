@@ -7,8 +7,8 @@ import OrderItem from './components/OrderItem'
 import { useAuth } from '@/common/context/AuthContext'
 import DashboardCalendar from './components/DashboardCalendar'
 import { useEventMonthQuery } from '@/common/querys/useEventQuery'
-import dayjs from 'dayjs'
 import { EventCalendar } from '@/common/types'
+import dayjs from '../../common/settings/dayjs'
 
 const Dashboard = (): JSX.Element => {
   const { logOut } = useAuth()

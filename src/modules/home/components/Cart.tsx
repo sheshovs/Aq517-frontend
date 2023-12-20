@@ -8,7 +8,7 @@ import { LoadingButton } from '@mui/lab'
 import { Grid, IconButton, Typography, useTheme } from '@mui/material'
 import React, { useMemo } from 'react'
 import MercadoPagoIcon from '@/assets/mercado-pago-logo.png'
-import dayjs from 'dayjs'
+import dayjs from '../../../common/settings/dayjs'
 
 const Cart = (): JSX.Element => {
   const {

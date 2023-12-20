@@ -3,7 +3,7 @@ import { Grid, IconButton, Link, Typography, useTheme } from '@mui/material'
 import { FaInstagram, FaTiktok, FaWhatsapp, FaFacebookF } from 'react-icons/fa'
 import LOGO_AQVILES from '../../../assets/logoAR.png'
 import React from 'react'
-import dayjs from 'dayjs'
+import dayjs from '../../../common/settings/dayjs'
 
 const Footer = (): JSX.Element => {
   const {

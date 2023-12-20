@@ -1,7 +1,7 @@
 import { OrderResponse, OrderStatusesColors, OrderStatusesLabels, RoomNames } from '@/common/types'
 import { Button, Chip, Grid, Typography, useTheme } from '@mui/material'
-import dayjs from 'dayjs'
 import { useState } from 'react'
+import dayjs from '../../../common/settings/dayjs'
 
 interface OrderItemProps {
   order: OrderResponse

@@ -4,7 +4,7 @@ import { Icon } from '.'
 import { useCart } from '../context/CartContext'
 import { RoomPrices, RoomTypes } from '../types/room'
 import { EventResponse } from '../types'
-import dayjs from 'dayjs'
+import dayjs from '../settings/dayjs'
 
 interface CartSectionProps {
   items: EventResponse[]
