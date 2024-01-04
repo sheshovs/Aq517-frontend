@@ -110,6 +110,11 @@ const Dashboard = (): JSX.Element => {
               <OrderItem key={order.uuid} order={order} />
             ))}
           </Grid>
+          {orders.length === 0 ? (
+            <Grid container>
+              <Typography variant="h4">No existen órdenes</Typography>
+            </Grid>
+          ) : null}
         </Grid>
         <Grid
           container
