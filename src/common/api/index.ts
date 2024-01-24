@@ -1,5 +1,5 @@
 import { getAxiosInstance } from '@/config/axios'
-import { Event, EventResponse, Order, OrderResponse } from '../types'
+import { Event, EventResponse, Order, OrderResponse, RoomResponse } from '../types'
 
 const axiosInstance = getAxiosInstance(import.meta.env.VITE_BACKEND_URL)
 
@@ -29,8 +29,8 @@ const API = {
     block: (events: Event[]) => {
       return axiosInstance.post(`/block/events`, { events })
     },
-    getByFilters: (date: string, room: string): Promise<{ data: EventResponse[] }> => {
-      return axiosInstance.get(`/events/filter`, { params: { date, room } })
+    getByFilters: (date: string, roomId: string): Promise<{ data: EventResponse[] }> => {
+      return axiosInstance.get(`/events/filter`, { params: { date, roomId } })
     },
     getAllByMonth: (month: string): Promise<{ data: EventResponse[] }> => {
       return axiosInstance.get(`/events/month`, { params: { month } })
@@ -39,6 +39,11 @@ const API = {
   order: {
     getAll: (): Promise<{ data: OrderResponse[] }> => {
       return axiosInstance.get(`/orders`)
+    },
+  },
+  room: {
+    getAll: (): Promise<{ data: RoomResponse[] }> => {
+      return axiosInstance.get(`/rooms`)
     },
   },
 }

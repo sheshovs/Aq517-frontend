@@ -3,13 +3,14 @@ import dayjs from '../../../common/settings/dayjs'
 import { Dayjs } from 'dayjs'
 import { emailRegex, numberRegex } from '@/common/utils/regex'
 import { useSnackbar } from 'notistack'
-import { Event, EventResponse, RoomNames, RoomTypes } from '@/common/types'
+import { Event, EventResponse, RoomResponse } from '@/common/types'
 import { useMutation, useQueryClient } from 'react-query'
 import API from '@/common/api'
 import { useCart } from '@/common/context/CartContext'
 import { API_QUERY_KEYS } from '@/common/querys/keys'
 import axios from 'axios'
 import { socket } from '@/config/io'
+import { useRoomQuery } from '@/common/querys/useRoomQuery'
 
 export interface ReserveInitialState {
   userInfo: {
@@ -19,8 +20,8 @@ export interface ReserveInitialState {
   }
   step: number
   selectedDate: Dayjs | null
-  room: RoomTypes
-  hoursSelected: { hour: Dayjs; room: RoomTypes }[]
+  selectedRoom?: RoomResponse
+  hoursSelected: { hour: Dayjs; room: RoomResponse }[]
 }
 
 const initialState = {
@@ -31,18 +32,23 @@ const initialState = {
   },
   step: 1,
   selectedDate: dayjs(),
-  room: RoomTypes.MUSIC,
   hoursSelected: [],
 }
 const useReserve = () => {
   const [state, setState] = useState<ReserveInitialState>(initialState)
   const { enqueueSnackbar } = useSnackbar()
   const { cartState, addToCart, setCartState } = useCart()
+  const { data: roomData } = useRoomQuery({})
 
   const {
     selectedDate,
     userInfo: { name, email, phone },
   } = state
+
+  const rooms = useMemo(() => {
+    if (!roomData) return []
+    return roomData.data
+  }, [roomData])
 
   const startTime = `10:00`
   const endTime = `21:00`
@@ -62,12 +68,20 @@ const useReserve = () => {
   const queryClient = useQueryClient()
 
   useEffect(() => {
+    if (!rooms.length) {
+      return
+    }
+    setRoomSelected(rooms[0])
+  }, [rooms])
+
+  useEffect(() => {
     socket.on(`deleteEvent`, (eventUuidsToDelete: string[]) => {
       const { cartItems } = cartState
       const eventsFiltered = cartItems.filter((item) => !eventUuidsToDelete.includes(item.uuid))
       setCartState({ ...cartState, cartItems: eventsFiltered })
+      const roomId = `${state.selectedRoom?.uuid}`
       queryClient.invalidateQueries(
-        API_QUERY_KEYS.getAllEvents(selectedDate?.format(`YYYY-MM-DD`) || ``, state.room),
+        API_QUERY_KEYS.getAllEvents(selectedDate?.format(`YYYY-MM-DD`) || ``, roomId),
       )
     })
 
@@ -80,16 +94,17 @@ const useReserve = () => {
     onSuccess: (res) => {
       const events: EventResponse[] = res.data.events
       const date = selectedDate?.format(`YYYY-MM-DD`) || ``
-      const room = state.room
-      queryClient.invalidateQueries(API_QUERY_KEYS.getAllEvents(date, room))
+      const roomId = `${state.selectedRoom?.uuid}`
+      queryClient.invalidateQueries(API_QUERY_KEYS.getAllEvents(date, roomId))
       addToCart(events)
       enqueueSnackbar(`Se agregaron horas correctamente`, {
         variant: `success`,
       })
     },
     onError: (error) => {
+      const roomId = `${state.selectedRoom?.uuid}`
       queryClient.invalidateQueries(
-        API_QUERY_KEYS.getAllEvents(selectedDate?.format(`YYYY-MM-DD`) || ``, state.room),
+        API_QUERY_KEYS.getAllEvents(selectedDate?.format(`YYYY-MM-DD`) || ``, roomId),
       )
       if (axios.isAxiosError(error)) {
         enqueueSnackbar(error.response?.data.message, {
@@ -139,27 +154,27 @@ const useReserve = () => {
     setState({ ...state, selectedDate })
   }
 
-  const setRoom = (room: RoomTypes): void => {
-    setState({ ...state, room })
+  const setRoomSelected = (room: RoomResponse): void => {
+    setState({ ...state, selectedRoom: room })
   }
 
-  const setHoursSelected = (hoursSelected: { hour: Dayjs; room: RoomTypes }[]): void => {
+  const setHoursSelected = (hoursSelected: { hour: Dayjs; room: RoomResponse }[]): void => {
     setState({ ...state, hoursSelected })
   }
 
   const onClickHour = (hour: Dayjs): void => {
     const { hoursSelected } = state
     const index = hoursSelected.findIndex(
-      (item) => item.hour.isSame(hour) && item.room === state.room,
+      (item) => item.hour.isSame(hour) && item.room.uuid === state.selectedRoom?.uuid,
     )
-    if (index === -1) {
+    if (index === -1 && state.selectedRoom?.uuid) {
       setState({
         ...state,
         hoursSelected: [
           ...hoursSelected,
           {
             hour,
-            room: state.room,
+            room: state.selectedRoom,
           },
         ],
       })
@@ -171,9 +186,8 @@ const useReserve = () => {
 
   const onAddToCart = (): void => {
     const payload: Event[] = state.hoursSelected.map((item) => {
-      const title = RoomNames[item.room]
       return {
-        title: `Sala ${title}`,
+        title: `Sala ${item.room.name}`,
         date: item.hour.format(),
         startTime: item.hour.format(`HH:mm:ss`),
         endTime: item.hour.add(1, `hour`).format(`HH:mm:ss`),
@@ -188,11 +202,12 @@ const useReserve = () => {
 
   return {
     state,
+    rooms,
     hours,
     handleChange,
     setStep,
     setSelectedDate,
-    setRoom,
+    setRoomSelected,
     setHoursSelected,
     onClickHour,
     onAddToCart,

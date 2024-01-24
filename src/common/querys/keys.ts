@@ -6,6 +6,8 @@ export const API_QUERY_KEYS = {
   getAllEventsByMonth: (month: string) => [`events`, month],
   //order keys
   getAllOrders: [`orders`],
+  //room keys
+  getAllRooms: [`rooms`],
 }
 
 export type QueryOptions<T, V extends QueryKey = string[], K = T> = Omit<

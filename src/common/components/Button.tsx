@@ -2,20 +2,18 @@ import { Button as ButtonMui, ButtonProps, useTheme } from '@mui/material'
 
 interface CustomButtonProps extends ButtonProps {
   text: string
+  width?: number
 }
 
-const CustomButton = ({ text, ...props }: CustomButtonProps): JSX.Element => {
+const CustomButton = ({ text, width, ...props }: CustomButtonProps): JSX.Element => {
   const {
     palette: { main, black },
   } = useTheme()
   return (
     <ButtonMui
-      // disabled={isDisabled !== -1}
-      // variant={isSelected ? `contained` : `outlined`}
-      // onClick={() => onClickHour(hour)}
       sx={{
         fontSize: `13px`,
-        width: 70,
+        width: width,
         height: 30,
         '&.MuiButton-contained': {
           backgroundColor: `${main.white} !important`,

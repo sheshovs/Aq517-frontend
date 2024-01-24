@@ -6,6 +6,7 @@ import {
   ArrowForwardIosRounded,
   ArrowForwardRounded,
   CloseRounded,
+  HelpOutlineRounded,
   LogoutRounded,
   MenuRounded,
   MusicNoteRounded,
@@ -28,6 +29,7 @@ export const icons = {
   showPassword: VisibilityRounded,
   hidePassword: VisibilityOffRounded,
   logout: LogoutRounded,
+  help: HelpOutlineRounded,
 }
 interface IconProps extends SvgIconProps {
   icon: keyof typeof icons

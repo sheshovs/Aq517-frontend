@@ -14,7 +14,7 @@ import {
   Button,
 } from '@mui/material'
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
-import { EventCalendar, RoomNames, RoomTypes } from '@/common/types'
+import { EventCalendar, RoomNames } from '@/common/types'
 import dayjs from '../../../common/settings/dayjs'
 
 interface ComponentEventProps {
@@ -38,7 +38,7 @@ const ComponentEvent = ({
             <Grid
               container
               height="95%"
-              bgcolor={event.room === RoomTypes.MUSIC ? `black.mainFooter` : `primary.main`}
+              bgcolor={event.room.name === RoomNames.AQVILES ? `black.mainFooter` : `primary.main`}
               onClick={(e) => {
                 setSelectedEvent(event)
                 bindTrigger(popupState).onClick(e)
@@ -84,8 +84,7 @@ const ComponentEvent = ({
                   <Typography variant="subtitle1" fontWeight={600}>
                     Sala:
                   </Typography>
-                  <Typography variant="subtitle1">{`${RoomNames[selectedEvent?.room || ``]
-                    }`}</Typography>
+                  <Typography variant="subtitle1">{`${selectedEvent?.room.name}`}</Typography>
                 </Grid>
                 <Grid container gap={1}>
                   <Typography variant="subtitle1" fontWeight={600}>

@@ -11,10 +11,11 @@ const ReserveSection = (): JSX.Element => {
   const {
     state,
     hours,
+    rooms,
     handleChange,
     setStep,
     setSelectedDate,
-    setRoom,
+    setRoomSelected,
     setHoursSelected,
     onClickHour,
     onAddToCart,
@@ -78,9 +79,10 @@ const ReserveSection = (): JSX.Element => {
             {step === 2 && (
               <StepTwo
                 state={state}
+                rooms={rooms}
                 hours={hours}
                 setStep={setStep}
-                setRoom={setRoom}
+                setRoomSelected={setRoomSelected}
                 setHoursSelected={setHoursSelected}
                 setSelectedDate={setSelectedDate}
                 onClickHour={onClickHour}

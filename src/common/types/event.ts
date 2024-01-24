@@ -1,4 +1,5 @@
-import { RoomTypes } from './room'
+import { RoomResponse } from './room'
+
 export interface Event {
   title: string
   date: string
@@ -7,7 +8,7 @@ export interface Event {
   email: string
   phone: string
   attendant: string
-  room: RoomTypes
+  room: RoomResponse
 }
 
 export interface EventResponse extends Event {

@@ -8,7 +8,22 @@ export const RoomPrices = {
   DANCE: 8000,
 }
 
-export const RoomNames: Record<string, string> = {
-  MUSIC: `Aqviles`,
-  DANCE: `La Joya`,
+export enum RoomNames {
+  AQVILES = `Aqviles`,
+  JOYA = `Joya`,
+}
+
+export interface RoomResponse {
+  uuid: string
+  name: RoomNames
+  price: number
+  isActive: boolean
+  items: RoomItem[]
+}
+
+export interface RoomItem {
+  uuid: string
+  name: string
+  price: number
+  isActive: boolean
 }
