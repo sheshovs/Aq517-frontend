@@ -24,13 +24,33 @@ const Home = (): JSX.Element => {
       <Drawer anchor="right" open={openDrawer} onClose={() => handleDrawer(false)}>
         <Cart />
       </Drawer>
-      <Grid container item md={12} justifyContent="center" bgcolor={main.white}>
-        <Header />
-        <RoomSection />
-        <CTA />
-        <AboutSection />
-        <ReserveSection />
-        <Footer />
+      <Grid
+        container
+        item
+        md={12}
+        justifyContent="center"
+        sx={{
+          backgroundSize: `100% 100%`,
+          backgroundPosition: `0px 0px,0px 0px,0px 0px,0px 0px,0px 0px`,
+          backgroundImage: `repeating-linear-gradient(315deg, #00FFFF2E 92%, #073AFF00 100%),repeating-radial-gradient(75% 75% at 238% 218%, #00FFFF12 30%, #073AFF14 39%),radial-gradient(99% 99% at 109% 2%, #00C9FFFF 0%, #073AFF00 100%),radial-gradient(99% 99% at 1% 93%, #B000FFFF 0%, #073AFF00 100%),radial-gradient(160% 154% at 711px -303px, #00C9FFFF 0%, #5E00FFFF 100%)`,
+          color: main.white,
+        }}
+      >
+        <Grid
+          container
+          justifyContent="center"
+          sx={{
+            background: `rgba( 0, 0, 0, 0.20 )`,
+            backdropFilter: `blur( 15px )`,
+          }}
+        >
+          <Header />
+          <RoomSection />
+          <CTA />
+          <AboutSection />
+          <ReserveSection />
+          <Footer />
+        </Grid>
       </Grid>
     </>
   )

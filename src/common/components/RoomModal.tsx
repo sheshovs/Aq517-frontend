@@ -104,7 +104,7 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
               </IconButton>
             ) : null}
 
-            <Grid container xs>
+            <Grid container item xs>
               {roomPhotos?.[selectedPhotoIndex] ? (
                 <img
                   src={roomPhotos?.[selectedPhotoIndex]}

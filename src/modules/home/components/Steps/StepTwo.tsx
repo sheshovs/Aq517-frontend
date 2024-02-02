@@ -4,6 +4,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  Collapse,
   FormControl,
   FormControlLabel,
   Grid,
@@ -24,6 +25,7 @@ import { useEventsQuery } from '@/common/querys/useEventQuery'
 import { useMemo, useState } from 'react'
 import { RoomResponse } from '@/common/types'
 import dayjs from 'dayjs'
+import { hoursByDate } from '../../../../common/utils/format'
 
 enum Option {
   SI = `si`,
@@ -43,13 +45,8 @@ interface StepTwoProps {
   setStep: (step: number) => void
   setSelectedDate: (selectedDate: Dayjs | null) => void
   setRoomSelected: (room: RoomResponse) => void
-  setHoursSelected: (
-    hoursSelected: {
-      hour: Dayjs
-      room: RoomResponse
-    }[],
-  ) => void
   onClickHour: (hour: Dayjs) => void
+  onClickAccesory: (accesory: { name: string; price: number; session: string }) => void
   onAddToCart: () => void
 }
 
@@ -60,15 +57,15 @@ const StepTwo = ({
   setStep,
   setSelectedDate,
   setRoomSelected,
-  setHoursSelected,
   onClickHour,
+  onClickAccesory,
   onAddToCart,
 }: StepTwoProps): JSX.Element => {
   const {
     palette: { main, primary, black },
   } = useTheme()
   const { enqueueSnackbar } = useSnackbar()
-  const { selectedDate, selectedRoom, hoursSelected } = state
+  const { selectedDate, selectedRoom, hoursSelected, accesoriesSelected } = state
   const [addAccesories, setAddAccesories] = useState(`no`)
   const [expanded, setExpanded] = useState<string>(``)
   const { data: events } = useEventsQuery({
@@ -83,48 +80,62 @@ const StepTwo = ({
     return hours
   }, [events?.data])
 
-  const { sessions, totalPrice } = useMemo(() => {
+  const sessions = useMemo(() => {
     const sessions: Session[] = []
-    if (hoursSelected.length === 0) return { sessions, totalPrice: 0 }
+    if (hoursSelected.length === 0) return sessions
 
-    const hoursSorted = hoursSelected.sort((a, b) => a.hour.diff(b.hour))
-    let sessionStartTime = hoursSorted[0].hour.format(`HH:mm`)
-    let start = dayjs(`${selectedDate?.format(`YYYY-MM-DD`)} ${sessionStartTime}`)
-    for (let i = 0; i < hoursSorted.length; i++) {
-      if (hoursSorted[i].hour.format(`HH:mm`) !== start.format(`HH:mm`)) {
-        sessions.push({
-          startTime: sessionStartTime,
-          endTime: start.format(`HH:mm`),
-          date: `${hoursSorted[i].hour.format(`DD`)} de ${hoursSorted[i].hour.format(`MMMM`)}`,
-        })
+    const hoursSortedByDate = hoursByDate(hoursSelected)
 
-        while (hoursSorted[i].hour.format(`HH:mm`) !== start.subtract(1, `hour`).format(`HH:mm`)) {
-          start = start.add(1, `hour`)
+    Object.keys(hoursSortedByDate).forEach((date) => {
+      const hours = hoursSortedByDate[date]
+      let sessionStartTime = hours[0].hour.format(`HH:mm`)
+      let start = dayjs(`${date} ${sessionStartTime}`)
+      hours.forEach((hour, i) => {
+        if (hour.hour.format(`HH:mm`) !== start.format(`HH:mm`)) {
+          sessions.push({
+            startTime: sessionStartTime,
+            endTime: start.format(`HH:mm`),
+            date: `${hour.hour.format(`DD`)} de ${hour.hour.format(`MMMM`)}`,
+          })
+
+          while (hour.hour.format(`HH:mm`) !== start.subtract(1, `hour`).format(`HH:mm`)) {
+            start = start.add(1, `hour`)
+          }
+
+          sessionStartTime = hour.hour.format(`HH:mm`)
         }
 
-        sessionStartTime = hoursSorted[i].hour.format(`HH:mm`)
-      }
+        if (i === hours.length - 1) {
+          sessions.push({
+            startTime: sessionStartTime,
+            endTime: hour.hour.add(1, `hour`).format(`HH:mm`),
+            date: `${hour.hour.format(`DD`)} de ${hour.hour.format(`MMMM`)}`,
+          })
+        }
 
-      if (i === hoursSorted.length - 1) {
-        sessions.push({
-          startTime: sessionStartTime,
-          endTime: hoursSorted[i].hour.add(1, `hour`).format(`HH:mm`),
-          date: `${hoursSorted[i].hour.format(`DD`)} de ${hoursSorted[i].hour.format(`MMMM`)}`,
-        })
-        continue
-      }
+        if (hour.hour.format(`HH:mm`) === start.format(`HH:mm`)) {
+          sessionStartTime = sessionStartTime ? sessionStartTime : start.format(`HH:mm`)
+          start = start.add(1, `hour`)
+        }
+      })
+    })
 
-      if (hoursSorted[i].hour.format(`HH:mm`) === start.format(`HH:mm`)) {
-        sessionStartTime = sessionStartTime ? sessionStartTime : start.format(`HH:mm`)
-        start = start.add(1, `hour`)
-      }
-    }
-
-    return {
-      sessions,
-      totalPrice: hoursSelected.reduce((acc, curr) => acc + curr.room.price, 0),
-    }
+    return sessions
   }, [hoursSelected])
+
+  const totalPrice = useMemo(() => {
+    let total = 0
+    hoursSelected.forEach((hour) => {
+      total += hour.room.price
+    })
+    if (addAccesories === Option.SI) {
+      accesoriesSelected.forEach((accesory) => {
+        total += accesory.price
+      })
+    }
+
+    return total
+  }, [hoursSelected, accesoriesSelected, addAccesories])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAddAccesories(event.target.value)
@@ -218,16 +229,17 @@ const StepTwo = ({
                     )
                   })}
                 </Grid>
-                {hoursSelected.length > 0 && (
+
+                <Collapse in={hoursSelected.length > 0}>
                   <Grid container>
                     <Typography variant="subtitle1" fontWeight={500}>
                       Horas seleccionadas: {hoursSelected.length}
                     </Typography>
                   </Grid>
-                )}
+                </Collapse>
               </Grid>
             </Grid>
-            {sessions.length > 0 ? (
+            <Collapse in={sessions.length > 0}>
               <Grid container gap={2.5}>
                 <FormControl>
                   <Grid container gap={1}>
@@ -276,8 +288,8 @@ const StepTwo = ({
                   </RadioGroup>
                 </FormControl>
               </Grid>
-            ) : null}
-            {addAccesories === Option.SI && sessions.length > 0 ? (
+            </Collapse>
+            <Collapse in={addAccesories === Option.SI && sessions.length > 0}>
               <Grid container paddingBottom={1.25} gap={1.5}>
                 <Typography variant="h5">Sesiones: </Typography>
                 <Grid container gap={1}>
@@ -312,22 +324,37 @@ const StepTwo = ({
                         </AccordionSummary>
                         <AccordionDetails
                           sx={{
-                            background: ` rgba( 255, 255, 255, 0.2 )`,
-                            backdropFilter: `blur( 5.5px )`,
                             border: `1px solid #fff`,
                             paddingY: 1.25,
                             borderRadius: `0 0 5px 5px`,
                           }}
                         >
                           <Grid container gap={{ lg: 2.5, xs: 2 }}>
-                            {selectedRoom?.items.map((accessory, i) => (
-                              <CustomButton
-                                key={i}
-                                text={accessory.name}
-                                disabled={!accessory.isActive}
-                                variant="outlined"
-                              />
-                            ))}
+                            {selectedRoom?.items.map((accessory, i) => {
+                              const index = accesoriesSelected.findIndex(
+                                (item) =>
+                                  item.name === accessory.name &&
+                                  item.session ===
+                                  `${session.startTime} a ${session.endTime} | ${session.date}`,
+                              )
+                              const isSelected = index !== -1
+                              return (
+                                <CustomButton
+                                  key={i}
+                                  text={accessory.name}
+                                  disabled={!accessory.isActive}
+                                  variant={isSelected ? `contained` : `outlined`}
+                                  onClick={() => {
+                                    const accesory = {
+                                      name: accessory.name,
+                                      price: accessory.price,
+                                      session: `${session.startTime} a ${session.endTime} | ${session.date}`,
+                                    }
+                                    onClickAccesory(accesory)
+                                  }}
+                                />
+                              )
+                            })}
                           </Grid>
                         </AccordionDetails>
                       </Accordion>
@@ -335,7 +362,7 @@ const StepTwo = ({
                   })}
                 </Grid>
               </Grid>
-            ) : null}
+            </Collapse>
           </Grid>
           <Grid container item xs={12} paddingY={1.25} gap={2.5} alignItems="center">
             <Typography variant="h5" width="60px">
@@ -366,6 +393,7 @@ const StepTwo = ({
           onClick={() => setStep(1)}
           sx={{
             width: 150,
+            height: 54,
             paddingLeft: 1.5,
             paddingRight: 2,
             borderColor: main.white,
@@ -387,7 +415,6 @@ const StepTwo = ({
               return
             }
             onAddToCart()
-            setHoursSelected([])
           }}
           sx={{
             width: 220,

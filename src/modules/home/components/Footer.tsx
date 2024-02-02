@@ -7,7 +7,7 @@ import dayjs from '../../../common/settings/dayjs'
 
 const Footer = (): JSX.Element => {
   const {
-    palette: { main, black },
+    palette: { main },
   } = useTheme()
   const linkStyle = {
     textDecoration: `none`,
@@ -24,10 +24,10 @@ const Footer = (): JSX.Element => {
   return (
     <Grid
       container
-      bgcolor={black.mainFooter}
       justifyContent="center"
       sx={{
         color: main.white,
+        backgroundColor: `rgba(0,0,0,.5)`,
       }}
     >
       <Container
@@ -96,7 +96,7 @@ const Footer = (): JSX.Element => {
             <Typography
               variant="titleFooter"
               textTransform="uppercase"
-              color={black.lightFooter}
+              color={main.whiteBackground}
               marginBottom={2}
               textAlign={{
                 xs: `center`,
@@ -128,7 +128,7 @@ const Footer = (): JSX.Element => {
               <Typography
                 variant="titleFooter"
                 textTransform="uppercase"
-                color={black.lightFooter}
+                color={main.whiteBackground}
                 marginBottom={2}
                 textAlign="center"
               >
@@ -234,7 +234,7 @@ const Footer = (): JSX.Element => {
               <Typography
                 variant="titleFooter"
                 textTransform="uppercase"
-                color={black.lightFooter}
+                color={main.whiteBackground}
                 marginBottom={2}
                 textAlign="center"
               >
@@ -251,10 +251,12 @@ const Footer = (): JSX.Element => {
       </Container>
       <Grid
         container
-        bgcolor={black.darkFooter}
         justifyContent="center"
         alignItems="center"
         height={60}
+        sx={{
+          backgroundColor: `rgba(0,0,0,.5)`,
+        }}
       >
         <Typography variant="footer" fontWeight={600} textAlign="center">
           {dayjs().format(`YYYY`)} Aqviles Records. Todos los derechos reservados.

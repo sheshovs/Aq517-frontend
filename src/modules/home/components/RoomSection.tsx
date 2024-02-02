@@ -61,7 +61,7 @@ const RoomSection = (): JSX.Element => {
         onClose={handleClose}
         roomPhotos={RoomPhotos[room]}
       />
-      <Container id="room" paddingTop={6.25} paddingBottom={12} paddingX={4}>
+      <Container id="room" paddingTop={6.25} paddingBottom={8} paddingX={4}>
         <Grid container justifyContent="center" gap={3.75}>
           <Typography
             variant="h1"
@@ -79,14 +79,21 @@ const RoomSection = (): JSX.Element => {
           >
             Salas
           </Typography>
-          <Grid container>
+          <Grid
+            container
+            padding={2}
+            sx={{
+              backgroundColor: main.white,
+              borderRadius: `16px`,
+            }}
+          >
             <Grid container position="relative" minHeight={457}>
               <Grid
                 container
                 height={457}
                 sx={{
                   position: `absolute`,
-                  borderRadius: 2,
+                  borderRadius: `8px`,
                   backgroundImage: `url(${SALA_AQVILES_5})`,
                   backgroundSize: `cover`,
                   backgroundPosition: `center`,
@@ -108,7 +115,7 @@ const RoomSection = (): JSX.Element => {
                   container
                   padding={2.5}
                   sx={{
-                    borderRadius: 2,
+                    borderRadius: `8px`,
                     background: {
                       xs: `linear-gradient(175deg, rgba(0,0,0,.7) 20%, rgba(0,0,0,.05) 45%);`,
                       sm: `linear-gradient(145deg, rgba(0,0,0,.7) 20%, rgba(0,0,0,.05) 45%);`,

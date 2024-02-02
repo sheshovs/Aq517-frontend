@@ -22,6 +22,11 @@ export interface ReserveInitialState {
   selectedDate: Dayjs | null
   selectedRoom?: RoomResponse
   hoursSelected: { hour: Dayjs; room: RoomResponse }[]
+  accesoriesSelected: {
+    name: string
+    price: number
+    session: string
+  }[]
 }
 
 const initialState = {
@@ -33,6 +38,7 @@ const initialState = {
   step: 1,
   selectedDate: dayjs(),
   hoursSelected: [],
+  accesoriesSelected: [],
 }
 const useReserve = () => {
   const [state, setState] = useState<ReserveInitialState>(initialState)
@@ -162,6 +168,16 @@ const useReserve = () => {
     setState({ ...state, hoursSelected })
   }
 
+  const setAccesoriesSelected = (
+    accesoriesSelected: {
+      name: string
+      price: number
+      session: string
+    }[],
+  ): void => {
+    setState({ ...state, accesoriesSelected })
+  }
+
   const onClickHour = (hour: Dayjs): void => {
     const { hoursSelected } = state
     const index = hoursSelected.findIndex(
@@ -177,10 +193,27 @@ const useReserve = () => {
             room: state.selectedRoom,
           },
         ],
+        accesoriesSelected: [],
       })
     } else {
       hoursSelected.splice(index, 1)
-      setState({ ...state, hoursSelected: [...hoursSelected] })
+      setState({ ...state, hoursSelected: [...hoursSelected], accesoriesSelected: [] })
+    }
+  }
+
+  const onClickAccesory = (accesory: { name: string; price: number; session: string }): void => {
+    const { accesoriesSelected } = state
+    const index = accesoriesSelected.findIndex(
+      (item) => item.name === accesory.name && item.session === accesory.session,
+    )
+    if (index === -1) {
+      setState({
+        ...state,
+        accesoriesSelected: [...accesoriesSelected, accesory],
+      })
+    } else {
+      accesoriesSelected.splice(index, 1)
+      setState({ ...state, accesoriesSelected: [...accesoriesSelected] })
     }
   }
 
@@ -198,6 +231,11 @@ const useReserve = () => {
       }
     })
     createEvents(payload)
+    setState({
+      ...state,
+      hoursSelected: [],
+      accesoriesSelected: [],
+    })
   }
 
   return {
@@ -209,7 +247,9 @@ const useReserve = () => {
     setSelectedDate,
     setRoomSelected,
     setHoursSelected,
+    setAccesoriesSelected,
     onClickHour,
+    onClickAccesory,
     onAddToCart,
   }
 }
