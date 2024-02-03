@@ -1,13 +1,10 @@
 import { Container } from '@/common/components'
-import { Grid, Typography, useTheme } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import FOTO_AQVILES2 from './../../../assets/aqviles2.webp'
 import FOTO_AQVILES3 from './../../../assets/aqviles3.webp'
 import React from 'react'
 
 const AboutSection = (): JSX.Element => {
-  const {
-    palette: { black, main },
-  } = useTheme()
   return (
     <Container id="about" paddingTop={8} paddingBottom={8} paddingX={4}>
       <Grid container justifyContent="center" gap={3.75}>
@@ -25,14 +22,13 @@ const AboutSection = (): JSX.Element => {
               container
               padding={4}
               sx={{
-                backgroundColor: main.white,
                 borderRadius: `16px`,
+                backgroundColor: `rgba(0,0,0,.1)`,
+                boxShadow: `0 0 10px rgba(255,255,255,.5)`,
               }}
             >
-              <Typography variant="h1" color={black.main} marginBottom={1}>
-                Nosotros
-              </Typography>
-              <Typography variant="text" color={black.main}>
+              <Typography variant="h1">Nosotros</Typography>
+              <Typography variant="text">
                 Había una vez una banda llamada Aqviles, que luego de lanzar su segundo EP y cuarto
                 trabajo de estudio titulado “III”, entendió que sus inquietudes iban más allá de las
                 composiciones musicales. Así fue como se lanzaron en la búsqueda de una nueva piedra
@@ -46,8 +42,9 @@ const AboutSection = (): JSX.Element => {
               container
               padding={2}
               sx={{
-                backgroundColor: main.white,
                 borderRadius: `16px`,
+                backgroundColor: `rgba(0,0,0,.1)`,
+                boxShadow: `0 0 10px rgba(255,255,255,.5)`,
               }}
             >
               <img
@@ -71,8 +68,9 @@ const AboutSection = (): JSX.Element => {
             justifyContent="center"
             padding={2}
             sx={{
-              backgroundColor: main.white,
               borderRadius: `16px`,
+              backgroundColor: `rgba(0,0,0,.1)`,
+              boxShadow: `0 0 10px rgba(255,255,255,.5)`,
             }}
           >
             <img

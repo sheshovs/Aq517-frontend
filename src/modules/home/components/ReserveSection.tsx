@@ -31,9 +31,9 @@ const ReserveSection = (): JSX.Element => {
             paddingTop={6}
             paddingBottom={6}
             sx={{
-              border: `1px solid white`,
               borderRadius: `16px`,
-              backgroundColor: `rgba(0,0,0,.2)`,
+              backgroundColor: `rgba(0,0,0,.1)`,
+              boxShadow: `0 0 10px rgba(255,255,255,.5)`,
             }}
           >
             <Grid

@@ -63,30 +63,33 @@ const RoomSection = (): JSX.Element => {
       />
       <Container id="room" paddingTop={6.25} paddingBottom={8} paddingX={4}>
         <Grid container justifyContent="center" gap={3.75}>
-          <Typography
-            variant="h1"
-            textAlign="center"
-            sx={{
-              '&:after': {
-                content: `""`,
-                display: `block`,
-                margin: `auto`,
-                width: `80px`,
-                height: `5px`,
-                backgroundColor: primary.main,
-              },
-            }}
-          >
-            Salas
-          </Typography>
           <Grid
             container
             padding={2}
             sx={{
-              backgroundColor: main.white,
               borderRadius: `16px`,
+              backgroundColor: `rgba(0,0,0,.1)`,
+              boxShadow: `0 0 10px rgba(255,255,255,.5)`,
             }}
           >
+            <Grid container justifyContent="center" marginBottom={3}>
+              <Typography
+                variant="h1"
+                textAlign="center"
+                sx={{
+                  '&:after': {
+                    content: `""`,
+                    display: `block`,
+                    margin: `auto`,
+                    width: `80px`,
+                    height: `5px`,
+                    backgroundColor: main.white,
+                  },
+                }}
+              >
+                Salas
+              </Typography>
+            </Grid>
             <Grid container position="relative" minHeight={457}>
               <Grid
                 container
