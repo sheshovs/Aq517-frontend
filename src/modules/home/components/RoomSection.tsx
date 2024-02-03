@@ -43,7 +43,7 @@ const RoomPhotos: Record<string, string[]> = {
 
 const RoomSection = (): JSX.Element => {
   const {
-    palette: { primary, main },
+    palette: { main },
   } = useTheme()
   const [room, setRoom] = React.useState<string>(``)
   const handleOpen = (room: string): void => {
