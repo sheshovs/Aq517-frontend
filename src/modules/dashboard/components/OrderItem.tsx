@@ -1,4 +1,4 @@
-import { OrderResponse, OrderStatusesColors, OrderStatusesLabels, RoomNames } from '@/common/types'
+import { OrderResponse, OrderStatusesColors, OrderStatusesLabels } from '@/common/types'
 import { Button, Chip, Grid, Typography, useTheme } from '@mui/material'
 import { useState } from 'react'
 import dayjs from '../../../common/settings/dayjs'
@@ -51,7 +51,7 @@ const OrderItem = ({ order }: OrderItemProps): JSX.Element => {
             {order.events.length > 0 &&
               order.events.map((event) => (
                 <Grid container key={event.uuid} marginBottom={0.5} paddingLeft={4}>
-                  <Typography variant="subtitle1">{`Sala ${RoomNames[event.room]}, ${dayjs(
+                  <Typography variant="subtitle1">{`Sala ${event.room.name}, ${dayjs(
                     event.date,
                   ).format(`dddd DD`)} - ${event.startTime.slice(0, -3)}`}</Typography>
                 </Grid>

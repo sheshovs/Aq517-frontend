@@ -3,7 +3,7 @@ import { Icon } from '@/common/components'
 import CartSection from '@/common/components/CartSection'
 import { useCart } from '@/common/context/CartContext'
 import { Order } from '@/common/types/order'
-import { RoomPrices, RoomTypes } from '@/common/types/room'
+import { RoomNames, RoomPrices, RoomTypes } from '@/common/types/room'
 import { LoadingButton } from '@mui/lab'
 import { Grid, IconButton, Typography, useTheme } from '@mui/material'
 import React, { useMemo } from 'react'
@@ -19,10 +19,10 @@ const Cart = (): JSX.Element => {
 
   const { musicItems, danceItems, orderData, totalPrice } = useMemo(() => {
     const musicItems = cartItems
-      .filter((item) => item.room === RoomTypes.MUSIC)
+      .filter((item) => item.room.name.toLowerCase() === RoomNames.AQVILES)
       .sort((a, b) => dayjs(a.startTime).diff(dayjs(b.startTime)))
     const danceItems = cartItems
-      .filter((item) => item.room === RoomTypes.DANCE)
+      .filter((item) => item.room.name.toLowerCase() === RoomNames.JOYA)
       .sort((a, b) => dayjs(a.startTime).diff(dayjs(b.startTime)))
 
     const userData = {

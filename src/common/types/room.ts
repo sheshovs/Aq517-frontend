@@ -9,8 +9,8 @@ export const RoomPrices = {
 }
 
 export enum RoomNames {
-  AQVILES = `Aqviles`,
-  JOYA = `Joya`,
+  AQVILES = `aqviles`,
+  JOYA = `joya`,
 }
 
 export interface RoomResponse {
