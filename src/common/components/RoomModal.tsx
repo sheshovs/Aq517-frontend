@@ -42,8 +42,7 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
   } = useTheme()
   const mobileWidth = useMediaQuery((theme: Theme) => theme.breakpoints.down(`md`))
   const [selectedPhotoIndex, setSelectedIndexPhoto] = React.useState(0)
-
-  //TODO: add modal skeleton
+  const [isLoading, setIsLoading] = React.useState(true)
 
   return (
     <Modal
@@ -89,109 +88,152 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
           >
             <Icon icon="close" />
           </IconButton>
-          <Grid container item xs={12} md={7} flexDirection="column" gap={2}>
-            <Grid container alignItems="center" gap={0.5}>
-              {!mobileWidth ? (
-                <IconButton
-                  disabled={selectedPhotoIndex === 0}
-                  sx={{
-                    paddingY: 2,
-                    paddingX: 0.5,
-                    borderRadius: 2,
-                  }}
-                  onClick={
-                    selectedPhotoIndex === 0
-                      ? () => null
-                      : () => setSelectedIndexPhoto(selectedPhotoIndex - 1)
-                  }
-                >
-                  <Icon icon="backArrow" />
-                </IconButton>
-              ) : null}
+          <>
+            <Grid container item xs={12} md={7} flexDirection="column" gap={2}>
+              <Grid container alignItems="center" gap={0.5}>
+                {!mobileWidth ? (
+                  <IconButton
+                    disabled={selectedPhotoIndex === 0}
+                    sx={{
+                      paddingY: 2,
+                      paddingX: 0.5,
+                      borderRadius: 2,
+                    }}
+                    onClick={
+                      selectedPhotoIndex === 0
+                        ? () => null
+                        : () => setSelectedIndexPhoto(selectedPhotoIndex - 1)
+                    }
+                  >
+                    <Icon icon="backArrow" />
+                  </IconButton>
+                ) : null}
 
-              <Grid container item xs>
-                {roomPhotos?.[selectedPhotoIndex] ? (
+                <Grid container item xs>
+                  {isLoading ? (
+                    <Skeleton animation="wave" variant="rounded" height={400} width="100%" />
+                  ) : null}
                   <img
                     src={roomPhotos?.[selectedPhotoIndex]}
                     width="100%"
                     height="100%"
+                    onLoad={() => setIsLoading(false)}
                     style={{
                       borderRadius: `4px`,
+                      display: isLoading ? `none` : `block`,
                     }}
                   />
-                ) : (
+                </Grid>
+                {!mobileWidth ? (
+                  <IconButton
+                    disabled={selectedPhotoIndex === roomPhotos?.length - 1}
+                    sx={{
+                      paddingY: 2,
+                      paddingX: 0.5,
+                      borderRadius: 2,
+                    }}
+                    onClick={
+                      selectedPhotoIndex === roomPhotos?.length - 1
+                        ? () => null
+                        : () => setSelectedIndexPhoto(selectedPhotoIndex + 1)
+                    }
+                  >
+                    <Icon icon="nextArrow" />
+                  </IconButton>
+                ) : null}
+              </Grid>
+              <Grid
+                container
+                gap={2}
+                justifyContent="flex-start"
+                paddingBottom={1}
+                alignItems="center"
+                flexWrap="nowrap"
+                sx={{
+                  overflowX: `auto`,
+                }}
+              >
+                {isLoading ? (
+                  <>
+                    <Skeleton animation="wave" variant="rounded" height={80} width={100} />
+                    <Skeleton animation="wave" variant="rounded" height={80} width={100} />
+                    <Skeleton animation="wave" variant="rounded" height={80} width={100} />
+                    <Skeleton animation="wave" variant="rounded" height={80} width={100} />
+                    <Skeleton animation="wave" variant="rounded" height={80} width={100} />
+                  </>
+                ) : null}
+                {roomPhotos?.map((photo, index) => (
+                  <Image
+                    key={index}
+                    src={photo}
+                    width={100}
+                    height={80}
+                    selectedPhotoIndex={selectedPhotoIndex}
+                    index={index}
+                    primary={primary}
+                    onClick={() => setSelectedIndexPhoto(index)}
+                    style={{
+                      display: isLoading ? `none` : `block`,
+                    }}
+                  />
+                ))}
+              </Grid>
+            </Grid>
+            {isLoading ? (
+              <Grid
+                container
+                item
+                xs={12}
+                md={5}
+                paddingTop={4}
+                flexDirection="column"
+                justifyContent="space-between"
+              >
+                <Grid container gap={0.5}>
                   <Skeleton
                     animation="wave"
                     variant="rounded"
-                    height={400}
+                    height={50}
+                    width="80%"
                     sx={{
-                      width: `100%`,
+                      marginBottom: 2,
                     }}
                   />
-                )}
+                  <Skeleton animation="wave" variant="rounded" height={25} width="90%" />
+                  <Skeleton animation="wave" variant="rounded" height={25} width="95%" />
+                  <Skeleton animation="wave" variant="rounded" height={25} width="90%" />
+                  <Skeleton animation="wave" variant="rounded" height={25} width="100%" />
+                  <Skeleton animation="wave" variant="rounded" height={25} width="85%" />
+                  <Skeleton animation="wave" variant="rounded" height={25} width="90%" />
+                  <Skeleton animation="wave" variant="rounded" height={25} width="60%" />
+                </Grid>
+
+                <Grid container justifyContent="flex-end" marginTop={4}>
+                  <Skeleton animation="wave" variant="rounded" height={42} width={200} />
+                </Grid>
               </Grid>
-              {!mobileWidth ? (
-                <IconButton
-                  disabled={selectedPhotoIndex === roomPhotos?.length - 1}
-                  sx={{
-                    paddingY: 2,
-                    paddingX: 0.5,
-                    borderRadius: 2,
-                  }}
-                  onClick={
-                    selectedPhotoIndex === roomPhotos?.length - 1
-                      ? () => null
-                      : () => setSelectedIndexPhoto(selectedPhotoIndex + 1)
-                  }
-                >
-                  <Icon icon="nextArrow" />
-                </IconButton>
-              ) : null}
-            </Grid>
-            <Grid
-              container
-              gap={2}
-              justifyContent="flex-start"
-              paddingBottom={1}
-              alignItems="center"
-              flexWrap="nowrap"
-              sx={{
-                overflowX: `auto`,
-              }}
-            >
-              {roomPhotos?.map((photo, index) => (
-                <Image
-                  key={index}
-                  src={photo}
-                  width={100}
-                  height={80}
-                  selectedPhotoIndex={selectedPhotoIndex}
-                  index={index}
-                  primary={primary}
-                  onClick={() => setSelectedIndexPhoto(index)}
-                />
-              ))}
-            </Grid>
-          </Grid>
-          <Grid container item xs={12} md={5} flexDirection="column" gap={2} height="100%">
-            <Typography variant="h2">Sala {roomInformation?.title}</Typography>
-            <Typography>{ReactHtmlParser(roomInformation?.description || ``)}</Typography>
-            <Grid container alignSelf="flex-end" justifyContent="flex-end">
-              <Link href="#reserve">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: `200px`,
-                    height: `42px`,
-                  }}
-                  onClick={onClose}
-                >
-                  Reservar ahora
-                </Button>
-              </Link>
-            </Grid>
-          </Grid>
+            ) : (
+              <Grid container item xs={12} md={5} flexDirection="column" gap={2} height="100%">
+                <Typography variant="h2">Sala {roomInformation?.title}</Typography>
+                <Typography>{ReactHtmlParser(roomInformation?.description || ``)}</Typography>
+                <Grid container alignSelf="flex-end" justifyContent="flex-end">
+                  <Link href="#reserve">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      sx={{
+                        width: `200px`,
+                        height: `42px`,
+                      }}
+                      onClick={onClose}
+                    >
+                      Reservar ahora
+                    </Button>
+                  </Link>
+                </Grid>
+              </Grid>
+            )}
+          </>
         </Grid>
       </Fade>
     </Modal>
