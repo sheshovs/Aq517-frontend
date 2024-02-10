@@ -137,7 +137,7 @@ const typography = (): Record<string, unknown> => ({
   text: {
     fontSize: pxToRem(16),
     fontWeight: 400,
-    lineHeight: 1.2,
+    lineHeight: 1.5,
     fontFamily: 'Poppins',
   },
   footer: {

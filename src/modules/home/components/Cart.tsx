@@ -31,22 +31,45 @@ const Cart = (): JSX.Element => {
       phone: musicItems[0]?.phone || danceItems[0]?.phone || ``,
     }
 
+    const allAccesories = [
+      ...musicItems.map((item) => item.accesories).flat(),
+      ...danceItems.map((item) => item.accesories).flat(),
+    ]
+
     const orderData: Order = {
       items: [
-        ...musicItems.map((item) => ({
-          id: item.uuid,
-          title: `Sala Aqviles`,
-          quantity: 1,
-          unit_price: item.room.price,
-          currency_id: `CLP`,
-        })),
-        ...danceItems.map((item) => ({
-          id: item.uuid,
-          title: `Sala La Joya`,
-          quantity: 1,
-          unit_price: item.room.price,
-          currency_id: `CLP`,
-        })),
+        ...musicItems.map((item) => {
+          const startTime = dayjs(`${item.date} ${item.startTime}`)
+          const endTime = dayjs(`${item.date} ${item.endTime}`)
+          const hoursQuantity = endTime.diff(startTime, `hour`)
+          return {
+            id: item.uuid,
+            title: `Sala Aqviles`,
+            quantity: hoursQuantity,
+            unit_price: item.room.price,
+            currency_id: `CLP`,
+          }
+        }),
+        ...danceItems.map((item) => {
+          const startTime = dayjs(`${item.date} ${item.startTime}`)
+          const endTime = dayjs(`${item.date} ${item.endTime}`)
+          const hoursQuantity = endTime.diff(startTime, `hour`)
+          return {
+            id: item.uuid,
+            title: `Sala La Joya`,
+            quantity: hoursQuantity,
+            unit_price: item.room.price,
+            currency_id: `CLP`,
+          }
+        }),
+        ...allAccesories.map((accesory) => {
+          return {
+            title: accesory.name,
+            quantity: 1,
+            unit_price: accesory.price,
+            currency_id: `CLP`,
+          }
+        }),
       ],
       ...userData,
     }

@@ -1,7 +1,7 @@
 import { EventResponse } from './event'
 
 export interface OrderItem {
-  id: string
+  id?: string
   title: string
   quantity: number
   unit_price: number
