@@ -1,4 +1,5 @@
 import { RoomResponse } from './room'
+import { Dayjs } from 'dayjs'
 
 export interface Event {
   title: string
@@ -16,6 +17,12 @@ export interface EventResponse extends Event {
   status: EventStatuses
   createdAt: string
   expirationDate: string
+  accesories: {
+    uuid: string
+    name: string
+    price: number
+    session: Session
+  }[]
 }
 
 export interface EventCalendar extends Event {
@@ -26,4 +33,23 @@ export interface EventCalendar extends Event {
 export enum EventStatuses {
   BLOCKED = `BLOCKED`,
   SCHEDULED = `SCHEDULED`,
+}
+
+export interface Session {
+  startTime: string
+  endTime: string
+  date: Dayjs
+  room: RoomResponse
+}
+
+export interface Accesory {
+  uuid: string
+  name: string
+  price: number
+  session: Session
+}
+
+export interface Hour {
+  hour: Dayjs
+  room: RoomResponse
 }

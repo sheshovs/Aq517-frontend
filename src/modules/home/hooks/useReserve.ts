@@ -3,7 +3,7 @@ import dayjs from '../../../common/settings/dayjs'
 import { Dayjs } from 'dayjs'
 import { emailRegex, numberRegex } from '@/common/utils/regex'
 import { useSnackbar } from 'notistack'
-import { Event, EventResponse, RoomResponse } from '@/common/types'
+import { Accesory, Event, EventResponse, Hour, RoomResponse, Session } from '@/common/types'
 import { useMutation, useQueryClient } from 'react-query'
 import API from '@/common/api'
 import { useCart } from '@/common/context/CartContext'
@@ -21,12 +21,8 @@ export interface ReserveInitialState {
   step: number
   selectedDate: Dayjs | null
   selectedRoom?: RoomResponse
-  hoursSelected: { hour: Dayjs; room: RoomResponse }[]
-  accesoriesSelected: {
-    name: string
-    price: number
-    session: string
-  }[]
+  hoursSelected: Hour[]
+  accesoriesSelected: Accesory[]
 }
 
 const initialState = {
@@ -164,17 +160,11 @@ const useReserve = () => {
     setState({ ...state, selectedRoom: room })
   }
 
-  const setHoursSelected = (hoursSelected: { hour: Dayjs; room: RoomResponse }[]): void => {
+  const setHoursSelected = (hoursSelected: Hour[]): void => {
     setState({ ...state, hoursSelected })
   }
 
-  const setAccesoriesSelected = (
-    accesoriesSelected: {
-      name: string
-      price: number
-      session: string
-    }[],
-  ): void => {
+  const setAccesoriesSelected = (accesoriesSelected: Accesory[]): void => {
     setState({ ...state, accesoriesSelected })
   }
 
@@ -201,7 +191,7 @@ const useReserve = () => {
     }
   }
 
-  const onClickAccesory = (accesory: { name: string; price: number; session: string }): void => {
+  const onClickAccesory = (accesory: Accesory): void => {
     const { accesoriesSelected } = state
     const index = accesoriesSelected.findIndex(
       (item) => item.name === accesory.name && item.session === accesory.session,
@@ -217,17 +207,19 @@ const useReserve = () => {
     }
   }
 
-  const onAddToCart = (): void => {
-    const payload: Event[] = state.hoursSelected.map((item) => {
+  const onAddToCart = (sessions: Session[]): void => {
+    const payload: Event[] = sessions.map((item) => {
+      const accesories = state.accesoriesSelected.filter((accesory) => accesory.session === item)
       return {
         title: `Sala ${item.room.name}`,
-        date: item.hour.format(),
-        startTime: item.hour.format(`HH:mm:ss`),
-        endTime: item.hour.add(1, `hour`).format(`HH:mm:ss`),
+        date: item.date.format(`YYYY-MM-DD`),
+        startTime: item.startTime,
+        endTime: item.endTime,
         email,
         phone: `+569${phone}`,
         attendant: name,
         room: item.room,
+        accesories,
       }
     })
     createEvents(payload)

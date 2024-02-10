@@ -17,6 +17,7 @@ export interface RoomResponse {
   uuid: string
   name: RoomNames
   price: number
+  type: RoomTypes
   isActive: boolean
   items: RoomItem[]
 }
@@ -25,5 +26,6 @@ export interface RoomItem {
   uuid: string
   name: string
   price: number
+  type: RoomTypes
   isActive: boolean
 }

@@ -3,7 +3,7 @@ import { Icon } from '@/common/components'
 import CartSection from '@/common/components/CartSection'
 import { useCart } from '@/common/context/CartContext'
 import { Order } from '@/common/types/order'
-import { RoomNames, RoomPrices, RoomTypes } from '@/common/types/room'
+import { RoomTypes } from '@/common/types/room'
 import { LoadingButton } from '@mui/lab'
 import { Grid, IconButton, Typography, useTheme } from '@mui/material'
 import React, { useMemo } from 'react'
@@ -17,12 +17,12 @@ const Cart = (): JSX.Element => {
   const { cartState, handleDrawer, onPayButtonClick } = useCart()
   const { cartItems, isLoading } = cartState
 
-  const { musicItems, danceItems, orderData, totalPrice } = useMemo(() => {
+  const { musicItems, danceItems, orderData, totalPrice, musicPrice, dancePrice } = useMemo(() => {
     const musicItems = cartItems
-      .filter((item) => item.room.name.toLowerCase() === RoomNames.AQVILES)
+      .filter((item) => item.room.type === RoomTypes.MUSIC)
       .sort((a, b) => dayjs(a.startTime).diff(dayjs(b.startTime)))
     const danceItems = cartItems
-      .filter((item) => item.room.name.toLowerCase() === RoomNames.JOYA)
+      .filter((item) => item.room.type === RoomTypes.DANCE)
       .sort((a, b) => dayjs(a.startTime).diff(dayjs(b.startTime)))
 
     const userData = {
@@ -37,26 +37,48 @@ const Cart = (): JSX.Element => {
           id: item.uuid,
           title: `Sala Aqviles`,
           quantity: 1,
-          unit_price: RoomPrices.MUSIC,
+          unit_price: item.room.price,
           currency_id: `CLP`,
         })),
         ...danceItems.map((item) => ({
           id: item.uuid,
           title: `Sala La Joya`,
           quantity: 1,
-          unit_price: RoomPrices.DANCE,
+          unit_price: item.room.price,
           currency_id: `CLP`,
         })),
       ],
       ...userData,
     }
 
-    const totalPrice = (
-      musicItems.length * RoomPrices.MUSIC +
-      danceItems.length * RoomPrices.DANCE
-    ).toLocaleString(`es-CL`)
+    let musicPrice = 0
+    musicItems.forEach((item) => {
+      const startTime = dayjs(`${item.date} ${item.startTime}`)
+      const endTime = dayjs(`${item.date} ${item.endTime}`)
+      const hoursQuantity = endTime.diff(startTime, `hour`)
+      musicPrice += item.room.price * hoursQuantity
+      if (item.accesories.length > 0) {
+        item.accesories.forEach((accesory) => {
+          musicPrice += accesory.price
+        })
+      }
+    })
+    let dancePrice = 0
+    danceItems.forEach((item) => {
+      const startTime = dayjs(`${item.date} ${item.startTime}`)
+      const endTime = dayjs(`${item.date} ${item.endTime}`)
+      const hoursQuantity = endTime.diff(startTime, `hour`)
+      dancePrice += item.room.price * hoursQuantity
+      if (item.accesories.length > 0) {
+        item.accesories.forEach((accesory) => {
+          dancePrice += accesory.price
+        })
+      }
+    })
 
-    return { musicItems, danceItems, orderData, totalPrice }
+    const totalPrice = (musicPrice + dancePrice).toLocaleString(`es-CL`)
+
+    return { musicItems, danceItems, orderData, totalPrice, musicPrice, dancePrice }
   }, [cartItems])
 
   return (
@@ -101,8 +123,12 @@ const Cart = (): JSX.Element => {
               },
             }}
           >
-            {musicItems.length > 0 && <CartSection items={musicItems} type={RoomTypes.MUSIC} />}
-            {danceItems.length > 0 && <CartSection items={danceItems} type={RoomTypes.DANCE} />}
+            {musicItems.length > 0 && (
+              <CartSection items={musicItems} type={RoomTypes.MUSIC} price={musicPrice} />
+            )}
+            {danceItems.length > 0 && (
+              <CartSection items={danceItems} type={RoomTypes.DANCE} price={dancePrice} />
+            )}
           </Grid>
           {musicItems.length === 0 && danceItems.length === 0 && (
             <Grid container>

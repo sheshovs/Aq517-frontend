@@ -23,19 +23,13 @@ import { Dayjs } from 'dayjs'
 import { ReserveInitialState } from '../../hooks/useReserve'
 import { useEventsQuery } from '@/common/querys/useEventQuery'
 import { useMemo, useState } from 'react'
-import { RoomResponse } from '@/common/types'
+import { Accesory, RoomResponse, Session } from '@/common/types'
 import dayjs from 'dayjs'
 import { hoursByDate } from '../../../../common/utils/format'
 
 enum Option {
   SI = `si`,
   NO = `no`,
-}
-
-interface Session {
-  startTime: string
-  endTime: string
-  date: string
 }
 
 interface StepTwoProps {
@@ -46,8 +40,8 @@ interface StepTwoProps {
   setSelectedDate: (selectedDate: Dayjs | null) => void
   setRoomSelected: (room: RoomResponse) => void
   onClickHour: (hour: Dayjs) => void
-  onClickAccesory: (accesory: { name: string; price: number; session: string }) => void
-  onAddToCart: () => void
+  onClickAccesory: (accesory: Accesory) => void
+  onAddToCart: (sessions: Session[]) => void
 }
 
 const StepTwo = ({
@@ -76,8 +70,17 @@ const StepTwo = ({
 
   const disabledHours = useMemo(() => {
     if (!events?.data) return []
-    const hours = events.data.map((event) => event.startTime)
-    return hours
+
+    const disabledHours: string[] = []
+    events.data.forEach((event) => {
+      let start = dayjs(`${event.date} ${event.startTime}`)
+      const end = dayjs(`${event.date} ${event.endTime}`)
+      while (start.isBefore(end)) {
+        disabledHours.push(start.format(`HH:mm:ss`))
+        start = start.add(1, `hour`)
+      }
+    })
+    return disabledHours
   }, [events?.data])
 
   const sessions = useMemo(() => {
@@ -95,7 +98,8 @@ const StepTwo = ({
           sessions.push({
             startTime: sessionStartTime,
             endTime: start.format(`HH:mm`),
-            date: `${hour.hour.format(`DD`)} de ${hour.hour.format(`MMMM`)}`,
+            date: hour.hour,
+            room: hour.room,
           })
 
           while (hour.hour.format(`HH:mm`) !== start.subtract(1, `hour`).format(`HH:mm`)) {
@@ -109,7 +113,8 @@ const StepTwo = ({
           sessions.push({
             startTime: sessionStartTime,
             endTime: hour.hour.add(1, `hour`).format(`HH:mm`),
-            date: `${hour.hour.format(`DD`)} de ${hour.hour.format(`MMMM`)}`,
+            date: hour.hour,
+            room: hour.room,
           })
         }
 
@@ -217,12 +222,13 @@ const StepTwo = ({
                       (item) => item.hour.isSame(hour) && item.room.uuid === selectedRoom?.uuid,
                     )
                     const isSelected = index !== -1
+                    const disabled = disabledHours.includes(hour.format(`HH:mm:ss`))
                     return (
                       <CustomButton
                         key={i}
                         text={hour.format(`HH:mm`)}
                         onClick={() => onClickHour(hour)}
-                        disabled={disabledHours.includes(hour.format(`HH:mm:ss`))}
+                        disabled={disabled}
                         variant={isSelected ? `contained` : `outlined`}
                         width={70}
                       />
@@ -319,7 +325,9 @@ const StepTwo = ({
                           }}
                         >
                           <Typography variant="h6">
-                            {session.startTime} a {session.endTime} | {session.date}
+                            {session.startTime} a {session.endTime} | {session.date.format(`DD`)} de
+                            {` `}
+                            {session.date.format(`MMMM`)}
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails
@@ -334,8 +342,9 @@ const StepTwo = ({
                               const index = accesoriesSelected.findIndex(
                                 (item) =>
                                   item.name === accessory.name &&
-                                  item.session ===
-                                  `${session.startTime} a ${session.endTime} | ${session.date}`,
+                                  item.session.date.isSame(session.date) &&
+                                  item.session.startTime === session.startTime &&
+                                  item.session.endTime === session.endTime,
                               )
                               const isSelected = index !== -1
                               return (
@@ -346,9 +355,10 @@ const StepTwo = ({
                                   variant={isSelected ? `contained` : `outlined`}
                                   onClick={() => {
                                     const accesory = {
+                                      uuid: accessory.uuid,
                                       name: accessory.name,
                                       price: accessory.price,
-                                      session: `${session.startTime} a ${session.endTime} | ${session.date}`,
+                                      session: session,
                                     }
                                     onClickAccesory(accesory)
                                   }}
@@ -414,7 +424,7 @@ const StepTwo = ({
               enqueueSnackbar(`Debes seleccionar al menos una hora`, { variant: `error` })
               return
             }
-            onAddToCart()
+            onAddToCart(sessions)
           }}
           sx={{
             width: 220,
