@@ -1,5 +1,5 @@
 import { Button, Divider, Grid, IconButton, Typography, useTheme } from '@mui/material'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Icon } from '.'
 import { useCart } from '../context/CartContext'
 import { RoomTypes } from '../types/room'
@@ -18,6 +18,7 @@ const CartSection = ({ items, type, price }: CartSectionProps): JSX.Element => {
   } = useTheme()
   const { deleteEvent } = useCart()
   const [moreDetails, setMoreDetails] = React.useState(false)
+  const showMoreDetails = useMemo(() => items.some((item) => item.accesories.length > 0), [items])
   return (
     <Grid container alignItems="flex-start">
       <Grid container>
@@ -102,18 +103,21 @@ const CartSection = ({ items, type, price }: CartSectionProps): JSX.Element => {
           </Typography>
         </Grid>
       </Grid>
-      <Grid container paddingTop={2} paddingBottom={1}>
-        <Button
-          color="primary"
-          sx={{
-            textTransform: `none`,
-          }}
-          onClick={() => setMoreDetails(!moreDetails)}
-        >
-          {moreDetails ? `Ocultar` : `Más`} detalles
-        </Button>
-      </Grid>
-      <Grid container>
+      {showMoreDetails ? (
+        <Grid container paddingTop={2} paddingBottom={1}>
+          <Button
+            color="primary"
+            sx={{
+              textTransform: `none`,
+            }}
+            onClick={() => setMoreDetails(!moreDetails)}
+          >
+            {moreDetails ? `Ocultar` : `Más`} detalles
+          </Button>
+        </Grid>
+      ) : null}
+
+      <Grid container paddingTop={showMoreDetails ? 0 : 2}>
         <Divider
           sx={{
             width: `100%`,
