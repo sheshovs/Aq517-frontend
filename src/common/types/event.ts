@@ -17,17 +17,14 @@ export interface EventResponse extends Event {
   status: EventStatuses
   createdAt: string
   expirationDate: string
-  accesories: {
-    uuid: string
-    name: string
-    price: number
-    session: Session
-  }[]
+  accesories: Accesory[]
 }
 
 export interface EventCalendar extends Event {
   start: Date
   end: Date
+  accesories?: Accesory[]
+  status: EventStatuses
 }
 
 export enum EventStatuses {

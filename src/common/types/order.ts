@@ -36,7 +36,7 @@ export enum OrderStatuses {
 export const OrderStatusesLabels: Record<string, string> = {
   [OrderStatuses.PENDING]: `Pendiente`,
   [OrderStatuses.APPROVED]: `Aprobado`,
-  [OrderStatuses.FAILURE]: `Fallido`,
+  [OrderStatuses.FAILURE]: `Cancelado`,
   [OrderStatuses.REJECTED]: `Rechazado`,
 }
 

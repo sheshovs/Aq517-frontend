@@ -7,6 +7,7 @@ import { UseMutateFunction, useMutation, useQueryClient } from 'react-query'
 import axios, { AxiosResponse } from 'axios'
 import { API_QUERY_KEYS } from '../querys/keys'
 import { useSnackbar } from 'notistack'
+import { PaymentMethods } from '@/modules/home/components/Cart'
 
 interface CartContextProps {
   openDrawer: boolean
@@ -20,7 +21,7 @@ interface ContextProps {
   addToCart: (events: EventResponse[]) => void
   deleteFromCart: (event: EventResponse) => void
   handleDrawer: (value: boolean) => void
-  onPayButtonClick: (orderData: Order) => Promise<void>
+  onPayButtonClick: (orderData: Order, paymentMethod: PaymentMethods) => Promise<void>
   deleteEvent: UseMutateFunction<AxiosResponse<any, any>, unknown, EventResponse, unknown>
 }
 
@@ -142,18 +143,27 @@ const CartProvider = ({ children }: { children: JSX.Element }): JSX.Element => {
     setCartState({ ...cartState, openDrawer: value })
   }
 
-  const onPayButtonClick = async (orderData: Order): Promise<void> => {
+  const onPayButtonClick = async (
+    orderData: Order,
+    paymentMethod: PaymentMethods,
+  ): Promise<void> => {
     setCartState({ ...cartState, isLoading: true })
-    try {
-      const data = await API.createPreference(orderData)
+    if (paymentMethod === PaymentMethods.TRANSBANK) {
+      console.log(`Integrar transbank`)
+      setCartState({ ...cartState, isLoading: false })
+    }
+    if (paymentMethod === PaymentMethods.MERCADO_PAGO) {
+      try {
+        const data = await API.createPreference(orderData)
 
-      if (data) {
-        const url = data.data.url
-        window.location.href = url
+        if (data) {
+          const url = data.data.url
+          window.location.href = url
+          setCartState({ ...cartState, isLoading: false })
+        }
+      } catch (error) {
         setCartState({ ...cartState, isLoading: false })
       }
-    } catch (error) {
-      setCartState({ ...cartState, isLoading: false })
     }
   }
 

@@ -5,15 +5,45 @@ import { useCart } from '@/common/context/CartContext'
 import { Order } from '@/common/types/order'
 import { RoomTypes } from '@/common/types/room'
 import { LoadingButton } from '@mui/lab'
-import { Grid, IconButton, Typography, useTheme } from '@mui/material'
+import {
+  Divider,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  Radio,
+  RadioGroup,
+  Typography,
+  useTheme,
+} from '@mui/material'
 import React, { useMemo } from 'react'
-import MercadoPagoIcon from '@/assets/mercado-pago-logo.png'
 import dayjs from '../../../common/settings/dayjs'
+
+export enum PaymentMethods {
+  MERCADO_PAGO = `MERCADO_PAGO`,
+  TRANSBANK = `TRANSBANK`,
+}
+
+const PaymentMethodLabels = {
+  [PaymentMethods.MERCADO_PAGO]: `Mercado Pago`,
+  [PaymentMethods.TRANSBANK]: `Transbank`,
+}
+
+const PaymentMethodColors = {
+  [PaymentMethods.MERCADO_PAGO]: {
+    background: `#009ee3`,
+    hover: `#007eb5`,
+  },
+  [PaymentMethods.TRANSBANK]: {
+    background: `#d5006c`,
+    hover: `#e5397f`,
+  },
+}
 
 const Cart = (): JSX.Element => {
   const {
     palette: { main, black, primary },
   } = useTheme()
+  const [paymentMethod, setPaymentMethod] = React.useState<PaymentMethods>(PaymentMethods.TRANSBANK)
   const { cartState, handleDrawer, onPayButtonClick } = useCart()
   const { cartItems, isLoading } = cartState
 
@@ -163,39 +193,61 @@ const Cart = (): JSX.Element => {
         </Grid>
         <Grid container gap={2.5} paddingRight={1.625}>
           {(musicItems.length > 0 || danceItems.length > 0) && (
-            <Grid container justifyContent="space-between" alignItems="center">
-              <Typography variant="h2" color={black.dark}>
-                Total:
-              </Typography>
-              <Typography variant="h2" color={black.dark}>
-                ${totalPrice}
-              </Typography>
-            </Grid>
+            <>
+              <Grid container flexDirection="column" gap={1}>
+                <Typography variant="h6">Selecciona el método de pago</Typography>
+                <Divider />
+                <Grid container>
+                  <RadioGroup
+                    value={paymentMethod}
+                    onChange={(e) => setPaymentMethod(e.target.value as PaymentMethods)}
+                  >
+                    <FormControlLabel
+                      value={PaymentMethods.TRANSBANK}
+                      control={<Radio />}
+                      label="Transbank"
+                    />
+                    <FormControlLabel
+                      value={PaymentMethods.MERCADO_PAGO}
+                      control={<Radio />}
+                      label="Mercado Pago"
+                    />
+                  </RadioGroup>
+                </Grid>
+              </Grid>
+              <Grid container justifyContent="space-between" alignItems="center">
+                <Typography variant="h2" color={black.dark}>
+                  Total:
+                </Typography>
+                <Typography variant="h2" color={black.dark}>
+                  ${totalPrice}
+                </Typography>
+              </Grid>
+              <Grid container>
+                <LoadingButton
+                  fullWidth
+                  disabled={musicItems.length === 0 && danceItems.length === 0}
+                  loading={isLoading}
+                  variant="contained"
+                  sx={{
+                    height: `50px`,
+                    textTransform: `none`,
+                    bgcolor: PaymentMethodColors[paymentMethod].background,
+                    '&:hover': {
+                      bgcolor: PaymentMethodColors[paymentMethod].hover,
+                    },
+                  }}
+                  onClick={() => {
+                    onPayButtonClick(orderData, paymentMethod)
+                  }}
+                >
+                  <Typography marginLeft={1.5} fontWeight={500}>
+                    Pagar con {PaymentMethodLabels[paymentMethod]}
+                  </Typography>
+                </LoadingButton>
+              </Grid>
+            </>
           )}
-          <Grid container>
-            <LoadingButton
-              fullWidth
-              disabled={musicItems.length === 0 && danceItems.length === 0}
-              loading={isLoading}
-              variant="contained"
-              sx={{
-                height: `50px`,
-                textTransform: `none`,
-                bgcolor: `#019ee3`,
-                '&:hover': {
-                  bgcolor: `#007eb5`,
-                },
-              }}
-              onClick={() => {
-                onPayButtonClick(orderData)
-              }}
-            >
-              <img src={MercadoPagoIcon} height={18} />
-              <Typography marginLeft={1.5} fontWeight={500}>
-                Pagar con Mercado Pago
-              </Typography>
-            </LoadingButton>
-          </Grid>
         </Grid>
       </Grid>
     </Grid>

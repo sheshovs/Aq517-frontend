@@ -14,7 +14,7 @@ import {
   Button,
 } from '@mui/material'
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
-import { EventCalendar, RoomNames } from '@/common/types'
+import { EventCalendar, EventStatuses, RoomNames } from '@/common/types'
 import dayjs from '../../../common/settings/dayjs'
 
 interface ComponentEventProps {
@@ -74,17 +74,17 @@ const ComponentEvent = ({
                 </Grid>
                 <Grid container gap={1}>
                   <Typography variant="subtitle1" fontWeight={600}>
+                    Sala:
+                  </Typography>
+                  <Typography variant="subtitle1">{`${selectedEvent?.room.name}`}</Typography>
+                </Grid>
+                <Grid container gap={1}>
+                  <Typography variant="subtitle1" fontWeight={600}>
                     Dia:
                   </Typography>
                   <Typography variant="subtitle1">
                     {dayjs(selectedEvent?.date).format(`dddd DD`)}
                   </Typography>
-                </Grid>
-                <Grid container gap={1}>
-                  <Typography variant="subtitle1" fontWeight={600}>
-                    Sala:
-                  </Typography>
-                  <Typography variant="subtitle1">{`${selectedEvent?.room.name}`}</Typography>
                 </Grid>
                 <Grid container gap={1}>
                   <Typography variant="subtitle1" fontWeight={600}>
@@ -95,6 +95,20 @@ const ComponentEvent = ({
                     5,
                   )} - ${selectedEvent?.endTime.slice(0, 5)}`}</Typography>
                 </Grid>
+                {selectedEvent?.accesories && selectedEvent?.accesories?.length > 0 ? (
+                  <Grid container gap={1}>
+                    <Typography variant="subtitle1" fontWeight={600}>
+                      Accesorios:
+                    </Typography>
+                    {selectedEvent?.accesories?.map((accesory, i) => (
+                      <Typography key={i} variant="subtitle1">
+                        {i === (selectedEvent?.accesories?.length ?? 0) - 1
+                          ? `${accesory.name}`
+                          : `${accesory.name}, `}
+                      </Typography>
+                    ))}
+                  </Grid>
+                ) : null}
               </Grid>
               <Grid container gap={0.5}>
                 <Grid container>
@@ -309,10 +323,12 @@ const DashboardCalendar = ({ events, setState }: DashboardCalendarProps): JSX.El
   const [selectedEvent, setSelectedEvent] = React.useState<EventCalendar | null>(null)
   const [view, setView] = React.useState<`day` | `week` | `month`>(mobileWidth ? `day` : `week`)
 
+  const scheduledEvents = events.filter((event) => event.status === EventStatuses.SCHEDULED)
+
   return (
     <Calendar
       localizer={localizer}
-      events={events}
+      events={scheduledEvents}
       startAccessor="start"
       endAccessor="end"
       style={{ width: `100%` }}

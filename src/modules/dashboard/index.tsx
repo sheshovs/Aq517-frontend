@@ -50,7 +50,16 @@ const Dashboard = (): JSX.Element => {
   }, [eventsQuery?.data])
 
   return (
-    <Grid container minHeight="100vh" bgcolor="main.whiteBackground" position="relative">
+    <Grid
+      container
+      minHeight="100vh"
+      position="relative"
+      sx={{
+        backgroundSize: `100% 100%`,
+        backgroundPosition: `0px 0px,0px 0px,0px 0px,0px 0px,0px 0px`,
+        backgroundImage: `repeating-linear-gradient(315deg, #00FFFF2E 92%, #073AFF00 100%),repeating-radial-gradient(75% 75% at 238% 218%, #00FFFF12 30%, #073AFF14 39%),radial-gradient(99% 99% at 109% 2%, #00C9FFFF 0%, #073AFF00 100%),radial-gradient(99% 99% at 1% 93%, #B000FFFF 0%, #073AFF00 100%),radial-gradient(160% 154% at 711px -303px, #00C9FFFF 0%, #5E00FFFF 100%)`,
+      }}
+    >
       <Grid
         container
         height="50px"
@@ -85,6 +94,10 @@ const Dashboard = (): JSX.Element => {
         paddingTop={10}
         justifyContent="space-between"
         gap={{ xs: 2, lg: 0 }}
+        sx={{
+          background: `rgba( 0, 0, 0, 0.20 )`,
+          backdropFilter: `blur( 15px )`,
+        }}
       >
         <Grid
           container
@@ -96,6 +109,9 @@ const Dashboard = (): JSX.Element => {
           padding={4}
           flexDirection="column"
           gap={3}
+          sx={{
+            boxShadow: `0px 5px 5px rgba( 0, 0, 0, 0.20 )`,
+          }}
         >
           <Typography variant="h2">Órdenes</Typography>
           <Grid
@@ -126,6 +142,9 @@ const Dashboard = (): JSX.Element => {
           padding={4}
           flexDirection="column"
           gap={3}
+          sx={{
+            boxShadow: `0px 5px 5px rgba( 0, 0, 0, 0.20 )`,
+          }}
         >
           <Typography variant="h2">Calendario</Typography>
           <Grid container>
