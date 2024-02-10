@@ -1,13 +1,12 @@
 import dayjs from 'dayjs'
 import { createContext, useContext, useState, useEffect } from 'react'
 import API from '../api'
-import { Order } from '../types/order'
+import { Order, PaymentMethods } from '../types/order'
 import { EventResponse } from '../types'
 import { UseMutateFunction, useMutation, useQueryClient } from 'react-query'
 import axios, { AxiosResponse } from 'axios'
 import { API_QUERY_KEYS } from '../querys/keys'
 import { useSnackbar } from 'notistack'
-import { PaymentMethods } from '@/modules/home/components/Cart'
 
 interface CartContextProps {
   openDrawer: boolean
@@ -153,8 +152,12 @@ const CartProvider = ({ children }: { children: JSX.Element }): JSX.Element => {
       setCartState({ ...cartState, isLoading: false })
     }
     if (paymentMethod === PaymentMethods.MERCADO_PAGO) {
+      const orderWithPayment = {
+        ...orderData,
+        paymentMethod,
+      }
       try {
-        const data = await API.createPreference(orderData)
+        const data = await API.createPreference(orderWithPayment)
 
         if (data) {
           const url = data.data.url

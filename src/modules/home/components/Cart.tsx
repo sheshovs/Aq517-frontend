@@ -2,7 +2,12 @@
 import { Icon } from '@/common/components'
 import CartSection from '@/common/components/CartSection'
 import { useCart } from '@/common/context/CartContext'
-import { Order } from '@/common/types/order'
+import {
+  Order,
+  PaymentMethodColors,
+  PaymentMethodLabels,
+  PaymentMethods,
+} from '@/common/types/order'
 import { RoomTypes } from '@/common/types/room'
 import { LoadingButton } from '@mui/lab'
 import {
@@ -17,27 +22,6 @@ import {
 } from '@mui/material'
 import React, { useMemo } from 'react'
 import dayjs from '../../../common/settings/dayjs'
-
-export enum PaymentMethods {
-  MERCADO_PAGO = `MERCADO_PAGO`,
-  TRANSBANK = `TRANSBANK`,
-}
-
-const PaymentMethodLabels = {
-  [PaymentMethods.MERCADO_PAGO]: `Mercado Pago`,
-  [PaymentMethods.TRANSBANK]: `Transbank`,
-}
-
-const PaymentMethodColors = {
-  [PaymentMethods.MERCADO_PAGO]: {
-    background: `#009ee3`,
-    hover: `#007eb5`,
-  },
-  [PaymentMethods.TRANSBANK]: {
-    background: `#d5006c`,
-    hover: `#e5397f`,
-  },
-}
 
 const Cart = (): JSX.Element => {
   const {

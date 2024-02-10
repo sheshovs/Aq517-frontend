@@ -73,6 +73,7 @@ const Dashboard = (): JSX.Element => {
           onClick={logOut}
           variant="text"
           sx={{
+            paddingX: 2,
             color: `white !important`,
             textTransform: `none`,
           }}

@@ -13,6 +13,7 @@ export interface Order {
   attendant: string
   email: string
   phone: string
+  paymentMethod?: PaymentMethods
 }
 
 export interface OrderResponse {
@@ -24,6 +25,7 @@ export interface OrderResponse {
   email: string
   phone: string
   events: EventResponse[]
+  paymentMethod: PaymentMethods
 }
 
 export enum OrderStatuses {
@@ -45,4 +47,25 @@ export const OrderStatusesColors: Record<string, `warning` | `success` | `error`
   [OrderStatuses.APPROVED]: `success`,
   [OrderStatuses.FAILURE]: `error`,
   [OrderStatuses.REJECTED]: `error`,
+}
+
+export enum PaymentMethods {
+  MERCADO_PAGO = `MERCADO_PAGO`,
+  TRANSBANK = `TRANSBANK`,
+}
+
+export const PaymentMethodLabels = {
+  [PaymentMethods.MERCADO_PAGO]: `Mercado Pago`,
+  [PaymentMethods.TRANSBANK]: `Transbank`,
+}
+
+export const PaymentMethodColors = {
+  [PaymentMethods.MERCADO_PAGO]: {
+    background: `#009ee3`,
+    hover: `#007eb5`,
+  },
+  [PaymentMethods.TRANSBANK]: {
+    background: `#d5006c`,
+    hover: `#e5397f`,
+  },
 }

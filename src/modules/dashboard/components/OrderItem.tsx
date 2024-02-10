@@ -1,4 +1,9 @@
-import { OrderResponse, OrderStatusesColors, OrderStatusesLabels } from '@/common/types'
+import {
+  OrderResponse,
+  OrderStatusesColors,
+  OrderStatusesLabels,
+  PaymentMethodLabels,
+} from '@/common/types'
 import { Button, Chip, Collapse, Grid, Typography, useTheme } from '@mui/material'
 import { useState } from 'react'
 import dayjs from '../../../common/settings/dayjs'
@@ -43,6 +48,8 @@ const OrderItem = ({ order }: OrderItemProps): JSX.Element => {
           <Grid container flexDirection="column" marginBottom={0.5} gap={0.5}>
             <Typography variant="subtitle1">{`Email: ${order.email}`}</Typography>
             <Typography variant="subtitle1">{`Teléfono: ${order.phone}`}</Typography>
+            <Typography variant="subtitle1">{`Método de pago: ${PaymentMethodLabels[order.paymentMethod]
+              }`}</Typography>
           </Grid>
           {order.events.length > 0 ? <Typography variant="subtitle1">Horarios:</Typography> : null}
           {order.events.length > 0 &&
