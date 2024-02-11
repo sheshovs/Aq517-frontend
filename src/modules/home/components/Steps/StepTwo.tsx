@@ -251,7 +251,11 @@ const StepTwo = ({
                 <FormControl>
                   <Grid container gap={1}>
                     <Typography variant="text">¿Desea añadir accesorios?</Typography>
-                    <Tooltip title="Añadir texto sobre los accesorios" arrow placement="top">
+                    <Tooltip
+                      title={`Los accesorios son implementos que puedes necesitar para tu sesión agendada. Estos se arriendan por sesión, la que puede durar una hora o más horas contiguas.`}
+                      arrow
+                      placement="top"
+                    >
                       <span>
                         <Icon
                           icon="help"
