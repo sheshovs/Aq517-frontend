@@ -146,7 +146,9 @@ const MercadoPago = (): JSX.Element => {
                 <Grid container justifyContent="center" marginBottom={2}>
                   <Typography variant="h2" textAlign="center">
                     Transacción{` `}
-                    {order?.status && TransactionStatusLabel[order.status as TransactionStatus]}
+                    {order?.status
+                      ? TransactionStatusLabel[order.status as TransactionStatus]
+                      : TransactionStatusLabel[status as TransactionStatus]}
                   </Typography>
                 </Grid>
 
