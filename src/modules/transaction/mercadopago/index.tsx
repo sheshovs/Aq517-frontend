@@ -93,8 +93,6 @@ const MercadoPago = (): JSX.Element => {
     },
   )
 
-  console.log(order)
-
   return (
     <Grid
       container

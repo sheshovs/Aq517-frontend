@@ -25,7 +25,6 @@ const Transbank = (): JSX.Element => {
     return transbankData.data
   }, [transbankData?.data])
 
-  console.log(transaction)
   const order = useMemo(() => {
     if (!orderData?.data) return null
     return orderData.data
