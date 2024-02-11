@@ -6,8 +6,11 @@ export const API_QUERY_KEYS = {
   getAllEventsByMonth: (month: string) => [`events`, month],
   //order keys
   getAllOrders: [`orders`],
+  getOrder: (orderId: string) => [`orders`, orderId],
   //room keys
   getAllRooms: [`rooms`],
+  //transbank keys
+  confirmTransaction: (token: string) => [`transbank`, `confirm`, token],
 }
 
 export type QueryOptions<T, V extends QueryKey = string[], K = T> = Omit<

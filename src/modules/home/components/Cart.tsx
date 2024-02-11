@@ -189,7 +189,7 @@ const Cart = (): JSX.Element => {
                     <FormControlLabel
                       value={PaymentMethods.TRANSBANK}
                       control={<Radio />}
-                      label="Transbank"
+                      label="Webpay"
                     />
                     <FormControlLabel
                       value={PaymentMethods.MERCADO_PAGO}

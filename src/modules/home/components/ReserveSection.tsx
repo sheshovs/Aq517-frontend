@@ -30,6 +30,7 @@ const ReserveSection = (): JSX.Element => {
             container
             paddingTop={6}
             paddingBottom={6}
+            paddingX={2}
             sx={{
               borderRadius: `16px`,
               backgroundColor: `rgba(0,0,0,.1)`,

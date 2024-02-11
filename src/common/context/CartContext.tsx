@@ -1,12 +1,11 @@
 import dayjs from 'dayjs'
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState } from 'react'
 import API from '../api'
 import { Order, PaymentMethods } from '../types/order'
 import { EventResponse } from '../types'
 import { UseMutateFunction, useMutation, useQueryClient } from 'react-query'
-import axios, { AxiosResponse } from 'axios'
+import { AxiosResponse } from 'axios'
 import { API_QUERY_KEYS } from '../querys/keys'
-import { useSnackbar } from 'notistack'
 
 interface CartContextProps {
   openDrawer: boolean
@@ -33,79 +32,6 @@ const initialState = {
 }
 
 const CartProvider = ({ children }: { children: JSX.Element }): JSX.Element => {
-  const { enqueueSnackbar } = useSnackbar()
-  const queryParams = new URLSearchParams(window.location.search)
-  const preferenceId = queryParams.get(`preference_id`)
-  const status = queryParams.get(`status`)
-  const paymentId = queryParams.get(`payment_id`)
-
-  useEffect(() => {
-    if (!status && !paymentId && !preferenceId) {
-      return
-    }
-    if (status === `approved` && paymentId && preferenceId) {
-      updateEventOnSuccess({ preferenceId, status, paymentId })
-      return
-    }
-    if (status === `in_process` && paymentId && preferenceId) {
-      updateEventOnSuccess({ preferenceId, status, paymentId })
-      return
-    }
-    if (status === `rejected` && preferenceId) {
-      deleteEventOnFailure({ preferenceId, status })
-      return
-    }
-    if (status === `null` && preferenceId) {
-      deleteEventOnFailure({ preferenceId, status })
-      return
-    }
-  }, [status, paymentId, preferenceId])
-
-  const { mutate: updateEventOnSuccess } = useMutation(
-    ({
-      preferenceId,
-      status,
-      paymentId,
-    }: {
-      preferenceId: string
-      status: string
-      paymentId?: string
-    }) => API.updateItems(preferenceId, status, paymentId),
-    {
-      onSuccess: (data) => {
-        if (data.data.message) {
-          enqueueSnackbar(data.data.message, { variant: `success` })
-        }
-      },
-      onError: (error) => {
-        if (axios.isAxiosError(error)) {
-          enqueueSnackbar(error.response?.data.message, {
-            variant: `error`,
-          })
-        }
-      },
-    },
-  )
-
-  const { mutate: deleteEventOnFailure } = useMutation(
-    ({ preferenceId, status }: { preferenceId: string; status: string }) =>
-      API.deleteItems(preferenceId, status),
-    {
-      onSuccess: (data) => {
-        if (data.data.message) {
-          enqueueSnackbar(data.data.message, { variant: `success` })
-        }
-      },
-      onError: (error) => {
-        if (axios.isAxiosError(error)) {
-          enqueueSnackbar(error.response?.data.message, {
-            variant: `error`,
-          })
-        }
-      },
-    },
-  )
-
   const [cartState, setCartState] = useState<CartContextProps>(initialState)
   const { cartItems } = cartState
 
@@ -148,8 +74,23 @@ const CartProvider = ({ children }: { children: JSX.Element }): JSX.Element => {
   ): Promise<void> => {
     setCartState({ ...cartState, isLoading: true })
     if (paymentMethod === PaymentMethods.TRANSBANK) {
-      console.log(`Integrar transbank`)
-      setCartState({ ...cartState, isLoading: false })
+      const orderWithPayment = {
+        ...orderData,
+        paymentMethod,
+      }
+
+      try {
+        const data = await API.transbank.create(orderWithPayment)
+
+        if (data) {
+          const url = data.data.url
+          const token = data.data.token
+          window.location.href = `${url}?token_ws=${token}`
+          setCartState({ ...cartState, isLoading: false })
+        }
+      } catch (error) {
+        setCartState({ ...cartState, isLoading: false })
+      }
     }
     if (paymentMethod === PaymentMethods.MERCADO_PAGO) {
       const orderWithPayment = {

@@ -11,3 +11,14 @@ export const useOrdersQuery = ({
   useQuery(API_QUERY_KEYS.getAllOrders, () => API.order.getAll(), {
     ...options,
   })
+
+export const useOrderQuery = ({
+  orderId,
+  options = {},
+}: {
+  orderId: string
+  options?: QueryOptions<{ data: OrderResponse }>
+}): UseQueryResult<{ data: OrderResponse }, unknown> =>
+  useQuery(API_QUERY_KEYS.getOrder(orderId), () => API.order.get(orderId), {
+    ...options,
+  })

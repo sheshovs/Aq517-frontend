@@ -56,7 +56,7 @@ export enum PaymentMethods {
 
 export const PaymentMethodLabels = {
   [PaymentMethods.MERCADO_PAGO]: `Mercado Pago`,
-  [PaymentMethods.TRANSBANK]: `Transbank`,
+  [PaymentMethods.TRANSBANK]: `Webpay`,
 }
 
 export const PaymentMethodColors = {

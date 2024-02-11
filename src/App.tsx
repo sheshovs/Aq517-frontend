@@ -9,6 +9,8 @@ import './global.css'
 import Login from './modules/login'
 import { AuthProvider } from './common/context/AuthContext'
 import Dashboard from './modules/dashboard'
+import MercadoPago from './modules/transaction/mercadopago'
+import Transbank from './modules/transaction/transbank'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,6 +45,8 @@ const App = (): JSX.Element => {
                   <Route path="/" element={<Home />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/transaction/mp" element={<MercadoPago />} />
+                  <Route path="/transaction/tb" element={<Transbank />} />
                 </Routes>
               </BrowserRouter>
             </CartProvider>

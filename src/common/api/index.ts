@@ -1,5 +1,6 @@
 import { getAxiosInstance } from '@/config/axios'
 import { Event, EventResponse, Order, OrderResponse, RoomResponse } from '../types'
+import { TransactionResponse } from '../types/transaction'
 
 const axiosInstance = getAxiosInstance(import.meta.env.VITE_BACKEND_URL)
 
@@ -12,6 +13,7 @@ const API = {
   },
   createPreference: (orderData: Order): Promise<{ data: { url: string } }> =>
     axiosInstance.post(`/mercadopago/create_preference`, orderData),
+
   updateItems: (preferenceId: string, status: string, paymentId?: string) => {
     return axiosInstance.post(
       `/mercadopago/events`,
@@ -21,6 +23,14 @@ const API = {
   },
   deleteItems: (preferenceId: string, status: string) => {
     return axiosInstance.delete(`/mercadopago/events/${preferenceId}`, { params: { status } })
+  },
+  transbank: {
+    create: (orderData: Order): Promise<{ data: { url: string; token: string } }> => {
+      return axiosInstance.post(`/transbank/create_transaction`, orderData)
+    },
+    confirm: (token: string): Promise<{ data: TransactionResponse }> => {
+      return axiosInstance.post(`/transbank/confirm_transaction`, { token })
+    },
   },
   event: {
     delete: (uuid: string) => {
@@ -39,6 +49,9 @@ const API = {
   order: {
     getAll: (): Promise<{ data: OrderResponse[] }> => {
       return axiosInstance.get(`/orders`)
+    },
+    get: (orderId: string): Promise<{ data: OrderResponse }> => {
+      return axiosInstance.get(`/order/${orderId}`)
     },
   },
   room: {
