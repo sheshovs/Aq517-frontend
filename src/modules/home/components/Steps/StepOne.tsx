@@ -27,19 +27,27 @@ const StepOne = ({ userInfo, handleChange, setStep }: StepOneProps): JSX.Element
         marginBottom={8}
         gap={4}
       >
-        <Grid container flexDirection="column" gap={2.5} alignItems="center" maxWidth={482}>
+        <Grid
+          container
+          flexDirection="column"
+          gap={2.5}
+          alignItems="center"
+          justifyContent="center"
+          maxWidth={482}
+        >
           <Typography variant="text">
-            AQ517 tiene una sala de ensayo disponible, la que cuenta con implementos necesarios para
-            músicos y bandas. Amplia, equipada y a pasos de Metro Santa Isabel.
+            <b>AQ517</b> tiene una sala de ensayo disponible, la que cuenta con implementos
+            necesarios para músicos y bandas. Amplia, equipada y a pasos del{` `}
+            <b>Metro Santa Isabel</b>.
           </Typography>
           <Typography variant="text">
-            Puedes reservar las horas que quieras en esta plataforma, pagando a través de Mercado
-            Pago el valor de $8.000 (ocho mil pesos) por hora.
+            Puedes reservar las horas que quieras en esta plataforma, pagando a través de{` `}
+            <b>Webpay</b> o <b>Mercado Pago</b> el valor de $8.000 (ocho mil pesos) por hora.
           </Typography>
-          <Typography variant="text">
+          {/* <Typography variant="text">
             Lee nuestros Términos y Condiciones antes de reservar. Al concretar tu reserva, habrás
             accedido a seguir nuestras normas y políticas.
-          </Typography>
+          </Typography> */}
           <Typography variant="text">¡Te esperamos!</Typography>
         </Grid>
         <Grid container flexDirection="column" gap={1.25} maxWidth={350}>
