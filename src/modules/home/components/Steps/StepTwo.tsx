@@ -197,54 +197,55 @@ const StepTwo = ({
               </Typography>
 
               <Grid container item xs gap={{ lg: 2.5, xs: 2 }}>
-                {rooms.map((room, i) =>
-                  room.isActive ? (
-                    <CustomButton
-                      key={i}
-                      variant={selectedRoom?.name === room.name ? `contained` : `outlined`}
-                      onClick={() => setRoomSelected(room)}
-                      text={room.name}
-                      width={70}
-                    />
-                  ) : null,
-                )}
+                {rooms.map((room, i) => (
+                  <CustomButton
+                    key={i}
+                    variant={selectedRoom?.name === room.name ? `contained` : `outlined`}
+                    onClick={() => setRoomSelected(room)}
+                    text={room.name}
+                    width={70}
+                  />
+                ))}
               </Grid>
             </Grid>
-            <Grid container paddingY={1.25} gap={2.5}>
-              <Typography variant="h5" width="60px">
-                Horas:
-              </Typography>
+            {selectedRoom?.name ? (
+              <Grid container paddingY={1.25} gap={2.5}>
+                <Typography variant="h5" width="60px">
+                  Horas:
+                </Typography>
 
-              <Grid container item xs gap={1.25}>
-                <Grid container gap={{ lg: 2.5, xs: 2 }}>
-                  {hours.map((hour, i) => {
-                    const index = hoursSelected.findIndex(
-                      (item) => item.hour.isSame(hour) && item.room.uuid === selectedRoom?.uuid,
-                    )
-                    const isSelected = index !== -1
-                    const disabled = disabledHours.includes(hour.format(`HH:mm:ss`))
-                    return (
-                      <CustomButton
-                        key={i}
-                        text={hour.format(`HH:mm`)}
-                        onClick={() => onClickHour(hour)}
-                        disabled={disabled}
-                        variant={isSelected ? `contained` : `outlined`}
-                        width={70}
-                      />
-                    )
-                  })}
-                </Grid>
-
-                <Collapse in={hoursSelected.length > 0}>
-                  <Grid container>
-                    <Typography variant="subtitle1" fontWeight={500}>
-                      Horas seleccionadas: {hoursSelected.length}
-                    </Typography>
+                <Grid container item xs gap={1.25}>
+                  <Grid container gap={{ lg: 2.5, xs: 2 }}>
+                    {hours.map((hour, i) => {
+                      const index = hoursSelected.findIndex(
+                        (item) => item.hour.isSame(hour) && item.room.uuid === selectedRoom?.uuid,
+                      )
+                      const isSelected = index !== -1
+                      const disabled = disabledHours.includes(hour.format(`HH:mm:ss`))
+                      return (
+                        <CustomButton
+                          key={i}
+                          text={hour.format(`HH:mm`)}
+                          onClick={() => onClickHour(hour)}
+                          disabled={disabled}
+                          variant={isSelected ? `contained` : `outlined`}
+                          width={70}
+                        />
+                      )
+                    })}
                   </Grid>
-                </Collapse>
+
+                  <Collapse in={hoursSelected.length > 0}>
+                    <Grid container>
+                      <Typography variant="subtitle1" fontWeight={500}>
+                        Horas seleccionadas: {hoursSelected.length}
+                      </Typography>
+                    </Grid>
+                  </Collapse>
+                </Grid>
               </Grid>
-            </Grid>
+            ) : null}
+
             <Collapse in={sessions.length > 0}>
               <Grid container gap={2.5}>
                 <FormControl>
