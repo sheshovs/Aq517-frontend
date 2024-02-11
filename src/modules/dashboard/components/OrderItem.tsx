@@ -50,6 +50,9 @@ const OrderItem = ({ order }: OrderItemProps): JSX.Element => {
             <Typography variant="subtitle1">{`Teléfono: ${order.phone}`}</Typography>
             <Typography variant="subtitle1">{`Método de pago: ${PaymentMethodLabels[order.paymentMethod]
               }`}</Typography>
+            <Typography variant="subtitle1">{`Fecha de compra: ${dayjs(order.createdAt).format(
+              `HH:mm - DD/MM/YYYY`,
+            )}`}</Typography>
           </Grid>
           {order.events.length > 0 ? <Typography variant="subtitle1">Horarios:</Typography> : null}
           {order.events.length > 0 &&
