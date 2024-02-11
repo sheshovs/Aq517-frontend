@@ -6,8 +6,8 @@ import API from '@/common/api'
 import axios from 'axios'
 import { useSnackbar } from 'notistack'
 import { useOrderQuery } from '@/common/querys/useOrderQuery'
-import dayjs from 'dayjs'
 import { TransactionStatus, TransactionStatusLabel } from '@/common/types/transaction'
+import dayjs from '../../../common/settings/dayjs'
 
 const MercadoPago = (): JSX.Element => {
   const { enqueueSnackbar } = useSnackbar()

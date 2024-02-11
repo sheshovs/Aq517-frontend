@@ -18,7 +18,6 @@ const OrderItem = ({ order }: OrderItemProps): JSX.Element => {
   } = useTheme()
 
   const [open, setOpen] = useState(false)
-
   return (
     <Grid
       container
@@ -43,44 +42,66 @@ const OrderItem = ({ order }: OrderItemProps): JSX.Element => {
 
         <Typography variant="h4">${order.total_price.toLocaleString(`es-CL`)}</Typography>
       </Grid>
-      <Collapse in={open}>
-        <Grid container marginTop={1}>
-          <Grid container flexDirection="column" marginBottom={0.5} gap={0.5}>
-            <Typography variant="subtitle1">{`Email: ${order.email}`}</Typography>
-            <Typography variant="subtitle1">{`Teléfono: ${order.phone}`}</Typography>
-            <Typography variant="subtitle1">{`Método de pago: ${PaymentMethodLabels[order.paymentMethod]
-              }`}</Typography>
-            <Typography variant="subtitle1">{`Fecha de compra: ${dayjs(order.createdAt).format(
-              `HH:mm - DD/MM/YYYY`,
-            )}`}</Typography>
+      <Collapse
+        in={open}
+        sx={{
+          width: `100%`,
+        }}
+      >
+        <Grid container>
+          <Grid container item xs={8.5} marginTop={1} flexDirection="column">
+            <Grid container flexDirection="column" marginBottom={0.5} gap={0.5}>
+              <Typography variant="subtitle1">{`Email: ${order.email}`}</Typography>
+              <Typography variant="subtitle1">{`Teléfono: ${order.phone.slice(
+                0,
+                4,
+              )} ${order.phone.slice(4, 8)} ${order.phone.slice(8)}`}</Typography>
+            </Grid>
+            {order.events.length > 0 ? (
+              <Typography variant="subtitle1">Horarios:</Typography>
+            ) : null}
+            {order.events.length > 0 &&
+              order.events.map((event) => (
+                <>
+                  <Grid container key={event.uuid} paddingLeft={4}>
+                    <Typography variant="subtitle1" fontWeight={500}>{`Sala ${event.room.name
+                      }, ${dayjs(event.date).format(`dddd DD`)} - ${event.startTime.slice(
+                        0,
+                        -3,
+                      )} a ${event.endTime.slice(0, -3)}`}</Typography>
+                  </Grid>
+                  {event.accesories.length > 0 ? (
+                    <>
+                      <Grid container paddingLeft={6}>
+                        <Typography variant="subtitle1">
+                          Accesorios:{` `}
+                          {event.accesories.map((accesory, i) =>
+                            i === event.accesories.length - 1
+                              ? `${accesory.name}`
+                              : `${accesory.name}, `,
+                          )}
+                        </Typography>
+                      </Grid>
+                    </>
+                  ) : null}
+                </>
+              ))}
           </Grid>
-          {order.events.length > 0 ? <Typography variant="subtitle1">Horarios:</Typography> : null}
-          {order.events.length > 0 &&
-            order.events.map((event) => (
-              <>
-                <Grid container key={event.uuid} paddingLeft={4}>
-                  <Typography variant="subtitle1" fontWeight={500}>{`Sala ${event.room.name
-                    }, ${dayjs(event.date).format(`dddd DD`)} - ${event.startTime.slice(
-                      0,
-                      -3,
-                    )} a ${event.endTime.slice(0, -3)}`}</Typography>
-                </Grid>
-                {event.accesories.length > 0 ? (
-                  <>
-                    <Grid container paddingLeft={6}>
-                      <Typography variant="subtitle1">
-                        Accesorios:{` `}
-                        {event.accesories.map((accesory, i) =>
-                          i === event.accesories.length - 1
-                            ? `${accesory.name}`
-                            : `${accesory.name}, `,
-                        )}
-                      </Typography>
-                    </Grid>
-                  </>
-                ) : null}
-              </>
-            ))}
+          <Grid
+            container
+            item
+            xs
+            flexDirection="column"
+            marginTop={1}
+            alignItems="flex-end"
+            gap={0.5}
+          >
+            <Typography variant="subtitle1" color={black.lightFooter}>{`${PaymentMethodLabels[order.paymentMethod]
+              }`}</Typography>
+            <Typography variant="subtitle1" color={black.lightFooter}>{`${dayjs(
+              order.createdAt,
+            ).format(`HH:mm - DD/MM/YYYY`)}`}</Typography>
+          </Grid>
         </Grid>
       </Collapse>
       <Grid container marginTop={!open ? 1 : 0}>

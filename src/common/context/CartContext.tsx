@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import { createContext, useContext, useState } from 'react'
 import API from '../api'
 import { Order, PaymentMethods } from '../types/order'
@@ -6,6 +5,7 @@ import { EventResponse } from '../types'
 import { UseMutateFunction, useMutation, useQueryClient } from 'react-query'
 import { AxiosResponse } from 'axios'
 import { API_QUERY_KEYS } from '../querys/keys'
+import dayjs from '../settings/dayjs'
 
 interface CartContextProps {
   openDrawer: boolean

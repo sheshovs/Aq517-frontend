@@ -3,8 +3,8 @@ import React, { useMemo } from 'react'
 import LOGO_AQVILES from './../../../assets/logoAR.png'
 import { useTransbankConfirmQuery } from '@/common/querys/useTransbankQuery'
 import { TransactionStatusLabel } from '@/common/types/transaction'
-import dayjs from 'dayjs'
 import { useOrderQuery } from '@/common/querys/useOrderQuery'
+import dayjs from '../../../common/settings/dayjs'
 
 const Transbank = (): JSX.Element => {
   const queryParams = new URLSearchParams(window.location.search)
