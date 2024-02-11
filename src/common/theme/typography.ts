@@ -133,6 +133,12 @@ const typography = (): Record<string, unknown> => ({
     fontSize: pxToRem(14),
     fontWeight: 400,
     lineHeight: 1.2,
+    ...responsiveFontSizes({
+      xs: 12,
+      sm: 12,
+      md: 14,
+      lg: 14,
+    }),
   },
   text: {
     fontSize: pxToRem(16),
