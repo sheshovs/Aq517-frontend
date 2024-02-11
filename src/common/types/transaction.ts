@@ -1,11 +1,13 @@
 export enum TransactionStatus {
   AUTHORIZED = `AUTHORIZED`,
+  APPROVED = `approved`,
   FAILED = `FAILED`,
   FAILURE = `FAILURE`,
 }
 
 export const TransactionStatusLabel = {
   [TransactionStatus.AUTHORIZED]: `Autorizada`,
+  [TransactionStatus.APPROVED]: `Aprobada`,
   [TransactionStatus.FAILED]: `Rechazada`,
   [TransactionStatus.FAILURE]: `Rechazada`,
 }
