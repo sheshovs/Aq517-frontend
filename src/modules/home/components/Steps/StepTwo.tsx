@@ -8,6 +8,7 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
+  IconButton,
   Radio,
   RadioGroup,
   Tooltip,
@@ -249,22 +250,30 @@ const StepTwo = ({
             <Collapse in={sessions.length > 0}>
               <Grid container gap={2.5}>
                 <FormControl>
-                  <Grid container gap={1}>
+                  <Grid container gap={1} alignItems="center">
                     <Typography variant="text">¿Desea añadir accesorios?</Typography>
                     <Tooltip
                       title={`Los accesorios son implementos que puedes necesitar para tu sesión agendada. Estos se arriendan por sesión, la que puede durar una hora o más horas contiguas.`}
                       arrow
                       placement="top"
                     >
-                      <span>
+                      <IconButton
+                        sx={{
+                          color: `common.white`,
+                          padding: 0.5,
+                          '&:hover': {
+                            backgroundColor: `transparent`,
+                          },
+                        }}
+                      >
                         <Icon
                           icon="help"
                           sx={{
                             cursor: `help`,
-                            fontSize: 20,
+                            fontSize: 18,
                           }}
                         />
-                      </span>
+                      </IconButton>
                     </Tooltip>
                   </Grid>
                   <RadioGroup row value={addAccesories} onChange={handleChange}>
