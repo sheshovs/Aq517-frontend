@@ -35,7 +35,7 @@ const Transbank = (): JSX.Element => {
   const handleDownload = (): void => {
     toJpeg(transactionRef.current as HTMLElement, { quality: 0.95 }).then((dataUrl) => {
       const link = document.createElement(`a`)
-      link.download = `comprobante_${transaction?.buy_order || `aqvilesrecords`}.jpeg`
+      link.download = `comprobante_${transaction?.buy_order || `AQ`}.jpeg`
       link.href = dataUrl
       link.click()
     })

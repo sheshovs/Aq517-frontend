@@ -98,7 +98,7 @@ const MercadoPago = (): JSX.Element => {
   const handleDownload = (): void => {
     toJpeg(transactionRef.current as HTMLElement, { quality: 0.95 }).then((dataUrl) => {
       const link = document.createElement(`a`)
-      link.download = `comprobante_AQ${order?.uuid.slice(-5) || `aqvilesrecords`}.jpeg`
+      link.download = `comprobante_AQ${order?.uuid.slice(-5).toUpperCase() || ``}.jpeg`
       link.href = dataUrl
       link.click()
     })
@@ -165,7 +165,7 @@ const MercadoPago = (): JSX.Element => {
                 </Grid>
                 <Grid container justifyContent="space-between">
                   <Typography variant="h6">N° de pedido:</Typography>
-                  <Typography variant="h6">AQ{order?.uuid.slice(-5)}</Typography>
+                  <Typography variant="h6">AQ{order?.uuid.slice(-5).toUpperCase()}</Typography>
                 </Grid>
                 <Grid container justifyContent="space-between">
                   <Typography variant="h6">Fecha:</Typography>
