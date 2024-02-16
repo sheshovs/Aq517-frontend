@@ -163,7 +163,10 @@ const MercadoPago = (): JSX.Element => {
                       : TransactionStatusLabel[order?.status as TransactionStatus]}
                   </Typography>
                 </Grid>
-
+                <Grid container justifyContent="space-between">
+                  <Typography variant="h6">N° de pedido:</Typography>
+                  <Typography variant="h6">{order?.uuid.slice(-6)}</Typography>
+                </Grid>
                 <Grid container justifyContent="space-between">
                   <Typography variant="h6">Fecha:</Typography>
                   <Typography variant="h6">
