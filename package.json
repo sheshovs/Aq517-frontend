@@ -23,6 +23,7 @@
     "axios": "^1.5.1",
     "dayjs": "^1.11.10",
     "dotenv": "^16.3.1",
+    "html-to-image": "^1.11.11",
     "material-ui-popup-state": "^5.0.10",
     "notistack": "^3.0.1",
     "prettier": "^3.0.3",

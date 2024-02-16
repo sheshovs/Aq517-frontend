@@ -8,8 +8,10 @@ import { useSnackbar } from 'notistack'
 import { useOrderQuery } from '@/common/querys/useOrderQuery'
 import { TransactionStatus, TransactionStatusLabel } from '@/common/types/transaction'
 import dayjs from '../../../common/settings/dayjs'
+import { toJpeg } from 'html-to-image'
 
 const MercadoPago = (): JSX.Element => {
+  const transactionRef = React.useRef<HTMLDivElement>(null)
   const { enqueueSnackbar } = useSnackbar()
   const queryParams = new URLSearchParams(window.location.search)
   const orderId = queryParams.get(`preference_id`)
@@ -93,6 +95,15 @@ const MercadoPago = (): JSX.Element => {
     },
   )
 
+  const handleDownload = (): void => {
+    toJpeg(transactionRef.current as HTMLElement, { quality: 0.95 }).then((dataUrl) => {
+      const link = document.createElement(`a`)
+      link.download = `comprobante_${order?.uuid.slice(-6) || `aqvilesrecords`}.jpeg`
+      link.href = dataUrl
+      link.click()
+    })
+  }
+
   return (
     <Grid
       container
@@ -115,8 +126,9 @@ const MercadoPago = (): JSX.Element => {
           backdropFilter: `blur( 15px )`,
         }}
       >
-        <Grid container item xs={12} md={6} lg={4}>
+        <Grid container item xs={12} md={6} lg={4} gap={3}>
           <Paper
+            ref={transactionRef}
             elevation={3}
             sx={{
               width: `100%`,
@@ -228,22 +240,42 @@ const MercadoPago = (): JSX.Element => {
                   />
                 </Grid>
               ) : null}
-              <Grid container item xs={12} gap={3} justifyContent="center">
-                <Grid container item xs={6} justifyContent="center">
-                  <Link
-                    href="/"
-                    sx={{
-                      width: `100%`,
-                      textDecoration: `none`,
-                      color: `black !important`,
-                    }}
-                  >
-                    <Button fullWidth>Volver</Button>
-                  </Link>
-                </Grid>
-              </Grid>
             </Grid>
           </Paper>
+          <Grid container item xs={12} gap={3} justifyContent="center">
+            <Grid container item xs={6} justifyContent="center">
+              <Button
+                fullWidth
+                variant="contained"
+                size="large"
+                color="info"
+                onClick={handleDownload}
+              >
+                Descargar comprobante
+              </Button>
+            </Grid>
+            <Grid container item xs={6} justifyContent="center">
+              <Link
+                href="/"
+                sx={{
+                  width: `100%`,
+                }}
+              >
+                <Button
+                  fullWidth
+                  size="large"
+                  sx={{
+                    color: `white`,
+                    '&:hover': {
+                      background: `rgba(255,255,255,0.2)`,
+                    },
+                  }}
+                >
+                  Volver
+                </Button>
+              </Link>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

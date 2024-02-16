@@ -5,8 +5,10 @@ import { useTransbankConfirmQuery } from '@/common/querys/useTransbankQuery'
 import { TransactionStatusLabel } from '@/common/types/transaction'
 import { useOrderQuery } from '@/common/querys/useOrderQuery'
 import dayjs from '../../../common/settings/dayjs'
+import { toJpeg } from 'html-to-image'
 
 const Transbank = (): JSX.Element => {
+  const transactionRef = React.useRef<HTMLDivElement>(null)
   const queryParams = new URLSearchParams(window.location.search)
   const transactionToken = queryParams.get(`token_ws`)
   const orderId = queryParams.get(`orderId`)
@@ -30,6 +32,15 @@ const Transbank = (): JSX.Element => {
     return orderData.data
   }, [orderData])
 
+  const handleDownload = (): void => {
+    toJpeg(transactionRef.current as HTMLElement, { quality: 0.95 }).then((dataUrl) => {
+      const link = document.createElement(`a`)
+      link.download = `comprobante_${transaction?.buy_order || `aqvilesrecords`}.jpeg`
+      link.href = dataUrl
+      link.click()
+    })
+  }
+
   return (
     <Grid
       container
@@ -52,8 +63,9 @@ const Transbank = (): JSX.Element => {
           backdropFilter: `blur( 15px )`,
         }}
       >
-        <Grid container item xs={12} md={6} lg={4}>
+        <Grid container item xs={12} md={6} lg={4} gap={3}>
           <Paper
+            ref={transactionRef}
             elevation={3}
             sx={{
               width: `100%`,
@@ -107,7 +119,7 @@ const Transbank = (): JSX.Element => {
                 </Grid>
                 <Grid container justifyContent="space-between">
                   <Typography variant="h6">N° de tarjeta:</Typography>
-                  <Typography variant="h6">{transaction?.card_detail.card_number}</Typography>
+                  <Typography variant="h6">{transaction?.card_detail?.card_number}</Typography>
                 </Grid>
                 <Grid container justifyContent="space-between">
                   <Typography variant="h6">Cuotas:</Typography>
@@ -116,7 +128,7 @@ const Transbank = (): JSX.Element => {
                 <Grid container justifyContent="space-between">
                   <Typography variant="h6">Monto:</Typography>
                   <Typography variant="h6" fontWeight={700}>
-                    ${transaction?.amount.toLocaleString(`es-CL`)}
+                    ${transaction?.amount?.toLocaleString(`es-CL`)}
                   </Typography>
                 </Grid>
               </Grid>
@@ -177,22 +189,42 @@ const Transbank = (): JSX.Element => {
                   }}
                 />
               </Grid>
-              <Grid container item xs={12} gap={3} justifyContent="center">
-                <Grid container item xs={6} justifyContent="center">
-                  <Link
-                    href="/"
-                    sx={{
-                      width: `100%`,
-                      textDecoration: `none`,
-                      color: `black !important`,
-                    }}
-                  >
-                    <Button fullWidth>Volver</Button>
-                  </Link>
-                </Grid>
-              </Grid>
             </Grid>
           </Paper>
+          <Grid container item xs={12} gap={3} justifyContent="center">
+            <Grid container item xs={6} justifyContent="center">
+              <Button
+                fullWidth
+                variant="contained"
+                size="large"
+                color="info"
+                onClick={handleDownload}
+              >
+                Descargar comprobante
+              </Button>
+            </Grid>
+            <Grid container item xs={6} justifyContent="center">
+              <Link
+                href="/"
+                sx={{
+                  width: `100%`,
+                }}
+              >
+                <Button
+                  fullWidth
+                  size="large"
+                  sx={{
+                    color: `white`,
+                    '&:hover': {
+                      background: `rgba(255,255,255,0.2)`,
+                    },
+                  }}
+                >
+                  Volver
+                </Button>
+              </Link>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
