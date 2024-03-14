@@ -92,7 +92,7 @@ const Login = (): JSX.Element => {
           backdropFilter: `blur( 15px )`,
         }}
       >
-        <Grid container item xs={12} md={6} lg={4}>
+        <Grid container item xs={10} md={6} lg={4}>
           <Paper
             elevation={3}
             sx={{

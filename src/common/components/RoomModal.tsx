@@ -8,6 +8,7 @@ import {
   PaletteColor,
   Skeleton,
   Theme,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
@@ -17,6 +18,7 @@ import Icon from './Icon'
 import { RoomInformation } from '@/modules/home/components/RoomSection'
 import ReactHtmlParser from 'react-html-parser'
 import styled from 'styled-components'
+import { useSnackbar } from 'notistack'
 
 const Image = styled.img<{ selectedPhotoIndex?: number; index?: number; primary: PaletteColor }>`
   border-radius: 4px;
@@ -40,9 +42,17 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
   const {
     palette: { primary },
   } = useTheme()
+  const { enqueueSnackbar } = useSnackbar()
   const mobileWidth = useMediaQuery((theme: Theme) => theme.breakpoints.down(`md`))
   const [selectedPhotoIndex, setSelectedIndexPhoto] = React.useState(0)
   const [isLoading, setIsLoading] = React.useState(true)
+
+  const onShareButtonClick = (): void => {
+    navigator.clipboard.writeText(window.location.href)
+    enqueueSnackbar(`Se ha copiado el enlace de la sala`, {
+      variant: `success`,
+    })
+  }
 
   return (
     <Modal
@@ -216,7 +226,17 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
               <Grid container item xs={12} md={5} flexDirection="column" gap={2} height="100%">
                 <Typography variant="h2">Sala {roomInformation?.title}</Typography>
                 <Typography>{ReactHtmlParser(roomInformation?.description || ``)}</Typography>
-                <Grid container alignSelf="flex-end" justifyContent="flex-end">
+                <Grid container alignSelf="flex-end" justifyContent="flex-end" gap={1}>
+                  <Tooltip title="Compartir" arrow>
+                    <IconButton
+                      sx={{
+                        borderRadius: `4px`,
+                      }}
+                      onClick={onShareButtonClick}
+                    >
+                      <Icon icon="share" />
+                    </IconButton>
+                  </Tooltip>
                   <Link href="#reserve">
                     <Button
                       variant="contained"

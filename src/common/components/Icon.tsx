@@ -11,6 +11,7 @@ import {
   MenuRounded,
   MusicNoteRounded,
   SelfImprovementRounded,
+  ShareRounded,
   ShoppingCartRounded,
   VisibilityOffRounded,
   VisibilityRounded,
@@ -30,6 +31,7 @@ export const icons = {
   hidePassword: VisibilityOffRounded,
   logout: LogoutRounded,
   help: HelpOutlineRounded,
+  share: ShareRounded,
 }
 interface IconProps extends SvgIconProps {
   icon: keyof typeof icons

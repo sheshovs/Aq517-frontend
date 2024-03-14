@@ -6,7 +6,7 @@ import SALA_AQVILES_2 from '@/assets/SalaAqviles2.webp'
 import SALA_AQVILES_3 from '@/assets/SalaAqviles3.webp'
 import SALA_AQVILES_4 from '@/assets/SalaAqviles4.webp'
 import SALA_AQVILES_5 from '@/assets/SalaAqviles5.webp'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export interface RoomInformation {
   title: string
@@ -47,11 +47,22 @@ const RoomSection = (): JSX.Element => {
   } = useTheme()
   const [room, setRoom] = React.useState<string>(``)
   const handleOpen = (room: string): void => {
+    history.pushState({}, ``, window.location.href + `?room=${room}`)
     setRoom(room)
   }
   const handleClose = (): void => {
+    history.pushState({}, ``, window.location.href.split(`?`)[0])
     setRoom(``)
   }
+
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    const urlRoom = url.href.split(`?`)[1]?.split(`=`)[1]
+
+    if (urlRoom && room === ``) {
+      setRoom(urlRoom)
+    }
+  }, [])
 
   return (
     <>
