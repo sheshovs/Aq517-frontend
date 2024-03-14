@@ -230,11 +230,17 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
                   <Tooltip title="Compartir" arrow>
                     <IconButton
                       sx={{
+                        border: `1px solid ${primary.main}`,
                         borderRadius: `4px`,
                       }}
                       onClick={onShareButtonClick}
                     >
-                      <Icon icon="share" />
+                      <Icon
+                        icon="share"
+                        sx={{
+                          color: primary.main,
+                        }}
+                      />
                     </IconButton>
                   </Tooltip>
                   <Link href="#reserve">
