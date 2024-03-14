@@ -6,9 +6,10 @@ export enum TransactionStatus {
   IN_PROCESS = `in_process`,
   REJECTED = `rejected`,
   NULL = `null`,
+  UNDEFINED = `undefined`,
 }
 
-export const TransactionStatusLabel = {
+export const TransactionStatusLabel: Record<string, string> = {
   [TransactionStatus.AUTHORIZED]: `Autorizada`,
   [TransactionStatus.APPROVED]: `Aprobada`,
   [TransactionStatus.FAILED]: `Rechazada`,
@@ -16,6 +17,7 @@ export const TransactionStatusLabel = {
   [TransactionStatus.IN_PROCESS]: `en proceso`,
   [TransactionStatus.REJECTED]: `Rechazada`,
   [TransactionStatus.NULL]: `Rechazada`,
+  [TransactionStatus.UNDEFINED]: `Rechazada`,
 }
 
 export interface TransactionResponse {

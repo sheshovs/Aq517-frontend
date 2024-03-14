@@ -246,17 +246,20 @@ const MercadoPago = (): JSX.Element => {
             </Grid>
           </Paper>
           <Grid container item xs={12} gap={3} justifyContent="center">
-            <Grid container item xs={6} justifyContent="center">
-              <Button
-                fullWidth
-                variant="contained"
-                size="large"
-                color="info"
-                onClick={handleDownload}
-              >
-                Descargar comprobante
-              </Button>
-            </Grid>
+            {status === `approved` ? (
+              <Grid container item xs={6} justifyContent="center">
+                <Button
+                  fullWidth
+                  variant="contained"
+                  size="large"
+                  color="info"
+                  onClick={handleDownload}
+                >
+                  Descargar comprobante
+                </Button>
+              </Grid>
+            ) : null}
+
             <Grid container item xs={6} justifyContent="center">
               <Link
                 href="/"

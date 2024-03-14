@@ -92,45 +92,51 @@ const Transbank = (): JSX.Element => {
                     />
                   </Link>
                 </Grid>
-                <Grid container justifyContent="center" marginBottom={2}>
+                <Grid container justifyContent="center" marginBottom={transaction ? 2 : 0}>
                   <Typography variant="h2">
-                    Transacción {transaction?.status && TransactionStatusLabel[transaction.status]}
+                    Transacción {TransactionStatusLabel[`${transaction?.status}`]}
                   </Typography>
                 </Grid>
-                <Grid container justifyContent="space-between">
-                  <Typography variant="h6">N° de pedido:</Typography>
-                  <Typography variant="h6">{transaction?.buy_order}</Typography>
-                </Grid>
-                <Grid container justifyContent="space-between">
-                  <Typography variant="h6">Código de autorización:</Typography>
-                  <Typography variant="h6">{transaction?.authorization_code}</Typography>
-                </Grid>
-                <Grid container justifyContent="space-between">
-                  <Typography variant="h6">Fecha:</Typography>
-                  <Typography variant="h6">
-                    {dayjs(transaction?.transaction_date).format(`DD/MM/YYYY`)}
-                  </Typography>
-                </Grid>
-                <Grid container justifyContent="space-between">
-                  <Typography variant="h6">Hora:</Typography>
-                  <Typography variant="h6">
-                    {dayjs(transaction?.transaction_date).format(`HH:mm`)}
-                  </Typography>
-                </Grid>
-                <Grid container justifyContent="space-between">
-                  <Typography variant="h6">N° de tarjeta:</Typography>
-                  <Typography variant="h6">{transaction?.card_detail?.card_number}</Typography>
-                </Grid>
-                <Grid container justifyContent="space-between">
-                  <Typography variant="h6">Cuotas:</Typography>
-                  <Typography variant="h6">{transaction?.installments_number}</Typography>
-                </Grid>
-                <Grid container justifyContent="space-between">
-                  <Typography variant="h6">Monto:</Typography>
-                  <Typography variant="h6" fontWeight={700}>
-                    ${transaction?.amount?.toLocaleString(`es-CL`)}
-                  </Typography>
-                </Grid>
+                {transaction ? (
+                  <>
+                    <Grid container justifyContent="space-between">
+                      <Typography variant="h6">N° de pedido:</Typography>
+                      <Typography variant="h6">{transaction?.buy_order}</Typography>
+                    </Grid>
+
+                    <Grid container justifyContent="space-between">
+                      <Typography variant="h6">Código de autorización:</Typography>
+                      <Typography variant="h6">{transaction?.authorization_code}</Typography>
+                    </Grid>
+
+                    <Grid container justifyContent="space-between">
+                      <Typography variant="h6">Fecha:</Typography>
+                      <Typography variant="h6">
+                        {dayjs(transaction?.transaction_date).format(`DD/MM/YYYY`)}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent="space-between">
+                      <Typography variant="h6">Hora:</Typography>
+                      <Typography variant="h6">
+                        {dayjs(transaction?.transaction_date).format(`HH:mm`)}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent="space-between">
+                      <Typography variant="h6">N° de tarjeta:</Typography>
+                      <Typography variant="h6">{transaction?.card_detail?.card_number}</Typography>
+                    </Grid>
+                    <Grid container justifyContent="space-between">
+                      <Typography variant="h6">Cuotas:</Typography>
+                      <Typography variant="h6">{transaction?.installments_number}</Typography>
+                    </Grid>
+                    <Grid container justifyContent="space-between">
+                      <Typography variant="h6">Monto:</Typography>
+                      <Typography variant="h6" fontWeight={700}>
+                        ${transaction?.amount?.toLocaleString(`es-CL`)}
+                      </Typography>
+                    </Grid>
+                  </>
+                ) : null}
               </Grid>
               <Grid container flexDirection="column" gap={1} alignItems="center" marginBottom={2}>
                 <Typography variant="h5" fontWeight={700}>
@@ -192,17 +198,20 @@ const Transbank = (): JSX.Element => {
             </Grid>
           </Paper>
           <Grid container item xs={12} gap={3} justifyContent="center">
-            <Grid container item xs={6} justifyContent="center">
-              <Button
-                fullWidth
-                variant="contained"
-                size="large"
-                color="info"
-                onClick={handleDownload}
-              >
-                Descargar comprobante
-              </Button>
-            </Grid>
+            {transaction ? (
+              <Grid container item xs={6} justifyContent="center">
+                <Button
+                  fullWidth
+                  variant="contained"
+                  size="large"
+                  color="info"
+                  onClick={handleDownload}
+                >
+                  Descargar comprobante
+                </Button>
+              </Grid>
+            ) : null}
+
             <Grid container item xs={6} justifyContent="center">
               <Link
                 href="/"
