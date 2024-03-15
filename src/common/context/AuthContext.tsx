@@ -42,6 +42,9 @@ const AuthProvider = ({ children }: { children: JSX.Element }): JSX.Element => {
       setState({ ...state, user, isLoading: false })
     } catch (error) {
       setState({ ...state, user: null, isLoading: false })
+      if (window.location.pathname === `/dashboard` && !user) {
+        logOut()
+      }
     }
   }
   useEffect(() => {
