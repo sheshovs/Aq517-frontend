@@ -129,7 +129,7 @@ const Login = (): JSX.Element => {
                   <InputLabel>Correo electrónico</InputLabel>
                   <TextField
                     fullWidth
-                    placeholder="admin@aq517.cl"
+                    placeholder="example@aq517.cl"
                     name="email"
                     value={email}
                     onChange={handleChange}
