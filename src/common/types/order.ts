@@ -75,4 +75,8 @@ export const PaymentMethodColors = {
     background: `#d5006c`,
     hover: `#e5397f`,
   },
+  [PaymentMethods.PRESENCIAL]: {
+    background: `#4caf50`,
+    hover: `#388e3c`,
+  },
 }
