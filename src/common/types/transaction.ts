@@ -17,7 +17,7 @@ export const TransactionStatusLabel: Record<string, string> = {
   [TransactionStatus.IN_PROCESS]: `en proceso`,
   [TransactionStatus.REJECTED]: `Rechazada`,
   [TransactionStatus.NULL]: `Rechazada`,
-  [TransactionStatus.UNDEFINED]: `Rechazada`,
+  [TransactionStatus.UNDEFINED]: ``,
 }
 
 export interface TransactionResponse {
