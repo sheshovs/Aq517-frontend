@@ -16,6 +16,7 @@ import { useAuth } from '@/common/context/AuthContext'
 import API from '@/common/api'
 import { useSnackbar } from 'notistack'
 import { emailRegex } from '@/common/utils/regex'
+import { useMutation } from 'react-query'
 
 const Login = (): JSX.Element => {
   const { enqueueSnackbar } = useSnackbar()
@@ -58,17 +59,22 @@ const Login = (): JSX.Element => {
     }
 
     setState({ ...state, isLoading: true })
-    try {
-      const authorizedUser = await API.login(email.toLocaleLowerCase(), password)
-      logIn(authorizedUser.data)
-      window.location.href = `/dashboard`
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      setState({ ...state, isLoading: false })
-      enqueueSnackbar(error.response.data.error, { variant: `error` })
-      return
-    }
+    submitLogin({ email: submitEmail, password })
   }
+
+  const { mutate: submitLogin } = useMutation(
+    ({ email, password }: { email: string; password: string }) => API.login(email, password),
+    {
+      onError: (error: any) => {
+        setState({ ...state, isLoading: false })
+        enqueueSnackbar(error.response.data.error, { variant: `error` })
+      },
+      onSuccess: (authorizedUser) => {
+        logIn(authorizedUser.data)
+        window.location.href = `/dashboard`
+      },
+    },
+  )
 
   return (
     <Grid
