@@ -1,4 +1,4 @@
-import { EventResponse } from './event'
+import { Event, EventResponse } from './event'
 
 export interface OrderItem {
   id?: string
@@ -14,6 +14,11 @@ export interface Order {
   email: string
   phone: string
   paymentMethod?: PaymentMethods
+}
+
+export interface OrderWithEvents extends Omit<Order, `items`> {
+  events: Event[]
+  totalPrice: number
 }
 
 export interface OrderResponse {
@@ -52,11 +57,13 @@ export const OrderStatusesColors: Record<string, `warning` | `success` | `error`
 export enum PaymentMethods {
   MERCADO_PAGO = `MERCADO_PAGO`,
   TRANSBANK = `TRANSBANK`,
+  PRESENCIAL = `PRESENCIAL`,
 }
 
 export const PaymentMethodLabels = {
   [PaymentMethods.MERCADO_PAGO]: `Mercado Pago`,
   [PaymentMethods.TRANSBANK]: `Webpay`,
+  [PaymentMethods.PRESENCIAL]: `Presencial`,
 }
 
 export const PaymentMethodColors = {

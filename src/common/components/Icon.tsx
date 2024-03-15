@@ -1,5 +1,6 @@
 import { SvgIconProps } from '@mui/material'
 import {
+  AddRounded,
   AddShoppingCartRounded,
   ArrowBackIosRounded,
   ArrowBackRounded,
@@ -32,6 +33,7 @@ export const icons = {
   logout: LogoutRounded,
   help: HelpOutlineRounded,
   share: ShareRounded,
+  add: AddRounded,
 }
 interface IconProps extends SvgIconProps {
   icon: keyof typeof icons

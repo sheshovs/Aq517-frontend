@@ -1,5 +1,5 @@
 import { getAxiosInstance } from '@/config/axios'
-import { Event, EventResponse, Order, OrderResponse, RoomResponse } from '../types'
+import { Event, EventResponse, Order, OrderResponse, OrderWithEvents, RoomResponse } from '../types'
 import { TransactionResponse } from '../types/transaction'
 
 const axiosInstance = getAxiosInstance(import.meta.env.VITE_BACKEND_URL)
@@ -52,6 +52,9 @@ const API = {
     },
     get: (orderId: string): Promise<{ data: OrderResponse }> => {
       return axiosInstance.get(`/order/${orderId}`)
+    },
+    createWithEvents: (order: OrderWithEvents) => {
+      return axiosInstance.post(`/orderWithEvents`, order)
     },
   },
   room: {

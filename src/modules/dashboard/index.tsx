@@ -9,6 +9,7 @@ import DashboardCalendar from './components/DashboardCalendar'
 import { useEventMonthQuery } from '@/common/querys/useEventQuery'
 import { EventCalendar } from '@/common/types'
 import dayjs from '../../common/settings/dayjs'
+import NewOrder from './components/NewOrder'
 
 const Dashboard = (): JSX.Element => {
   const { logOut } = useAuth()
@@ -16,6 +17,7 @@ const Dashboard = (): JSX.Element => {
   const [state, setState] = React.useState({
     month: dayjs().format(`YYYY-MM`),
   })
+  const [open, setOpen] = React.useState(false)
   const { month } = state
   const { data: eventsQuery } = useEventMonthQuery({
     month: month,
@@ -49,6 +51,14 @@ const Dashboard = (): JSX.Element => {
     return formattedEvents
   }, [eventsQuery?.data])
 
+  const handleOpen = (): void => {
+    setOpen(true)
+  }
+
+  const handleClose = (): void => {
+    setOpen(false)
+  }
+
   return (
     <Grid
       container
@@ -60,6 +70,7 @@ const Dashboard = (): JSX.Element => {
         backgroundImage: `repeating-linear-gradient(315deg, #00FFFF2E 92%, #073AFF00 100%),repeating-radial-gradient(75% 75% at 238% 218%, #00FFFF12 30%, #073AFF14 39%),radial-gradient(99% 99% at 109% 2%, #00C9FFFF 0%, #073AFF00 100%),radial-gradient(99% 99% at 1% 93%, #B000FFFF 0%, #073AFF00 100%),radial-gradient(160% 154% at 711px -303px, #00C9FFFF 0%, #5E00FFFF 100%)`,
       }}
     >
+      <NewOrder open={open} onClose={handleClose} />
       <Grid
         container
         height="50px"
@@ -114,7 +125,12 @@ const Dashboard = (): JSX.Element => {
             boxShadow: `0px 5px 5px rgba( 0, 0, 0, 0.20 )`,
           }}
         >
-          <Typography variant="h2">Órdenes</Typography>
+          <Grid container justifyContent="space-between">
+            <Typography variant="h2">Órdenes</Typography>
+            <Button variant="contained" startIcon={<Icon icon="add" />} onClick={handleOpen}>
+              Nueva orden
+            </Button>
+          </Grid>
           <Grid
             container
             gap={2}
