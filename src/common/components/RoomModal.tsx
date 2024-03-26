@@ -15,7 +15,7 @@ import {
 } from '@mui/material'
 import React, { useEffect } from 'react'
 import Icon from './Icon'
-import { RoomInformation } from '@/modules/home/components/RoomSection'
+import { RoomInformation, SectionRoomNames } from '@/modules/home/components/RoomSection'
 import ReactHtmlParser from 'react-html-parser'
 import styled from 'styled-components'
 import { useSnackbar } from 'notistack'
@@ -36,7 +36,7 @@ interface RoomModalProps {
   roomInformation: RoomInformation | null
   roomPhotos: string[]
   open: boolean
-  room: string
+  room?: SectionRoomNames
   onClose: () => void
 }
 
@@ -240,7 +240,8 @@ const RoomModal = ({
                   <Tooltip title="Compartir" arrow>
                     <IconButton
                       sx={{
-                        border: `1px solid ${room === `miniStudio` ? `#25c366` : primary.main}`,
+                        border: `1px solid ${room === SectionRoomNames.MINI_STUDIO ? `#25c366` : primary.main
+                          }`,
                         borderRadius: `4px`,
                       }}
                       onClick={onShareButtonClick}
@@ -248,12 +249,12 @@ const RoomModal = ({
                       <Icon
                         icon="share"
                         sx={{
-                          color: room === `miniStudio` ? `#25c366` : primary.main,
+                          color: room === SectionRoomNames.MINI_STUDIO ? `#25c366` : primary.main,
                         }}
                       />
                     </IconButton>
                   </Tooltip>
-                  {room === `miniStudio` ? (
+                  {room === SectionRoomNames.MINI_STUDIO ? (
                     <Button
                       variant="contained"
                       startIcon={<FaWhatsapp />}

@@ -20,7 +20,15 @@ export interface RoomInformation {
   description: string
 }
 
-const RoomInformation: Record<string, RoomInformation> = {
+export enum SectionRoomNames {
+  AQVILES = `aqviles`,
+  MINI_STUDIO = `miniStudio`,
+  // JOYA = `joya`,
+}
+
+const RoomNamesAllowed = Object.values(SectionRoomNames)
+
+const RoomInformation: Record<SectionRoomNames, RoomInformation> = {
   aqviles: {
     title: `Aqviles`,
     description: `Sala destinada para bandas y solistas. <br />
@@ -40,7 +48,8 @@ const RoomInformation: Record<string, RoomInformation> = {
     description: `<ul>
     <li>Cómoda Sala en Arriendo Mensual.</li>
     <li>Tiene 11 m<sup>2</sup> aprox. divididos en 2 ambientes.</li>
-    <li>Ideal para realizar clases de canto, guitarra, etc o para montar un Mini Estudio.</li>
+    <li>Ideal para montar un Mini Estudio o para realizar clases de canto, guitarra,
+    etc.</li>
     </ul>`,
   },
 
@@ -53,7 +62,7 @@ const RoomInformation: Record<string, RoomInformation> = {
   // },
 }
 
-const RoomPhotos: Record<string, string[]> = {
+const RoomPhotos: Record<SectionRoomNames, string[]> = {
   aqviles: [SALA_AQVILES_1, SALA_AQVILES_2, SALA_AQVILES_3, SALA_AQVILES_4, SALA_AQVILES_5],
   miniStudio: [
     SALA_MINI_STUDIO_1,
@@ -68,32 +77,34 @@ const RoomSection = (): JSX.Element => {
   const {
     palette: { main },
   } = useTheme()
-  const [room, setRoom] = React.useState<string>(``)
-  const handleOpen = (room: string): void => {
+  const [room, setRoom] = React.useState<SectionRoomNames | undefined>(undefined)
+  const handleOpen = (room: SectionRoomNames): void => {
     history.pushState({}, ``, window.location.href + `?room=${room}`)
     setRoom(room)
   }
   const handleClose = (): void => {
     history.pushState({}, ``, window.location.href.split(`?`)[0])
-    setRoom(``)
+    setRoom(undefined)
   }
 
   useEffect(() => {
     const url = new URL(window.location.href)
-    const urlRoom = url.href.split(`?`)[1]?.split(`=`)[1]
+    const urlRoom = url.href.split(`?`)[1]?.split(`=`)[1] as SectionRoomNames
 
-    if (urlRoom && room === ``) {
+    if (urlRoom && room === undefined && RoomNamesAllowed.includes(urlRoom)) {
       setRoom(urlRoom)
+    } else {
+      history.pushState({}, ``, window.location.href.split(`?`)[0])
     }
   }, [])
 
   return (
     <>
       <RoomModal
-        roomInformation={RoomInformation[room]}
-        open={room !== ``}
+        roomInformation={RoomInformation[room as SectionRoomNames]}
+        open={room !== undefined}
         onClose={handleClose}
-        roomPhotos={RoomPhotos[room]}
+        roomPhotos={RoomPhotos[room as SectionRoomNames]}
         room={room}
       />
       <Container id="room" paddingTop={6.25} paddingBottom={8} paddingX={4}>
@@ -147,7 +158,7 @@ const RoomSection = (): JSX.Element => {
                     zIndex: 100,
                   },
                 }}
-                onClick={() => handleOpen(`aqviles`)}
+                onClick={() => handleOpen(SectionRoomNames.AQVILES)}
               >
                 <Grid
                   container
@@ -198,7 +209,7 @@ const RoomSection = (): JSX.Element => {
                     zIndex: 100,
                   },
                 }}
-                onClick={() => handleOpen(`miniStudio`)}
+                onClick={() => handleOpen(SectionRoomNames.MINI_STUDIO)}
               >
                 <Grid
                   container
