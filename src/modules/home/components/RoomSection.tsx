@@ -1,11 +1,18 @@
 import { Container } from '@/common/components'
 import RoomModal from '@/common/components/RoomModal'
 import { Grid, Typography, useTheme } from '@mui/material'
-import SALA_AQVILES_1 from '@/assets/SalaAqviles.webp'
-import SALA_AQVILES_2 from '@/assets/SalaAqviles2.webp'
-import SALA_AQVILES_3 from '@/assets/SalaAqviles3.webp'
-import SALA_AQVILES_4 from '@/assets/SalaAqviles4.webp'
-import SALA_AQVILES_5 from '@/assets/SalaAqviles5.webp'
+import {
+  SALA_AQVILES_1,
+  SALA_AQVILES_2,
+  SALA_AQVILES_3,
+  SALA_AQVILES_4,
+  SALA_AQVILES_5,
+  SALA_MINI_STUDIO_1,
+  SALA_MINI_STUDIO_2,
+  SALA_MINI_STUDIO_3,
+  SALA_MINI_STUDIO_4,
+  SALA_MINI_STUDIO_5,
+} from '@/assets'
 import React, { useEffect } from 'react'
 
 export interface RoomInformation {
@@ -28,6 +35,15 @@ const RoomInformation: Record<string, RoomInformation> = {
     </ul>
     `,
   },
+  miniStudio: {
+    title: `Mini Studio`,
+    description: `<ul>
+    <li>Cómoda Sala en Arriendo Mensual.</li>
+    <li>Tiene 11 m<sup>2</sup> aprox. divididos en 2 ambientes.</li>
+    <li>Ideal para realizar clases de canto, guitarra, etc o para montar un Mini Estudio.</li>
+    </ul>`,
+  },
+
   // joya: {
   //   title: `La Joya`,
   // description: `Sala destinada para quienes practican las artes escénicas tales
@@ -39,6 +55,13 @@ const RoomInformation: Record<string, RoomInformation> = {
 
 const RoomPhotos: Record<string, string[]> = {
   aqviles: [SALA_AQVILES_1, SALA_AQVILES_2, SALA_AQVILES_3, SALA_AQVILES_4, SALA_AQVILES_5],
+  miniStudio: [
+    SALA_MINI_STUDIO_1,
+    SALA_MINI_STUDIO_2,
+    SALA_MINI_STUDIO_3,
+    SALA_MINI_STUDIO_4,
+    SALA_MINI_STUDIO_5,
+  ],
 }
 
 const RoomSection = (): JSX.Element => {
@@ -71,6 +94,7 @@ const RoomSection = (): JSX.Element => {
         open={room !== ``}
         onClose={handleClose}
         roomPhotos={RoomPhotos[room]}
+        room={room}
       />
       <Container id="room" paddingTop={6.25} paddingBottom={8} paddingX={4}>
         <Grid container justifyContent="center" gap={3.75}>
@@ -101,12 +125,12 @@ const RoomSection = (): JSX.Element => {
                 Salas
               </Typography>
             </Grid>
-            <Grid container position="relative" minHeight={457}>
+            <Grid container position="relative" justifyContent="center" gap={2}>
               <Grid
                 container
+                xs
                 height={457}
                 sx={{
-                  position: `absolute`,
                   borderRadius: `8px`,
                   backgroundImage: `url(${SALA_AQVILES_5})`,
                   backgroundSize: `cover`,
@@ -149,6 +173,58 @@ const RoomSection = (): JSX.Element => {
                     <Typography variant="h1">Sala Aqviles</Typography>
                     <Typography variant="subtitle2">
                       Sala destinada para bandas y solistas
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                xs
+                height={457}
+                sx={{
+                  borderRadius: `8px`,
+                  backgroundImage: `url(${SALA_MINI_STUDIO_1})`,
+                  backgroundSize: `cover`,
+                  backgroundPosition: `center`,
+                  // clipPath: {
+                  //   xs: `polygon(100% 0, 100% 45%, 0 55%, 0 55%, 0 0);`,
+                  //   sm: `polygon(100% 0, 100% 0, 0 100%, 0 100%, 0 0);`,
+                  // },
+                  transition: `all .5s ease`,
+                  zIndex: 1,
+                  '&:hover': {
+                    cursor: `pointer`,
+                    clipPath: `polygon(100% 0, 100% 100%, 100% 100%, 0 100%, 0 0);`,
+                    zIndex: 100,
+                  },
+                }}
+                onClick={() => handleOpen(`miniStudio`)}
+              >
+                <Grid
+                  container
+                  padding={2.5}
+                  sx={{
+                    borderRadius: `8px`,
+                    background: {
+                      xs: `linear-gradient(175deg, rgba(0,0,0,.7) 20%, rgba(0,0,0,.05) 45%);`,
+                      sm: `linear-gradient(145deg, rgba(0,0,0,.7) 20%, rgba(0,0,0,.05) 45%);`,
+                      md: `linear-gradient(160deg, rgba(0,0,0,.7) 20%, rgba(0,0,0,.05) 45%);`,
+                    },
+                  }}
+                >
+                  <Grid
+                    container
+                    flexDirection="column"
+                    width="320px"
+                    gap={1}
+                    sx={{
+                      color: main.white,
+                    }}
+                  >
+                    <Typography variant="h1">Sala Mini Studio</Typography>
+                    <Typography variant="subtitle2">
+                      Ideal para montar un Mini Estudio o para realizar clases de canto, guitarra,
+                      etc.
                     </Typography>
                   </Grid>
                 </Grid>

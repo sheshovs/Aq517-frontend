@@ -13,12 +13,13 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Icon from './Icon'
 import { RoomInformation } from '@/modules/home/components/RoomSection'
 import ReactHtmlParser from 'react-html-parser'
 import styled from 'styled-components'
 import { useSnackbar } from 'notistack'
+import { FaWhatsapp } from 'react-icons/fa'
 
 const Image = styled.img<{ selectedPhotoIndex?: number; index?: number; primary: PaletteColor }>`
   border-radius: 4px;
@@ -35,10 +36,17 @@ interface RoomModalProps {
   roomInformation: RoomInformation | null
   roomPhotos: string[]
   open: boolean
+  room: string
   onClose: () => void
 }
 
-const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProps): JSX.Element => {
+const RoomModal = ({
+  roomInformation,
+  roomPhotos,
+  open,
+  room,
+  onClose,
+}: RoomModalProps): JSX.Element => {
   const {
     palette: { primary },
   } = useTheme()
@@ -53,6 +61,10 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
       variant: `success`,
     })
   }
+
+  useEffect(() => {
+    setSelectedIndexPhoto(0)
+  }, [room])
 
   return (
     <Modal
@@ -99,11 +111,10 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
             <Icon icon="close" />
           </IconButton>
           <>
-            <Grid container item xs={12} md={7} flexDirection="column" gap={2}>
+            <Grid container item xs={12} md={7} flexDirection="column" gap={2} alignItems="center">
               <Grid container alignItems="center" gap={0.5}>
                 {!mobileWidth ? (
                   <IconButton
-                    disabled={selectedPhotoIndex === 0}
                     sx={{
                       paddingY: 2,
                       paddingX: 0.5,
@@ -111,7 +122,7 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
                     }}
                     onClick={
                       selectedPhotoIndex === 0
-                        ? () => null
+                        ? () => setSelectedIndexPhoto(roomPhotos.length - 1)
                         : () => setSelectedIndexPhoto(selectedPhotoIndex - 1)
                     }
                   >
@@ -119,15 +130,16 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
                   </IconButton>
                 ) : null}
 
-                <Grid container item xs>
+                <Grid container item xs justifyContent="center">
                   {isLoading ? (
                     <Skeleton animation="wave" variant="rounded" height={400} width="100%" />
                   ) : null}
                   <img
                     src={roomPhotos?.[selectedPhotoIndex]}
+                    onLoad={() => setIsLoading(false)}
+                    loading="lazy"
                     width="100%"
                     height="100%"
-                    onLoad={() => setIsLoading(false)}
                     style={{
                       borderRadius: `4px`,
                       display: isLoading ? `none` : `block`,
@@ -136,7 +148,6 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
                 </Grid>
                 {!mobileWidth ? (
                   <IconButton
-                    disabled={selectedPhotoIndex === roomPhotos?.length - 1}
                     sx={{
                       paddingY: 2,
                       paddingX: 0.5,
@@ -144,7 +155,7 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
                     }}
                     onClick={
                       selectedPhotoIndex === roomPhotos?.length - 1
-                        ? () => null
+                        ? () => setSelectedIndexPhoto(0)
                         : () => setSelectedIndexPhoto(selectedPhotoIndex + 1)
                     }
                   >
@@ -156,7 +167,6 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
                 container
                 gap={2}
                 justifyContent="flex-start"
-                paddingBottom={1}
                 alignItems="center"
                 flexWrap="nowrap"
                 sx={{
@@ -230,7 +240,7 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
                   <Tooltip title="Compartir" arrow>
                     <IconButton
                       sx={{
-                        border: `1px solid ${primary.main}`,
+                        border: `1px solid ${room === `miniStudio` ? `#25c366` : primary.main}`,
                         borderRadius: `4px`,
                       }}
                       onClick={onShareButtonClick}
@@ -238,24 +248,48 @@ const RoomModal = ({ roomInformation, roomPhotos, open, onClose }: RoomModalProp
                       <Icon
                         icon="share"
                         sx={{
-                          color: primary.main,
+                          color: room === `miniStudio` ? `#25c366` : primary.main,
                         }}
                       />
                     </IconButton>
                   </Tooltip>
-                  <Link href="#reserve">
+                  {room === `miniStudio` ? (
                     <Button
                       variant="contained"
-                      color="primary"
+                      startIcon={<FaWhatsapp />}
                       sx={{
                         width: `200px`,
                         height: `42px`,
+                        backgroundColor: `#25d366`,
+                        fontSize: `1rem`,
+                        '&:hover': {
+                          backgroundColor: `#25c366`,
+                        },
                       }}
-                      onClick={onClose}
+                      onClick={() => {
+                        window.open(
+                          `https://wa.me/56962190141?text=Hola, estoy interesado en el Mini Studio, me gustaría saber más información`,
+                        )
+                      }}
                     >
-                      Reservar ahora
+                      Consultar
                     </Button>
-                  </Link>
+                  ) : (
+                    <Link href="#reserve">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{
+                          width: `200px`,
+                          height: `42px`,
+                          fontSize: `1rem`,
+                        }}
+                        onClick={onClose}
+                      >
+                        Reservar ahora
+                      </Button>
+                    </Link>
+                  )}
                 </Grid>
               </Grid>
             )}
