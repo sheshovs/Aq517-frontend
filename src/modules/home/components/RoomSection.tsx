@@ -50,6 +50,7 @@ const RoomInformation: Record<SectionRoomNames, RoomInformation> = {
     <li>Tiene 11 m<sup>2</sup> aprox. divididos en 2 ambientes.</li>
     <li>Ideal para montar un Mini Estudio o para realizar clases de canto, guitarra,
     etc.</li>
+    <li>No habilitada para uso de batería acústica.</li>
     </ul>`,
   },
 

@@ -111,7 +111,16 @@ const RoomModal = ({
             <Icon icon="close" />
           </IconButton>
           <>
-            <Grid container item xs={12} md={7} flexDirection="column" gap={2} alignItems="center">
+            <Grid
+              container
+              item
+              xs={12}
+              md={7}
+              flexDirection="column"
+              flexWrap="nowrap"
+              gap={2}
+              alignItems="center"
+            >
               <Grid container alignItems="center" gap={0.5}>
                 {!mobileWidth ? (
                   <IconButton
@@ -170,6 +179,7 @@ const RoomModal = ({
                 alignItems="center"
                 flexWrap="nowrap"
                 sx={{
+                  minHeight: `100px`,
                   overflowX: `auto`,
                 }}
               >
