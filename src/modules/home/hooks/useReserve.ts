@@ -82,9 +82,8 @@ const useReserve = () => {
       const eventsFiltered = cartItems.filter((item) => !eventUuidsToDelete.includes(item.uuid))
       setCartState({ ...cartState, cartItems: eventsFiltered })
       const roomId = `${state.selectedRoom?.uuid}`
-      queryClient.invalidateQueries(
-        API_QUERY_KEYS.getAllEvents(selectedDate?.format(`YYYY-MM-DD`) || ``, roomId),
-      )
+      const date = selectedDate?.format(`YYYY-MM-DD`) || ``
+      queryClient.invalidateQueries(API_QUERY_KEYS.getAllEvents(date, roomId))
     })
 
     return () => {
