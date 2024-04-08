@@ -43,7 +43,7 @@ const CartProvider = ({ children }: { children: JSX.Element }): JSX.Element => {
       onSuccess: (_, event) => {
         const selectedDate = dayjs(event.date).format(`YYYY-MM-DD`) || ``
         const room = event.room || ``
-        queryClient.invalidateQueries(API_QUERY_KEYS.getAllEvents(selectedDate, room.name))
+        queryClient.invalidateQueries(API_QUERY_KEYS.getAllEvents(selectedDate, room.uuid))
         deleteFromCart(event)
       },
     },
