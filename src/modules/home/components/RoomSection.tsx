@@ -7,11 +7,6 @@ import {
   SALA_AQVILES_3,
   SALA_AQVILES_4,
   SALA_AQVILES_5,
-  SALA_MINI_STUDIO_1,
-  SALA_MINI_STUDIO_2,
-  SALA_MINI_STUDIO_3,
-  SALA_MINI_STUDIO_4,
-  SALA_MINI_STUDIO_5,
 } from '@/assets'
 import React, { useEffect } from 'react'
 
@@ -22,8 +17,6 @@ export interface RoomInformation {
 
 export enum SectionRoomNames {
   AQVILES = `aqviles`,
-  MINI_STUDIO = `miniStudio`,
-  // JOYA = `joya`,
 }
 
 const RoomNamesAllowed = Object.values(SectionRoomNames)
@@ -43,35 +36,10 @@ const RoomInformation: Record<SectionRoomNames, RoomInformation> = {
     </ul>
     `,
   },
-  miniStudio: {
-    title: `Mini Studio`,
-    description: `<ul>
-    <li>Cómoda Sala en Arriendo Mensual.</li>
-    <li>Tiene 11 m<sup>2</sup> aprox. divididos en 2 ambientes.</li>
-    <li>Ideal para montar un Mini Estudio o para realizar clases de canto, guitarra,
-    etc.</li>
-    <li>No habilitada para uso de batería acústica.</li>
-    </ul>`,
-  },
-
-  // joya: {
-  //   title: `La Joya`,
-  // description: `Sala destinada para quienes practican las artes escénicas tales
-  // como danza árabe, fusión, contemporánea, pilates, zumba, etc. También es un espacio
-  // para talleres de teatro o actuación. Además puede ser utilizada para artes marciales. <br />
-  //   Cuenta con espejo pegado a pared y un parlante con bluetooth. `,
-  // },
 }
 
 const RoomPhotos: Record<SectionRoomNames, string[]> = {
   aqviles: [SALA_AQVILES_1, SALA_AQVILES_2, SALA_AQVILES_3, SALA_AQVILES_4, SALA_AQVILES_5],
-  miniStudio: [
-    SALA_MINI_STUDIO_1,
-    SALA_MINI_STUDIO_2,
-    SALA_MINI_STUDIO_3,
-    SALA_MINI_STUDIO_4,
-    SALA_MINI_STUDIO_5,
-  ],
 }
 
 const RoomSection = (): JSX.Element => {
@@ -147,10 +115,6 @@ const RoomSection = (): JSX.Element => {
                   backgroundImage: `url(${SALA_AQVILES_5})`,
                   backgroundSize: `cover`,
                   backgroundPosition: `center`,
-                  // clipPath: {
-                  //   xs: `polygon(100% 0, 100% 45%, 0 55%, 0 55%, 0 0);`,
-                  //   sm: `polygon(100% 0, 100% 0, 0 100%, 0 100%, 0 0);`,
-                  // },
                   transition: `all .5s ease`,
                   zIndex: 1,
                   '&:hover': {
@@ -189,109 +153,6 @@ const RoomSection = (): JSX.Element => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid
-                container
-                xs
-                height={457}
-                sx={{
-                  borderRadius: `8px`,
-                  backgroundImage: `url(${SALA_MINI_STUDIO_1})`,
-                  backgroundSize: `cover`,
-                  backgroundPosition: `center`,
-                  // clipPath: {
-                  //   xs: `polygon(100% 0, 100% 45%, 0 55%, 0 55%, 0 0);`,
-                  //   sm: `polygon(100% 0, 100% 0, 0 100%, 0 100%, 0 0);`,
-                  // },
-                  transition: `all .5s ease`,
-                  zIndex: 1,
-                  '&:hover': {
-                    cursor: `pointer`,
-                    clipPath: `polygon(100% 0, 100% 100%, 100% 100%, 0 100%, 0 0);`,
-                    zIndex: 100,
-                  },
-                }}
-                onClick={() => handleOpen(SectionRoomNames.MINI_STUDIO)}
-              >
-                <Grid
-                  container
-                  padding={2.5}
-                  sx={{
-                    borderRadius: `8px`,
-                    background: {
-                      xs: `linear-gradient(175deg, rgba(0,0,0,.7) 20%, rgba(0,0,0,.05) 45%);`,
-                      sm: `linear-gradient(145deg, rgba(0,0,0,.7) 20%, rgba(0,0,0,.05) 45%);`,
-                      md: `linear-gradient(160deg, rgba(0,0,0,.7) 20%, rgba(0,0,0,.05) 45%);`,
-                    },
-                  }}
-                >
-                  <Grid
-                    container
-                    flexDirection="column"
-                    width="320px"
-                    gap={1}
-                    sx={{
-                      color: main.white,
-                    }}
-                  >
-                    <Typography variant="h1">Sala Mini Studio</Typography>
-                    <Typography variant="subtitle2">
-                      Ideal para montar un Mini Estudio o para realizar clases de canto, guitarra,
-                      etc.
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
-              {/* <Grid
-                container
-                height={457}
-                sx={{
-                  position: `absolute`,
-                  borderRadius: 2,
-                  bgcolor: main.white,
-                  clipPath: {
-                    xs: `polygon(100% 44%, 100% 100%, 0 100%, 0 55%, 100% 45%);`,
-                    sm: `polygon(100% 0, 100% 100%, 0 100%, 0 100%, 100% 0);`,
-                  },
-                  transition: `all .5s ease`,
-                  zIndex: 1,
-                  '&:hover': {
-                    cursor: `pointer`,
-                    clipPath: `polygon(100% 0, 100% 100%, 0 100%, 0 0, 0 0);`,
-                  },
-                }}
-                onClick={() => handleOpen(`joya`)}
-              >
-                <Grid
-                  container
-                  alignItems="flex-end"
-                  justifyContent="flex-end"
-                  padding={2.5}
-                  sx={{
-                    borderRadius: 2,
-                    background: {
-                      xs: `linear-gradient(355deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.05) 45%);`,
-                      sm: `linear-gradient(325deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.05) 45%);`,
-                      md: `linear-gradient(340deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.05) 45%);`,
-                    },
-                  }}
-                >
-                  <Grid
-                    container
-                    flexDirection="column"
-                    width="320px"
-                    gap={1}
-                    sx={{
-                      color: main.white,
-                    }}
-                  >
-                    <Typography variant="h1">Sala La Joya</Typography>
-                    <Typography variant="subtitle2">
-                      Sala destinada para quienes practican las artes escénicas tales como danza
-                      árabe, fusión, contemporánea, pilates, zumba, etc.
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Grid> */}
             </Grid>
           </Grid>
         </Grid>
