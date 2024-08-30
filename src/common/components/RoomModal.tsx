@@ -19,7 +19,6 @@ import { RoomInformation, SectionRoomNames } from '@/modules/home/components/Roo
 import ReactHtmlParser from 'react-html-parser'
 import styled from 'styled-components'
 import { useSnackbar } from 'notistack'
-import { FaWhatsapp } from 'react-icons/fa'
 
 const Image = styled.img<{ selectedPhotoIndex?: number; index?: number; primary: PaletteColor }>`
   border-radius: 4px;
@@ -250,8 +249,7 @@ const RoomModal = ({
                   <Tooltip title="Compartir" arrow>
                     <IconButton
                       sx={{
-                        border: `1px solid ${room === SectionRoomNames.MINI_STUDIO ? `#25c366` : primary.main
-                          }`,
+                        border: `1px solid ${primary.main}`,
                         borderRadius: `4px`,
                       }}
                       onClick={onShareButtonClick}
@@ -259,48 +257,26 @@ const RoomModal = ({
                       <Icon
                         icon="share"
                         sx={{
-                          color: room === SectionRoomNames.MINI_STUDIO ? `#25c366` : primary.main,
+                          color: primary.main,
                         }}
                       />
                     </IconButton>
                   </Tooltip>
-                  {room === SectionRoomNames.MINI_STUDIO ? (
+
+                  <Link href="#reserve">
                     <Button
                       variant="contained"
-                      startIcon={<FaWhatsapp />}
+                      color="primary"
                       sx={{
                         width: `200px`,
                         height: `42px`,
-                        backgroundColor: `#25d366`,
                         fontSize: `1rem`,
-                        '&:hover': {
-                          backgroundColor: `#25c366`,
-                        },
                       }}
-                      onClick={() => {
-                        window.open(
-                          `https://wa.me/56962190141?text=Hola, estoy interesado en el Mini Studio, me gustaría saber más información`,
-                        )
-                      }}
+                      onClick={onClose}
                     >
-                      Consultar
+                      Reservar ahora
                     </Button>
-                  ) : (
-                    <Link href="#reserve">
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{
-                          width: `200px`,
-                          height: `42px`,
-                          fontSize: `1rem`,
-                        }}
-                        onClick={onClose}
-                      >
-                        Reservar ahora
-                      </Button>
-                    </Link>
-                  )}
+                  </Link>
                 </Grid>
               </Grid>
             )}
