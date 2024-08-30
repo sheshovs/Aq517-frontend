@@ -4,7 +4,7 @@ export enum RoomTypes {
 }
 
 export const RoomPrices = {
-  MUSIC: 8000,
+  MUSIC: 10000,
   DANCE: 8000,
 }
 

@@ -42,7 +42,7 @@ const StepOne = ({ userInfo, handleChange, setStep }: StepOneProps): JSX.Element
           </Typography>
           <Typography variant="text">
             Puedes reservar las horas que quieras en esta plataforma, pagando a través de{` `}
-            <b>Webpay</b> o <b>Mercado Pago</b> el valor de $8.000 (ocho mil pesos) por hora.
+            <b>Webpay</b> o <b>Mercado Pago</b> el valor de $10.000 (diez mil pesos) por hora.
           </Typography>
           <Typography variant="text">¡Te esperamos!</Typography>
         </Grid>
